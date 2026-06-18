@@ -34,45 +34,63 @@ Small organizations can send bulk SMS to their members in minutes — verified, 
 
 - Public REST API — post-MVP; target customer is non-technical, API is their edge not ours
 - Credit sharing between users — low value for target segment
-- Mobile app — v2 plan (React Native)
 - Two-way SMS — v2 plan
 - Real-time chat — not in domain
 - OAuth login — NIDA is the identity layer; email/password suffices for v1
+- Contact groups + CSV import in mobile app — deferred to post-launch; flat contact list only in MVP Flutter app
+- Campaign scheduling in mobile app — deferred; immediate send only at MVP Flutter app
 
 ## Context
 
-### Architecture (ALL LOCKED)
+### Architecture (MVP — Modular Monolith, LOCKED)
 
-8 Spring Boot 3 + Java 21 microservices in a monorepo:
-- **identity** — NIDA verification, users, sessions, auth tokens (JWT)
+**1 Spring Boot 3 + Java 21 monolith** with 8 strict in-process modules:
+- **identity** — NIDA verification, users, sessions, JWT issuance
 - **wallet** — SMS credit balances, append-only ledger, reservation pattern
-- **payment** — Azampay integration, polling recovery, reconciliation, refunds
 - **catalog** — Bundle definitions (Taster/Starter/Growth/Pro/Scale)
+- **payment** — Azampay integration, polling recovery, reconciliation, refunds
 - **contact** — Contacts, contact groups, suppressions, CSV import
 - **messaging** — Campaigns, messages, sender IDs, templates, upstream SMS provider
-- **notification** — Notification log; consumes events from all other services
-- **admin** — Admin users, audit log, cross-service read views
+- **notification** — Notification log; listens via RabbitMQ / ApplicationEventPublisher
+- **admin** — Admin users, audit log, cross-module read views
 
-2 Next.js 14 + TypeScript frontend apps:
-- **web** — Customer-facing, mobile-first responsive
-- **admin-panel** — Internal operations
+Module boundary rules (critical for future extraction):
+- No cross-module direct DB access — each module owns its own PostgreSQL schema
+- Cross-module calls go through `*ModuleService` interfaces (Spring DI), never SQL joins
+- Async reactions use RabbitMQ or Spring `ApplicationEventPublisher`
+- No cross-schema foreign keys
 
-Shared Java libs: `shared-domain`, `shared-events`, `shared-security`, `shared-observability`
-Shared TS packages: `shared-types`, `shared-utils`, `ui`
+**3 deployables on DOKS:**
+- `sms-platform-api` — the monolith REST API (1 replica MVP, HPA later)
+- `sms-platform-worker` — RabbitMQ consumer process (1 replica)
+- `admin-web` — minimal Next.js admin panel (1 replica)
 
-Communication: REST (sync) + RabbitMQ events (async, CloudAMQP managed)
-Auth: JWT issued by Identity, validated at Traefik ingress + per service
-Database: PostgreSQL 16 (DO Managed), one logical DB per service
+**Customer frontend: Flutter mobile app**
+- Framework: Flutter (single codebase iOS + Android)
+- State: Riverpod | HTTP: Dio | Storage: Hive + shared_preferences
+- MVP scope: register+NIDA, login, dashboard, bundle purchase, contacts (flat list), campaign composer (immediate send), campaign history, settings
+
+**Admin frontend: Next.js (minimal)**
+- Sender ID approval queue, user search, ledger inspection, refund execution, audit log
+
+Communication: In-process method calls (sync) + RabbitMQ events (async, CloudAMQP)
+Auth: JWT issued by identity module, validated via shared security component
+Database: PostgreSQL 16 (DO Managed), **1 cluster with 8 schemas** (identity, wallet, catalog, payment, contact, messaging, notification, admin)
+
+**Future state (post-MVP):** Extract to 8 microservices when team grows or a module hits scaling limits. Boundary discipline now makes this a 2-week job per module, not a rewrite.
+
+**Cost at MVP:** ~$40–50/month (vs ~$100–150/month for microservices)
 
 ### Infrastructure (Locked)
 
-- DOKS (DigitalOcean Kubernetes), 1 replica/service at MVP, HPA for staging/prod
+- DOKS (DigitalOcean Kubernetes), 3 Deployments at MVP (api, worker, admin-web)
 - Redis (DO Managed) — cache, locks, OTPs
 - Kustomize manifests: base + overlays (dev/staging/prod)
 - GitHub Actions CI/CD → ArgoCD post-MVP
 - GHCR container registry
 - Observability: Loki + Prometheus + Grafana + OpenTelemetry + Sentry
 - Terraform for cluster/DB/DNS provisioning
+- Local dev: Docker Compose (Postgres, Redis, RabbitMQ)
 
 ### Pricing Model
 
@@ -103,12 +121,12 @@ Only NIDA-verified bulk SMS platform in Tanzania. Primary competitor is NextSMS 
 
 ## Constraints
 
-- **Tech Stack**: Spring Boot 3 + Java 21 (backend), Next.js 14 + TypeScript (frontend) — locked, no deviation
-- **Database**: PostgreSQL 16 only across all services — ACID requirement for wallet/payment
+- **Tech Stack**: Spring Boot 3 + Java 21 (monolith backend), Flutter (customer mobile app), Next.js (admin web) — locked, no deviation
+- **Database**: PostgreSQL 16 — 1 cluster, 8 schemas. ACID requirement for wallet/payment
 - **Hosting**: DigitalOcean Kubernetes (DOKS) — locked for MVP
 - **Payments**: Azampay only at MVP — only aggregator covering M-Pesa/Tigo/Airtel/Halo/AzamPesa in Tanzania
 - **Identity**: NIDA only for KYC — core differentiator
-- **Replicas**: 1 per service at MVP, configurable via Kustomize overlays
+- **Replicas**: 1 per Deployment at MVP (api, worker, admin-web), HPA configured for later
 - **Target market**: Tanzania only (TZS pricing, NIDA, Azampay, Swahili-aware UX)
 - **No code written yet**: Design phase complete, implementation not started
 
@@ -116,7 +134,7 @@ Only NIDA-verified bulk SMS platform in Tanzania. Primary competitor is NextSMS 
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Microservices (8 services) | Clean domain boundaries, independent scaling, enables team parallelism | — Pending |
+| Modular monolith for MVP | Solo dev, 15 hrs/week — one deployable, lower ops cost (~$40–50/month), faster dev cycle; extract to microservices when justified | — Pending |
 | PostgreSQL for all services | ACID for Wallet/Payment reservation pattern; one technology to learn deeply | — Pending |
 | RabbitMQ for async events | Decoupled inter-service communication; managed via CloudAMQP | — Pending |
 | NIDA verification as acquisition hook | Only KYC-verified competitor; free 50 SMS on verify drives signups | — Pending |
