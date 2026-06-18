@@ -2,7 +2,9 @@
 
 ## Overview
 
-The platform is built in six implementation phases (plus one parallel pre-implementation phase) that follow the strict module dependency chain of the modular monolith. Foundation and shared infrastructure come first, then the identity and catalog modules that gate all authenticated endpoints, then the core financial layer (wallet and payments), then the high-complexity messaging surface (contacts and campaigns), then the read-aggregate layer (notifications, admin, analytics), and finally the two frontends (Flutter mobile app and Next.js admin panel). Every module boundary decision, queue topology choice, and critical pattern (outbox, pessimistic lock, idempotent consumers) is enforced during the phase that introduces the relevant module.
+The platform is built in six implementation phases (plus one parallel procurement phase) that follow the strict module dependency chain of the modular monolith. Foundation and shared infrastructure come first, then identity and catalog, then the financial layer, then contacts and messaging, then the read-aggregate layer, and finally the two frontends.
+
+**Mock-first development:** All three external integrations (NIDA, Azampay, upstream SMS provider) are built behind interfaces from day one. Stub implementations auto-simulate behaviour in dev/staging. Real implementations are wired in via Spring profiles when credentials arrive — no application logic changes required. This means procurement never blocks coding and the full platform can be demoed before a single external credential exists.
 
 ## Phases
 
@@ -12,7 +14,7 @@ The platform is built in six implementation phases (plus one parallel pre-implem
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 0: Pre-Implementation Blockers** - External actions and procurement that must run in parallel with Phase 1 coding
+- [ ] **Phase 0: Pre-Implementation Procurement** - External procurement runs as a parallel background track; never blocks coding phases
 - [ ] **Phase 1: Foundation** - Monorepo skeleton, shared libraries, Docker Compose local dev, CI pipeline, infrastructure manifests
 - [ ] **Phase 2: Identity & Catalog** - User registration, NIDA async verification, JWT auth, sessions, catalog module with bundle definitions
 - [ ] **Phase 3: Wallet & Payments** - Append-only credit ledger with pessimistic reservation, Azampay STK push with outbox and idempotent callbacks
@@ -22,21 +24,22 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 ## Phase Details
 
-### Phase 0: Pre-Implementation Blockers
-**Goal**: All external dependencies are unblocked so Phase 1 coding can proceed without surprises
-**Depends on**: Nothing — runs in parallel with Phase 1 coding
+### Phase 0: Pre-Implementation Procurement
+**Goal**: External procurement runs as a background track in parallel with all coding phases — none of phases 1–6 wait for it
+**Depends on**: Nothing — runs concurrently with all other phases
 **Requirements**: None (all external procurement actions)
-**Success Criteria** (what must be TRUE):
-  1. NIDA API access is confirmed (or a sandbox/mock contract is in hand) with known latency profile and rate limits
-  2. Azampay merchant account is live with sandbox credentials and a confirmed webhook delivery mechanism
-  3. Upstream SMS provider is selected with signed wholesale rate agreement (~9–11 TZS/SMS) and a numeric shortcode allocated
-  4. DOKS cluster, DO Managed PostgreSQL, DO Managed Redis, and CloudAMQP are provisioned with connection strings ready
-  5. Monorepo is bootstrapped (root Gradle multi-project, GitHub Actions workflows present, GHCR registry confirmed)
+**Note**: Coding is never blocked by this phase. Stub implementations cover NIDA, Azampay, and the SMS provider until real credentials arrive. When they do, swap one Spring `@Profile` bean — no application logic changes.
+**Success Criteria** (what must be TRUE when complete):
+  1. NIDA API access confirmed with endpoint contract, auth method, rate limits, and sandbox/test NINs
+  2. Azampay merchant account live with sandbox credentials, webhook delivery mechanism confirmed, and HMAC signature scheme documented
+  3. Upstream SMS provider selected with signed wholesale rate (~9–11 TZS/SMS), numeric shortcode allocated, DLR webhook contract and `clientRef` idempotency support confirmed
+  4. DOKS cluster, DO Managed PostgreSQL, DO Managed Redis, and CloudAMQP provisioned with connection strings ready for production
+  5. Terraform scripts for cluster/DB/DNS provisioning are written and validated
 **Plans**: TBD
 
 ### Phase 1: Foundation
 **Goal**: A single `docker compose up` starts the full local dev stack and a passing CI pipeline builds and pushes images on every PR
-**Depends on**: Phase 0 (DOKS provisioned, monorepo bootstrapped)
+**Depends on**: Nothing — this is the unblocked starting point for coding
 **Requirements**: INFR-01, INFR-02, INFR-03, INFR-04, INFR-05
 **Success Criteria** (what must be TRUE):
   1. `docker compose up` starts Postgres (8 schemas auto-created via Flyway), Redis, and RabbitMQ with no manual steps
@@ -50,6 +53,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 ### Phase 2: Identity & Catalog
 **Goal**: A verified user can register, complete async NIDA verification, log in, manage their session, and see the bundle catalog — and every other module can trust JWTs it receives
 **Depends on**: Phase 1
+**Mock-first**: `NidaVerificationService` interface built with two implementations — `StubNidaVerificationService` (auto-verifies after 3s delay, active in dev/staging via `@Profile("stub")`) and `RealNidaVerificationService` (wired via `@Profile("prod")` when access arrives). Full NIDA flow is testable and demoable from day one.
 **Requirements**: IDEN-01, IDEN-02, IDEN-03, IDEN-04, IDEN-05, IDEN-06, IDEN-07, IDEN-08, SNDR-01
 **Success Criteria** (what must be TRUE):
   1. User can register with phone + email, submit their NIN, and immediately receive a PENDING_VERIFICATION status without the request blocking on NIDA latency (async + circuit breaker enforced)
@@ -63,6 +67,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 ### Phase 3: Wallet & Payments
 **Goal**: Users can purchase SMS bundles via Azampay mobile money and their credit balance is atomically updated through the append-only ledger, with zero possibility of double-crediting or negative balance
 **Depends on**: Phase 2
+**Mock-first**: `PaymentGateway` interface with `StubPaymentGateway` (simulates STK push with configurable success/failure/timeout outcomes, active via `@Profile("stub")`) and `AzampayPaymentGateway` (wired via `@Profile("prod")` when merchant account arrives). Full payment flow including countdown UI and EXPIRED state is demoable before Azampay credentials exist.
 **Requirements**: WLET-01, WLET-02, WLET-03, WLET-04, WLET-05, WLET-06, WLET-07, PYMT-01, PYMT-02, PYMT-03, PYMT-04, PYMT-05, PYMT-06, PYMT-07, PYMT-08
 **Success Criteria** (what must be TRUE):
   1. User can view available bundle catalog (Taster FREE / Starter / Growth / Pro / Scale) and initiate a purchase — the STK push appears on their phone within 5 seconds and a 2-minute countdown is shown
@@ -76,6 +81,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 ### Phase 4: Contacts & Messaging
 **Goal**: Users can manage their contact lists and send verified bulk SMS campaigns with guaranteed credit reservation before dispatch, DLX retry for failed sends, and accurate per-message delivery tracking
 **Depends on**: Phase 3
+**Mock-first**: `SmsProvider` interface with `StubSmsProvider` (records sends in-memory, simulates delivery receipts after configurable delay, active via `@Profile("stub")`) and `RealSmsProvider` (wired via `@Profile("prod")` when upstream provider is contracted). Full campaign send + delivery tracking is demoable with realistic data before any SMS provider is signed.
 **Requirements**: CONT-01, CONT-02, CONT-03, CONT-04, CONT-05, CONT-06, CONT-07, CONT-08, CONT-09, MESG-01, MESG-02, MESG-03, MESG-04, MESG-05, MESG-06, MESG-07, MESG-08, MESG-09, MESG-10, SNDR-02, SNDR-03, SNDR-04
 **Success Criteria** (what must be TRUE):
   1. User can add, edit, and delete individual contacts, import from CSV with automatic E.164 normalization, deduplication, and an import summary screen showing counts imported / duplicates skipped / invalid
@@ -115,7 +121,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 0 → 1 → 2 → 3 → 4 → 5 → 6
+Phase 0 runs as a parallel background track. Coding phases execute: 1 → 2 → 3 → 4 → 5 → 6
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
