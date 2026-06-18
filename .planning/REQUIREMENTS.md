@@ -159,92 +159,102 @@
 
 ## Traceability
 
-_Populated by roadmapper during roadmap creation._
+_Populated by roadmapper on 2026-06-18._
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| IDEN-01 | — | Pending |
-| IDEN-02 | — | Pending |
-| IDEN-03 | — | Pending |
-| IDEN-04 | — | Pending |
-| IDEN-05 | — | Pending |
-| IDEN-06 | — | Pending |
-| IDEN-07 | — | Pending |
-| IDEN-08 | — | Pending |
-| WLET-01 | — | Pending |
-| WLET-02 | — | Pending |
-| WLET-03 | — | Pending |
-| WLET-04 | — | Pending |
-| WLET-05 | — | Pending |
-| WLET-06 | — | Pending |
-| WLET-07 | — | Pending |
-| PYMT-01 | — | Pending |
-| PYMT-02 | — | Pending |
-| PYMT-03 | — | Pending |
-| PYMT-04 | — | Pending |
-| PYMT-05 | — | Pending |
-| PYMT-06 | — | Pending |
-| PYMT-07 | — | Pending |
-| PYMT-08 | — | Pending |
-| CONT-01 | — | Pending |
-| CONT-02 | — | Pending |
-| CONT-03 | — | Pending |
-| CONT-04 | — | Pending |
-| CONT-05 | — | Pending |
-| CONT-06 | — | Pending |
-| CONT-07 | — | Pending |
-| CONT-08 | — | Pending |
-| CONT-09 | — | Pending |
-| MESG-01 | — | Pending |
-| MESG-02 | — | Pending |
-| MESG-03 | — | Pending |
-| MESG-04 | — | Pending |
-| MESG-05 | — | Pending |
-| MESG-06 | — | Pending |
-| MESG-07 | — | Pending |
-| MESG-08 | — | Pending |
-| MESG-09 | — | Pending |
-| MESG-10 | — | Pending |
-| SNDR-01 | — | Pending |
-| SNDR-02 | — | Pending |
-| SNDR-03 | — | Pending |
-| SNDR-04 | — | Pending |
-| NOTF-01 | — | Pending |
-| NOTF-02 | — | Pending |
-| NOTF-03 | — | Pending |
-| NOTF-04 | — | Pending |
-| NOTF-05 | — | Pending |
-| NOTF-06 | — | Pending |
-| ADMN-01 | — | Pending |
-| ADMN-02 | — | Pending |
-| ADMN-03 | — | Pending |
-| ADMN-04 | — | Pending |
-| ADMN-05 | — | Pending |
-| ADMN-06 | — | Pending |
-| ADMN-07 | — | Pending |
-| ANLX-01 | — | Pending |
-| ANLX-02 | — | Pending |
-| ANLX-03 | — | Pending |
-| INFR-01 | — | Pending |
-| INFR-02 | — | Pending |
-| INFR-03 | — | Pending |
-| INFR-04 | — | Pending |
-| INFR-05 | — | Pending |
-| MOBL-01 | — | Pending |
-| MOBL-02 | — | Pending |
-| MOBL-03 | — | Pending |
-| MOBL-04 | — | Pending |
-| MOBL-05 | — | Pending |
-| MOBL-06 | — | Pending |
-| MOBL-07 | — | Pending |
-| MOBL-08 | — | Pending |
-| MOBL-09 | — | Pending |
+| IDEN-01 | Phase 2 | Pending |
+| IDEN-02 | Phase 2 | Pending |
+| IDEN-03 | Phase 2 | Pending |
+| IDEN-04 | Phase 2 | Pending |
+| IDEN-05 | Phase 2 | Pending |
+| IDEN-06 | Phase 2 | Pending |
+| IDEN-07 | Phase 2 | Pending |
+| IDEN-08 | Phase 2 | Pending |
+| WLET-01 | Phase 3 | Pending |
+| WLET-02 | Phase 3 | Pending |
+| WLET-03 | Phase 3 | Pending |
+| WLET-04 | Phase 3 | Pending |
+| WLET-05 | Phase 3 | Pending |
+| WLET-06 | Phase 3 | Pending |
+| WLET-07 | Phase 3 | Pending |
+| PYMT-01 | Phase 3 | Pending |
+| PYMT-02 | Phase 3 | Pending |
+| PYMT-03 | Phase 3 | Pending |
+| PYMT-04 | Phase 3 | Pending |
+| PYMT-05 | Phase 3 | Pending |
+| PYMT-06 | Phase 3 | Pending |
+| PYMT-07 | Phase 3 | Pending |
+| PYMT-08 | Phase 3 | Pending |
+| CONT-01 | Phase 4 | Pending |
+| CONT-02 | Phase 4 | Pending |
+| CONT-03 | Phase 4 | Pending |
+| CONT-04 | Phase 4 | Pending |
+| CONT-05 | Phase 4 | Pending |
+| CONT-06 | Phase 4 | Pending |
+| CONT-07 | Phase 4 | Pending |
+| CONT-08 | Phase 4 | Pending |
+| CONT-09 | Phase 4 | Pending |
+| MESG-01 | Phase 4 | Pending |
+| MESG-02 | Phase 4 | Pending |
+| MESG-03 | Phase 4 | Pending |
+| MESG-04 | Phase 4 | Pending |
+| MESG-05 | Phase 4 | Pending |
+| MESG-06 | Phase 4 | Pending |
+| MESG-07 | Phase 4 | Pending |
+| MESG-08 | Phase 4 | Pending |
+| MESG-09 | Phase 4 | Pending |
+| MESG-10 | Phase 4 | Pending |
+| SNDR-01 | Phase 2 | Pending |
+| SNDR-02 | Phase 4 | Pending |
+| SNDR-03 | Phase 4 | Pending |
+| SNDR-04 | Phase 4 | Pending |
+| NOTF-01 | Phase 5 | Pending |
+| NOTF-02 | Phase 5 | Pending |
+| NOTF-03 | Phase 5 | Pending |
+| NOTF-04 | Phase 5 | Pending |
+| NOTF-05 | Phase 5 | Pending |
+| NOTF-06 | Phase 5 | Pending |
+| ADMN-01 | Phase 5 | Pending |
+| ADMN-02 | Phase 5 | Pending |
+| ADMN-03 | Phase 5 | Pending |
+| ADMN-04 | Phase 5 | Pending |
+| ADMN-05 | Phase 5 | Pending |
+| ADMN-06 | Phase 5 | Pending |
+| ADMN-07 | Phase 5 | Pending |
+| ANLX-01 | Phase 5 | Pending |
+| ANLX-02 | Phase 5 | Pending |
+| ANLX-03 | Phase 5 | Pending |
+| INFR-01 | Phase 1 | Pending |
+| INFR-02 | Phase 1 | Pending |
+| INFR-03 | Phase 1 | Pending |
+| INFR-04 | Phase 1 | Pending |
+| INFR-05 | Phase 1 | Pending |
+| MOBL-01 | Phase 6 | Pending |
+| MOBL-02 | Phase 6 | Pending |
+| MOBL-03 | Phase 6 | Pending |
+| MOBL-04 | Phase 6 | Pending |
+| MOBL-05 | Phase 6 | Pending |
+| MOBL-06 | Phase 6 | Pending |
+| MOBL-07 | Phase 6 | Pending |
+| MOBL-08 | Phase 6 | Pending |
+| MOBL-09 | Phase 6 | Pending |
 
 **Coverage:**
-- v1 requirements: 68 total
-- Mapped to phases: 0 (pending roadmap)
-- Unmapped: 68 ⚠️
+- v1 requirements: 76 total (note: header previously stated 68 — actual count from traceability enumeration is 76)
+- Mapped to phases: 76 / 76
+- Unmapped: 0
+
+| Phase | Count | Requirements |
+|-------|-------|-------------|
+| Phase 0 | 0 | (external procurement — no coded requirements) |
+| Phase 1 | 5 | INFR-01 through INFR-05 |
+| Phase 2 | 9 | IDEN-01 through IDEN-08, SNDR-01 |
+| Phase 3 | 15 | WLET-01 through WLET-07, PYMT-01 through PYMT-08 |
+| Phase 4 | 22 | CONT-01 through CONT-09, MESG-01 through MESG-10, SNDR-02 through SNDR-04 |
+| Phase 5 | 16 | NOTF-01 through NOTF-06, ADMN-01 through ADMN-07, ANLX-01 through ANLX-03 |
+| Phase 6 | 9 | MOBL-01 through MOBL-09 |
 
 ---
 *Requirements defined: 2026-06-18*
-*Last updated: 2026-06-18 after initial definition from locked Notion design*
+*Last updated: 2026-06-18 — traceability populated by roadmapper; requirement count corrected to 76*
