@@ -2,7 +2,7 @@
 
 ## Overview
 
-The platform is built in six implementation phases (plus one parallel procurement phase) that follow the strict module dependency chain of the modular monolith. Foundation and shared infrastructure come first, then identity and catalog, then the financial layer, then contacts and messaging, then the read-aggregate layer, and finally the two frontends.
+The platform is built in six implementation phases (plus one parallel procurement phase) that follow the strict module dependency chain of the modular monolith. Foundation and shared infrastructure come first, then identity and auth, then the financial layer (catalog + wallet + payments), then contacts and messaging, then the read-aggregate layer, and finally the two frontends.
 
 **Mock-first development:** All three external integrations (NIDA, Azampay, upstream SMS provider) are built behind interfaces from day one. Stub implementations auto-simulate behaviour in dev/staging. Real implementations are wired in via Spring profiles when credentials arrive — no application logic changes required. This means procurement never blocks coding and the full platform can be demoed before a single external credential exists.
 
@@ -16,7 +16,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [ ] **Phase 0: Pre-Implementation Procurement** - External procurement runs as a parallel background track; never blocks coding phases
 - [x] **Phase 1: Foundation** - Monorepo skeleton, shared libraries, Docker Compose local dev, CI pipeline, infrastructure manifests (completed 2026-06-19)
-- [ ] **Phase 2: Identity & Catalog** - User registration, NIDA async verification, JWT auth, sessions, catalog module with bundle definitions
+- [ ] **Phase 2: Identity & Auth** - User registration, NIDA async verification, JWT auth, sessions, password reset, default sender ID
 - [ ] **Phase 3: Wallet & Payments** - Append-only credit ledger with pessimistic reservation, Azampay STK push with outbox and idempotent callbacks
 - [ ] **Phase 4: Contacts & Messaging** - Contact CRUD/CSV import/dedup, bulk SMS campaigns, credit reservation, DLX retry, sender ID lifecycle
 - [ ] **Phase 5: Notifications, Admin & Analytics** - RabbitMQ event fan-out to notification log, Next.js admin panel, cross-module read views, analytics queries
@@ -50,8 +50,9 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: TBD
 **UI hint**: no
 
-### Phase 2: Identity & Catalog
-**Goal**: A verified user can register, complete async NIDA verification, log in, manage their session, and see the bundle catalog — and every other module can trust JWTs it receives
+### Phase 2: Identity & Auth
+**Goal**: A verified user can register, complete async NIDA verification, log in, manage their session, reset a forgotten password, and be assigned a sender ID — and every other module can trust the JWTs this module issues
+**Scope note**: The bundle catalog (definitions + read API) is owned by Phase 3 via PYMT-01, not this phase. Phase 2 is identity, auth, and sender-ID assignment only.
 **Depends on**: Phase 1
 **Mock-first**: `NidaVerificationService` interface built with two implementations — `StubNidaVerificationService` (auto-verifies after 3s delay, active in dev/staging via `@Profile("stub")`) and `RealNidaVerificationService` (wired via `@Profile("prod")` when access arrives). Full NIDA flow is testable and demoable from day one.
 **Requirements**: IDEN-01, IDEN-02, IDEN-03, IDEN-04, IDEN-05, IDEN-06, IDEN-07, IDEN-08, SNDR-01
@@ -127,7 +128,7 @@ Phase 0 runs as a parallel background track. Coding phases execute: 1 → 2 → 
 |-------|----------------|--------|-----------|
 | 0. Pre-Implementation Blockers | 0/TBD | Not started | - |
 | 1. Foundation | 1/1 | Complete   | 2026-06-19 |
-| 2. Identity & Catalog | 0/TBD | Not started | - |
+| 2. Identity & Auth | 0/TBD | Not started | - |
 | 3. Wallet & Payments | 0/TBD | Not started | - |
 | 4. Contacts & Messaging | 0/TBD | Not started | - |
 | 5. Notifications, Admin & Analytics | 0/TBD | Not started | - |
