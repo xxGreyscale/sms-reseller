@@ -32,6 +32,7 @@ mapstruct-processor = { module = "org.mapstruct:mapstruct-processor", version.re
 sentry-spring-boot = { module = "io.sentry:sentry-spring-boot-starter-jakarta", version.ref = "sentry" }
 testcontainers-postgresql = { module = "org.testcontainers:postgresql", version.ref = "testcontainers" }
 testcontainers-rabbitmq = { module = "org.testcontainers:rabbitmq", version.ref = "testcontainers" }
+spring-boot-starter-mail = { module = "org.springframework.boot:spring-boot-starter-mail" }
 resilience4j-spring-boot3 = { module = "io.github.resilience4j:resilience4j-spring-boot3", version.ref = "resilience4j" }
 
 [plugins]
