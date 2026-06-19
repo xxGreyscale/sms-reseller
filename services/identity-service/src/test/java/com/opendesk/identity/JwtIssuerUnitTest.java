@@ -101,7 +101,8 @@ class JwtIssuerUnitTest {
         String token = jwtIssuer.issueAccessToken(userId, VerificationStatus.PENDING_VERIFICATION);
 
         var decoded = decoder.decode(token);
-        List<?> roles = decoded.getClaim("roles");
+        @SuppressWarnings("unchecked")
+        List<String> roles = (List<String>) decoded.getClaim("roles");
         assertThat(roles).isNotNull().contains("ROLE_USER");
     }
 }
