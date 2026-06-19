@@ -7,6 +7,7 @@ import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.containers.RabbitMQContainer;
 
 /**
  * Base class for identity-service integration tests.
@@ -49,15 +50,24 @@ public abstract class AbstractIntegrationTest {
             new GenericContainer<>("redis:7")
                     .withExposedPorts(6379);
 
+    @SuppressWarnings("resource")
+    static final RabbitMQContainer RABBITMQ =
+            new RabbitMQContainer("rabbitmq:3-management");
+
     static {
         // Start containers once for the entire test run. JVM shutdown hook (Ryuk) cleans up.
         POSTGRES.start();
         REDIS.start();
+        RABBITMQ.start();
     }
 
     @DynamicPropertySource
-    static void redisProperties(DynamicPropertyRegistry registry) {
+    static void containerProperties(DynamicPropertyRegistry registry) {
         registry.add("spring.data.redis.host", REDIS::getHost);
         registry.add("spring.data.redis.port", () -> REDIS.getMappedPort(6379));
+        registry.add("spring.rabbitmq.host", RABBITMQ::getHost);
+        registry.add("spring.rabbitmq.port", () -> RABBITMQ.getMappedPort(5672));
+        registry.add("spring.rabbitmq.username", RABBITMQ::getAdminUsername);
+        registry.add("spring.rabbitmq.password", RABBITMQ::getAdminPassword);
     }
 }
