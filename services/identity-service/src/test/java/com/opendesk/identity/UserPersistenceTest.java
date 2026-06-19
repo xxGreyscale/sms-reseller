@@ -4,6 +4,7 @@ import com.opendesk.identity.user.IdentityUserDetailsService;
 import com.opendesk.identity.user.User;
 import com.opendesk.identity.user.UserRepository;
 import com.opendesk.identity.user.VerificationStatus;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -32,6 +33,13 @@ class UserPersistenceTest extends AbstractIntegrationTest {
 
     @Autowired
     private IdentityUserDetailsService userDetailsService;
+
+    @BeforeEach
+    void cleanUsers() {
+        // Clean all users before each test to avoid unique constraint violations when
+        // multiple test classes share the same Spring context and Postgres instance.
+        userRepository.deleteAll();
+    }
 
     @Test
     void newUserHasDefaultStatusPendingVerification() {
