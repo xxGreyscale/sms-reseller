@@ -5,6 +5,7 @@ spring-dependency-management = "1.1.7"
 mapstruct = "1.6.3"
 testcontainers = "1.21.2"
 sentry = "8.44.0"
+resilience4j = "2.2.0"
 
 [libraries]
 # BOM-managed — no version needed in dependency declarations
@@ -16,6 +17,9 @@ spring-boot-starter-oauth2-resource-server = { module = "org.springframework.boo
 spring-boot-starter-validation = { module = "org.springframework.boot:spring-boot-starter-validation" }
 spring-boot-starter-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator" }
 spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test" }
+spring-boot-starter-data-redis = { module = "org.springframework.boot:spring-boot-starter-data-redis" }
+spring-boot-testcontainers = { module = "org.springframework.boot:spring-boot-testcontainers" }
+spring-retry = { module = "org.springframework.retry:spring-retry" }
 flyway-core = { module = "org.flywaydb:flyway-core" }
 flyway-postgresql = { module = "org.flywaydb:flyway-database-postgresql" }
 micrometer-prometheus = { module = "io.micrometer:micrometer-registry-prometheus" }
@@ -28,6 +32,7 @@ mapstruct-processor = { module = "org.mapstruct:mapstruct-processor", version.re
 sentry-spring-boot = { module = "io.sentry:sentry-spring-boot-starter-jakarta", version.ref = "sentry" }
 testcontainers-postgresql = { module = "org.testcontainers:postgresql", version.ref = "testcontainers" }
 testcontainers-rabbitmq = { module = "org.testcontainers:rabbitmq", version.ref = "testcontainers" }
+resilience4j-spring-boot3 = { module = "io.github.resilience4j:resilience4j-spring-boot3", version.ref = "resilience4j" }
 
 [plugins]
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
