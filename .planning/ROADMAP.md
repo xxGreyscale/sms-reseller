@@ -62,7 +62,12 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. User can log in, receive a 15-minute access JWT + 7-day refresh token, and stay logged in across app restarts without re-authenticating
   4. User can log out (session revoked) and reset a forgotten password via email link
   5. All 8 downstream modules can validate the JWT issued by this module using the shared-security library — no service needs to call identity at runtime for token validation
-**Plans**: TBD
+**Plans**: 5 plans (4 waves)
+- [ ] 02-01-PLAN.md — Wave 0: test infra (Testcontainers PG16+Redis7), build deps, RSA fixture, one test per requirement + cross-module JWT contract
+- [ ] 02-02-PLAN.md — Wave 1: asymmetric JWT core (issuer + shared-security validator), User aggregate + V1 migration, security/redis/async config
+- [ ] 02-03-PLAN.md — Wave 2: registration (PENDING immediately), async NIDA stub/real + degraded retry, VERIFIED-flip outbox (50 credits) + numeric sender ID
+- [ ] 02-04-PLAN.md — Wave 2: email+password login, opaque refresh tokens in Redis (rotation + reuse detection), lockout, logout revoke-current
+- [ ] 02-05-PLAN.md — Wave 3: password reset via email link (single-use TTL token, mock-first email), revoke-all sessions
 **UI hint**: no
 
 ### Phase 3: Wallet & Payments
