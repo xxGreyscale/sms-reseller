@@ -4,13 +4,13 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: Phase 02, Plan 02 complete — JWT Core & User Aggregate
-last_updated: "2026-06-19T16:11:00.150Z"
+last_updated: "2026-06-19T16:16:55.985Z"
 last_activity: 2026-06-19
 progress:
   total_phases: 7
   completed_phases: 1
   total_plans: 7
-  completed_plans: 5
+  completed_plans: 6
   percent: 14
 ---
 
@@ -26,11 +26,11 @@ See: .planning/PROJECT.md (updated 2026-06-18)
 ## Current Position
 
 Phase: 02 (identity-auth) — EXECUTING
-Plan: 5 of 6
+Plan: 6 of 6
 Status: Ready to execute
 Last activity: 2026-06-19
 
-Progress: [███████░░░] 71%
+Progress: [█████████░] 86%
 
 ## Performance Metrics
 
@@ -55,6 +55,7 @@ Progress: [███████░░░] 71%
 *Updated after each plan completion*
 | Phase 02-identity-auth P03 | 55 | 2 tasks | 18 files |
 | Phase 02-identity-auth P04 | 45 | 3 tasks | 9 files |
+| Phase 02-identity-auth P05 | 20m | 2 tasks | 9 files |
 
 ## Accumulated Context
 
@@ -72,6 +73,7 @@ Recent decisions affecting current work:
 - [Phase ?]: Token format {userId}|{deviceId}|{random} embeds routing metadata so rotate() derives Redis key without secondary lookup
 - [Phase ?]: Both key-absent AND hash-mismatch in rotate() trigger revokeAll — covers Pitfall 4 fully
 - [Phase ?]: 02-04: revokeAll(UUID) is public seam for 02-05 password reset — SCAN-based, never KEYS
+- [Phase ?]: Token deleted BEFORE password update (delete-before-apply): prevents concurrent reuse race in reset flow
 
 ### Pending Todos
 
@@ -91,6 +93,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-06-19T16:10:54.491Z
+Last session: 2026-06-19T16:16:52.718Z
 Stopped at: Phase 02, Plan 02 complete — JWT Core & User Aggregate
 Resume file: None
