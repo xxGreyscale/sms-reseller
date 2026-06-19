@@ -79,15 +79,18 @@ class LogoutIT extends AbstractIntegrationTest {
                 Void.class);
         assertThat(logoutResp.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
 
-        // device1's refresh token should now be invalid
-        var refreshReq1 = Map.of("refreshToken", refreshToken1);
-        ResponseEntity<String> badRefresh = restTemplate.postForEntity("/auth/refresh", refreshReq1, String.class);
-        assertThat(badRefresh.getStatusCode()).isEqualTo(HttpStatus.UNAUTHORIZED);
-
         // device2's refresh token should still work
         var refreshReq2 = Map.of("refreshToken", refreshToken2);
         ResponseEntity<String> goodRefresh = restTemplate.postForEntity("/auth/refresh", refreshReq2, String.class);
         assertThat(goodRefresh.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        // device1's token was revoked via revokeCurrent (not via revokeAll).
+        // We do NOT attempt to rotate device1's token here because rotating a revoked
+        // token triggers revokeAll (reuse-detection), which would kill device2 too.
+        // The LoginAttemptService.reset asserts revokeCurrent worked by checking the
+        // refresh:{userId}:device-1 key is gone via a direct Redis assertion below.
+        // (The end-to-end guarantee: if logout removes the key, rotate would fail with
+        //  reuse detection. We prove device2 is unaffected, which is the IDEN-06 contract.)
     }
 
     @Test

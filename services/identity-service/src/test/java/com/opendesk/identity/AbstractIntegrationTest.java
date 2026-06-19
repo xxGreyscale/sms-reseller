@@ -7,8 +7,6 @@ import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
 /**
  * Base class for identity-service integration tests.
@@ -20,8 +18,13 @@ import org.testcontainers.junit.jupiter.Testcontainers;
  *       {@code spring.data.redis.host} and {@code spring.data.redis.port} automatically</li>
  * </ul>
  *
- * <p>Concrete ITs extend this class and add their own {@code @Test} methods. Each
- * container is shared at the class level to reduce startup overhead across test methods.
+ * <p>Containers are started ONCE for the entire test run via a static initializer block,
+ * NOT via {@code @Testcontainers}/@Container annotations. This is the correct pattern for
+ * shared containers across multiple {@code @SpringBootTest} classes: Testcontainers'
+ * {@code @Container} annotation on a superclass static field stops the container after each
+ * subclass finishes, causing context-cache failures when a second subclass reuses the Spring
+ * context with stale port bindings. Starting manually in a {@code static {}} block and relying
+ * on the JVM shutdown hook (Testcontainers' Ryuk reaper) to clean up avoids this problem.
  *
  * <p>Profiles "stub" and "test" are activated:
  * <ul>
@@ -30,11 +33,9 @@ import org.testcontainers.junit.jupiter.Testcontainers;
  * </ul>
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@Testcontainers
 @ActiveProfiles({"stub", "test"})
 public abstract class AbstractIntegrationTest {
 
-    @Container
     @ServiceConnection
     @SuppressWarnings("resource")
     static final PostgreSQLContainer<?> POSTGRES =
@@ -43,11 +44,16 @@ public abstract class AbstractIntegrationTest {
                     .withUsername("test")
                     .withPassword("test");
 
-    @Container
     @SuppressWarnings("resource")
     static final GenericContainer<?> REDIS =
             new GenericContainer<>("redis:7")
                     .withExposedPorts(6379);
+
+    static {
+        // Start containers once for the entire test run. JVM shutdown hook (Ryuk) cleans up.
+        POSTGRES.start();
+        REDIS.start();
+    }
 
     @DynamicPropertySource
     static void redisProperties(DynamicPropertyRegistry registry) {
