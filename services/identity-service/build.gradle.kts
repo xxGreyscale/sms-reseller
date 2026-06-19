@@ -23,5 +23,6 @@ dependencies {
     testImplementation(libs.spring.boot.testcontainers)
     testImplementation(libs.testcontainers.postgresql)
     testImplementation(libs.testcontainers.rabbitmq)
+    testImplementation(libs.testcontainers.junit.jupiter)
     // Redis Testcontainers: using org.testcontainers.containers.GenericContainer("redis:7") — no catalog entry needed
 }

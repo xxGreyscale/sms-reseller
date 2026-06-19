@@ -1,0 +1,25 @@
+spring:
+  profiles:
+    active: stub,test
+  flyway:
+    enabled: false   # Testcontainers DB; migrations run via AbstractIntegrationTest setup
+  jpa:
+    hibernate:
+      ddl-auto: create-drop   # Test DB lifecycle managed by Testcontainers
+    show-sql: false
+
+app:
+  jwt:
+    private-key-location: classpath:test-keys/jwt-private.pem
+    public-key-location: classpath:test-keys/jwt-public.pem
+    access-token-ttl-minutes: 1    # Short TTL in tests
+    refresh-token-ttl-days: 1
+  nida:
+    stub:
+      default-outcome: SUCCESS
+      auto-verify-delay-ms: 0   # Instant in tests
+
+logging:
+  level:
+    com.opendesk: DEBUG
+    org.springframework.security: WARN
