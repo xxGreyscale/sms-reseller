@@ -393,20 +393,17 @@ class StubNidaVerificationService implements NidaVerificationService {
 | A6 | Magic-NIN suffix convention (0001=reject etc.) | Code Examples | Convention is discretionary (D-05); planner may choose different suffixes |
 | A7 | Exact key wiring (PEM location, keyID) | Pattern 1 | Implementation detail; verified pattern, not exact project config |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **Numeric sender ID format/length (SNDR-01)**
+1. **Numeric sender ID format/length (SNDR-01)** — **RESOLVED.**
    - Known: must be numeric, assigned at registration/verification, unique.
-   - Unclear: length, prefix, whether it must be a real Tanzania shortcode or a platform-internal placeholder until TCRA provisioning.
-   - Recommendation: generate a platform-internal unique numeric ID (e.g., zero-padded sequence or random 6-digit checked for uniqueness) at MVP; flag that real shortcode provisioning is a Phase 0/external concern. Planner to confirm format.
+   - **Decision:** At MVP the default sender ID is a **platform-internal 6-digit, zero-padded numeric shortcode**, generated with a uniqueness-checked retry loop (regenerate on collision against the `sender_ids` unique constraint). It is explicitly a placeholder until real TCRA shortcode provisioning (a Phase 0/external concern) is available. This is the format plan 02-06 (`SenderIdService.assign`) implements. Real shortcode provisioning is out of scope for Phase 2.
 
-2. **Public-key rotation strategy**
-   - Known: MVP uses static public key via config.
-   - Unclear: how/when keys rotate post-MVP.
-   - Recommendation: document JWKS endpoint as the post-MVP rotation path; out of scope for Phase 2.
+2. **Public-key rotation strategy** — **RESOLVED: deferred post-MVP.**
+   - At MVP the public key is distributed **statically via config** (`spring.security.oauth2.resourceserver.jwt.public-key-location`, K8s Secret/ConfigMap), per A1. JWKS-endpoint rotation is documented as the post-MVP path and is explicitly **out of scope for Phase 2**. No further action this phase.
 
-3. **Email provider concrete choice (D-13)**
-   - Recommendation: interface `EmailSender`; stub logs the reset link; real impl uses `JavaMailSender` (SMTP) behind `@Profile("prod")`. Confirm SMTP creds source (Kubernetes Secret).
+3. **Email provider concrete choice (D-13)** — **RESOLVED.**
+   - **Decision:** `EmailSender` interface with a dev stub that records/logs the reset link (`@Profile("stub")`) and a real implementation using **`JavaMailSender` (SMTP) behind `@Profile("prod")`**. SMTP credentials are sourced from a Kubernetes Secret at deploy time (no creds required at MVP — the stub is the MVP path). This is the behavior plan 02-05 implements.
 
 ## Environment Availability
 
