@@ -23,6 +23,15 @@ dependencies {
     compileOnly("org.projectlombok:lombok")
 }
 
+// Allow skeleton service modules (no source yet) to pass bootJar.
+// bootJar requires a main class; in Phase 1 services are empty skeletons.
+// We configure a placeholder mainClass so bootJar resolves without error.
+// Phase 2+ will override this via spring.main.class in application.yml or
+// by having Spring Boot auto-detect the @SpringBootApplication class.
+tasks.withType<org.springframework.boot.gradle.tasks.bundling.BootJar>().configureEach {
+    mainClass.convention("placeholder.MainClass")
+}
+
 tasks.withType<Test>().configureEach {
     useJUnitPlatform()
 }
