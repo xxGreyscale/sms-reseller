@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-06-18)
 ## Current Position
 
 Phase: 02 (identity-auth) — EXECUTING
-Plan: 2 of 6
+Plan: 3 of 6
 Status: Ready to execute
 Last activity: 2026-06-19
 
@@ -36,7 +36,7 @@ Progress: [███░░░░░░░] 29%
 
 **Velocity:**
 
-- Total plans completed: 1
+- Total plans completed: 2
 - Average duration: —
 - Total execution time: 0 hours
 
@@ -64,6 +64,9 @@ Recent decisions affecting current work:
 - Roadmap: Modular monolith build order locked — identity → catalog → wallet → payment → contact → messaging → notification → admin → frontends
 - Roadmap: Phase 4 (Messaging) is the highest-complexity phase — quorum queues, DLX, credit reservation, and idempotent delivery webhooks all due here
 - Roadmap: REQUIREMENTS.md header says 68 requirements but traceability table has 76 distinct IDs — all 76 are mapped; discrepancy should be corrected in REQUIREMENTS.md
+- 02-02: JwtIssuer.withKeys() factory pattern enables unit testing JWT issuance without Spring context
+- 02-02: shared-security.JwtConfig reads spring.security.oauth2.resourceserver.jwt.public-key-location (standard resource-server pattern); all 8 downstream modules use this single bean
+- 02-02: DelegatingPasswordEncoder chosen for BCrypt to enable algorithm migration without schema changes
 
 ### Pending Todos
 
@@ -84,5 +87,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-06-19T15:08:08.168Z
-Stopped at: Phase 2 context gathered
+Stopped at: Phase 02, Plan 02 complete — JWT Core & User Aggregate
 Resume file: None
