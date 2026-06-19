@@ -2,9 +2,9 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: verifying
-stopped_at: Phase 02, Plan 06 complete — Verification finalize TX + outbox relay (IDEN-03, SNDR-01)
-last_updated: "2026-06-19T16:25:04.643Z"
+status: planning
+stopped_at: Phase 02, Plan 02 complete — JWT Core & User Aggregate
+last_updated: "2026-06-19T16:31:31.725Z"
 last_activity: 2026-06-19
 progress:
   total_phases: 7
@@ -27,7 +27,7 @@ See: .planning/PROJECT.md (updated 2026-06-18)
 
 Phase: 02 (identity-auth) — EXECUTING
 Plan: 6 of 6
-Status: Phase complete — ready for verification
+Status: planning
 Last activity: 2026-06-19
 
 Progress: [██████████] 100%
