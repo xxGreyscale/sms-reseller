@@ -19,6 +19,7 @@ dependencies {
     annotationProcessor(libs.mapstruct.processor)  // AFTER lombok (lombok declared first in spring-boot-service convention plugin)
     implementation(libs.flyway.core)
     implementation(libs.flyway.postgresql)  // REQUIRED: Flyway 10 split — do not omit
+    runtimeOnly(libs.postgresql.driver)     // PostgreSQL JDBC driver (BOM-managed version)
 
     testImplementation(libs.spring.boot.testcontainers)
     testImplementation(libs.testcontainers.postgresql)

@@ -22,6 +22,7 @@ spring-boot-testcontainers = { module = "org.springframework.boot:spring-boot-te
 spring-retry = { module = "org.springframework.retry:spring-retry" }
 flyway-core = { module = "org.flywaydb:flyway-core" }
 flyway-postgresql = { module = "org.flywaydb:flyway-database-postgresql" }
+postgresql-driver = { module = "org.postgresql:postgresql" }
 micrometer-prometheus = { module = "io.micrometer:micrometer-registry-prometheus" }
 micrometer-tracing-otel = { module = "io.micrometer:micrometer-tracing-bridge-otel" }
 otel-exporter-otlp = { module = "io.opentelemetry:opentelemetry-exporter-otlp" }

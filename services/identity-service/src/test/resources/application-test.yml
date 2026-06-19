@@ -1,6 +1,4 @@
 spring:
-  profiles:
-    active: stub,test
   flyway:
     enabled: false   # Testcontainers DB; migrations run via AbstractIntegrationTest setup
   jpa:
