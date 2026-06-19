@@ -48,7 +48,9 @@ public class SecurityConfig {
                                 "/auth/refresh",
                                 "/auth/forgot",
                                 "/auth/reset",
-                                "/actuator/health/**"
+                                "/actuator/health/**",
+                                "/error"            // Spring Boot error endpoint — must be permitAll so
+                                                    // errors thrown by permitAll endpoints don't get 401
                         ).permitAll()
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()));
