@@ -13,6 +13,7 @@ dependencies {
     implementation(libs.spring.boot.starter.validation)
     implementation(libs.spring.boot.starter.data.redis)
     implementation(libs.spring.boot.starter.amqp)
+    implementation(libs.spring.boot.starter.mail)
     implementation(libs.spring.retry)
     implementation(libs.resilience4j.spring.boot3)
     implementation(libs.mapstruct)
