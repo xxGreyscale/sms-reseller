@@ -63,7 +63,7 @@ Decimal phases appear between their surrounding integers in numeric order.
   4. User can log out (session revoked) and reset a forgotten password via email link
   5. All 8 downstream modules can validate the JWT issued by this module using the shared-security library — no service needs to call identity at runtime for token validation
 **Plans**: 6 plans (5 waves)
-- [ ] 02-01-PLAN.md — Wave 0: test infra (Testcontainers PG16+Redis7), build deps, RSA fixture, one plain-stub test per requirement + cross-module JWT contract
+- [x] 02-01-PLAN.md — Wave 0: test infra (Testcontainers PG16+Redis7), build deps, RSA fixture, one plain-stub test per requirement + cross-module JWT contract
 - [ ] 02-02-PLAN.md — Wave 1: asymmetric JWT core (issuer + shared-security validator), User aggregate + V1 migration, security/redis/async config
 - [ ] 02-03-PLAN.md — Wave 2: registration (PENDING immediately), async NIDA stub/real + degraded retry, VerificationFinalizer seam (IDEN-01/02/08)
 - [ ] 02-04-PLAN.md — Wave 2: email+password login, opaque refresh tokens in Redis (rotation + reuse detection), lockout, logout revoke-current (IDEN-04/05/06)
@@ -134,7 +134,7 @@ Phase 0 runs as a parallel background track. Coding phases execute: 1 → 2 → 
 |-------|----------------|--------|-----------|
 | 0. Pre-Implementation Blockers | 0/TBD | Not started | - |
 | 1. Foundation | 1/1 | Complete   | 2026-06-19 |
-| 2. Identity & Auth | 0/TBD | Not started | - |
+| 2. Identity & Auth | 1/6 | In Progress|  |
 | 3. Wallet & Payments | 0/TBD | Not started | - |
 | 4. Contacts & Messaging | 0/TBD | Not started | - |
 | 5. Notifications, Admin & Analytics | 0/TBD | Not started | - |

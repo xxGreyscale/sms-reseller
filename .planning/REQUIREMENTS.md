@@ -9,14 +9,14 @@
 
 ### Identity & Authentication
 
-- [ ] **IDEN-01**: User can register with phone number and email
-- [ ] **IDEN-02**: User can verify identity via NIDA National ID — flow returns PENDING state immediately (async, never blocks on NIDA latency)
-- [ ] **IDEN-03**: User receives 50 free SMS credits on successful NIDA verification
-- [ ] **IDEN-04**: User can log in with email and password
-- [ ] **IDEN-05**: User session persists across app restarts (JWT + refresh token)
-- [ ] **IDEN-06**: User can log out and revoke session
-- [ ] **IDEN-07**: User can reset password via email link
-- [ ] **IDEN-08**: System gracefully degrades when NIDA API is unavailable — user stays in PENDING_VERIFICATION state, retried in background
+- [x] **IDEN-01**: User can register with phone number and email
+- [x] **IDEN-02**: User can verify identity via NIDA National ID — flow returns PENDING state immediately (async, never blocks on NIDA latency)
+- [x] **IDEN-03**: User receives 50 free SMS credits on successful NIDA verification
+- [x] **IDEN-04**: User can log in with email and password
+- [x] **IDEN-05**: User session persists across app restarts (JWT + refresh token)
+- [x] **IDEN-06**: User can log out and revoke session
+- [x] **IDEN-07**: User can reset password via email link
+- [x] **IDEN-08**: System gracefully degrades when NIDA API is unavailable — user stays in PENDING_VERIFICATION state, retried in background
 
 ### Wallet & Credits
 
@@ -66,7 +66,7 @@
 
 ### Sender ID Management
 
-- [ ] **SNDR-01**: User is assigned a default numeric sender ID (shortcode) at registration
+- [x] **SNDR-01**: User is assigned a default numeric sender ID (shortcode) at registration
 - [ ] **SNDR-02**: User can request a custom alphanumeric sender ID (subject to admin and TCRA approval)
 - [ ] **SNDR-03**: Admin can approve or reject sender ID requests from the admin panel
 - [ ] **SNDR-04**: User receives notification when their sender ID request is approved or rejected
@@ -163,14 +163,14 @@ _Populated by roadmapper on 2026-06-18._
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| IDEN-01 | Phase 2 | Pending |
-| IDEN-02 | Phase 2 | Pending |
-| IDEN-03 | Phase 2 | Pending |
-| IDEN-04 | Phase 2 | Pending |
-| IDEN-05 | Phase 2 | Pending |
-| IDEN-06 | Phase 2 | Pending |
-| IDEN-07 | Phase 2 | Pending |
-| IDEN-08 | Phase 2 | Pending |
+| IDEN-01 | Phase 2 | Complete |
+| IDEN-02 | Phase 2 | Complete |
+| IDEN-03 | Phase 2 | Complete |
+| IDEN-04 | Phase 2 | Complete |
+| IDEN-05 | Phase 2 | Complete |
+| IDEN-06 | Phase 2 | Complete |
+| IDEN-07 | Phase 2 | Complete |
+| IDEN-08 | Phase 2 | Complete |
 | WLET-01 | Phase 3 | Pending |
 | WLET-02 | Phase 3 | Pending |
 | WLET-03 | Phase 3 | Pending |
@@ -205,7 +205,7 @@ _Populated by roadmapper on 2026-06-18._
 | MESG-08 | Phase 4 | Pending |
 | MESG-09 | Phase 4 | Pending |
 | MESG-10 | Phase 4 | Pending |
-| SNDR-01 | Phase 2 | Pending |
+| SNDR-01 | Phase 2 | Complete |
 | SNDR-02 | Phase 4 | Pending |
 | SNDR-03 | Phase 4 | Pending |
 | SNDR-04 | Phase 4 | Pending |
