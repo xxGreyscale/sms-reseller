@@ -1,19 +1,107 @@
 package com.opendesk.identity;
 
-import org.junit.jupiter.api.Assumptions;
+import com.opendesk.identity.token.JwtIssuer;
+import com.opendesk.identity.user.VerificationStatus;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
+
+import java.security.interfaces.RSAPrivateKey;
+import java.security.interfaces.RSAPublicKey;
+import java.time.Instant;
+import java.util.List;
+import java.util.UUID;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Covers: IDEN-05 — JWT issuance with RSA private key (NimbusJwtEncoder); verification_status claim (D-02).
  *
- * <p>Placeholder stub for the identity-side JWT issuer unit test.
- * Rewritten in plan 02-02 once JwtConfig/JwtIssuerService are implemented.
- * The cross-module encode→decode contract is proven NOW in JwtValidationUnitTest (shared-security).
+ * <p>Unit test for {@link JwtIssuer}. No Spring context — pure unit test using TestKeys.
+ *
+ * <p>RED phase: tests fail until JwtConfig + JwtIssuer are implemented (same plan 02-02).
  */
 class JwtIssuerUnitTest {
 
+    private JwtIssuer jwtIssuer;
+    private NimbusJwtDecoder decoder;
+
+    @BeforeEach
+    void setUp() throws Exception {
+        RSAPrivateKey privateKey = TestKeys.loadPrivateKey();
+        RSAPublicKey publicKey = TestKeys.loadPublicKey();
+
+        // Build the JwtIssuer directly using the test keys — no Spring context needed
+        jwtIssuer = JwtIssuer.withKeys(privateKey, publicKey);
+        decoder = NimbusJwtDecoder.withPublicKey(publicKey).build();
+    }
+
     @Test
-    void issuesJwtWithVerificationStatusClaim() {
-        Assumptions.abort("pending impl: IDEN-05 JWT issuer (plan 02-02)");
+    void issuesJwtWithVerificationStatusClaim() throws Exception {
+        UUID userId = UUID.randomUUID();
+
+        String token = jwtIssuer.issueAccessToken(userId, VerificationStatus.PENDING_VERIFICATION);
+
+        var decoded = decoder.decode(token);
+        assertThat((String) decoded.getClaim("verification_status"))
+                .isEqualTo("PENDING_VERIFICATION");
+    }
+
+    @Test
+    void issuesJwtWithVerifiedStatusClaim() throws Exception {
+        UUID userId = UUID.randomUUID();
+
+        String token = jwtIssuer.issueAccessToken(userId, VerificationStatus.VERIFIED);
+
+        var decoded = decoder.decode(token);
+        assertThat((String) decoded.getClaim("verification_status"))
+                .isEqualTo("VERIFIED");
+    }
+
+    @Test
+    void issuedTokenHasSubjectEqualToUserId() throws Exception {
+        UUID userId = UUID.randomUUID();
+
+        String token = jwtIssuer.issueAccessToken(userId, VerificationStatus.PENDING_VERIFICATION);
+
+        var decoded = decoder.decode(token);
+        assertThat(decoded.getSubject()).isEqualTo(userId.toString());
+    }
+
+    @Test
+    void issuedTokenExpiresApproximatelyIn15Minutes() throws Exception {
+        UUID userId = UUID.randomUUID();
+
+        String token = jwtIssuer.issueAccessToken(userId, VerificationStatus.PENDING_VERIFICATION);
+
+        var decoded = decoder.decode(token);
+        Instant now = Instant.now();
+        Instant exp = decoded.getExpiresAt();
+        assertThat(exp).isNotNull();
+        // Should be within 14 to 16 minutes of now
+        assertThat(exp).isAfter(now.plusSeconds(13 * 60));
+        assertThat(exp).isBefore(now.plusSeconds(17 * 60));
+    }
+
+    @Test
+    void issuedTokenHasIssuerClaim() throws Exception {
+        UUID userId = UUID.randomUUID();
+
+        String token = jwtIssuer.issueAccessToken(userId, VerificationStatus.PENDING_VERIFICATION);
+
+        var decoded = decoder.decode(token);
+        assertThat(decoded.getIssuer()).isNotNull();
+        assertThat(decoded.getIssuer().toString()).isEqualTo("https://identity.open-desk");
+    }
+
+    @Test
+    void issuedTokenHasRolesClaim() throws Exception {
+        UUID userId = UUID.randomUUID();
+
+        String token = jwtIssuer.issueAccessToken(userId, VerificationStatus.PENDING_VERIFICATION);
+
+        var decoded = decoder.decode(token);
+        List<?> roles = decoded.getClaim("roles");
+        assertThat(roles).isNotNull().contains("ROLE_USER");
     }
 }
