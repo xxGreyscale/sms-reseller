@@ -14,6 +14,12 @@ spring:
     group:
       dev: stub
       staging: stub
+  # Placeholder config keys — real values injected via K8s Secrets in prod
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          public-key-location: classpath:keys/jwt-public.pem
 
 management:
   endpoint:
@@ -24,14 +30,6 @@ management:
     web:
       exposure:
         include: health,info,prometheus
-
-# Placeholder config keys — real values injected via K8s Secrets in prod
-spring:
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          public-key-location: classpath:keys/jwt-public.pem
 
 app:
   wallet:
