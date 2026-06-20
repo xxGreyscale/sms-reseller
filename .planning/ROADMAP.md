@@ -17,7 +17,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [ ] **Phase 0: Pre-Implementation Procurement** - External procurement runs as a parallel background track; never blocks coding phases
 - [x] **Phase 1: Foundation** - Monorepo skeleton, shared libraries, Docker Compose local dev, CI pipeline, infrastructure manifests (completed 2026-06-19)
 - [x] **Phase 2: Identity & Auth** - User registration, NIDA async verification, JWT auth, sessions, password reset, default sender ID (completed 2026-06-19)
-- [ ] **Phase 3: Wallet & Payments** - Append-only credit ledger with pessimistic reservation, Azampay STK push with outbox and idempotent callbacks
+- [x] **Phase 3: Wallet & Payments** - Append-only credit ledger with pessimistic reservation, Azampay STK push with outbox and idempotent callbacks (completed 2026-06-20)
 - [ ] **Phase 4: Contacts & Messaging** - Contact CRUD/CSV import/dedup, bulk SMS campaigns, credit reservation, DLX retry, sender ID lifecycle
 - [ ] **Phase 5: Notifications, Admin & Analytics** - RabbitMQ event fan-out to notification log, Next.js admin panel, cross-module read views, analytics queries
 - [ ] **Phase 6: Flutter Mobile App** - Full Flutter customer app from onboarding through campaign history, published to both stores
@@ -88,7 +88,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] 03-03-PLAN.md — Wave 1: payment foundation — Flyway-seeded bundle catalog + read API, Payment entity/state-machine + single-pending index, PaymentGateway stub, security/AMQP config (PYMT-01)
 - [x] 03-04-PLAN.md — Wave 2: wallet UserVerified consumer (idempotent 50-credit bonus grant) + balance/transaction-history API (WLET-01/02)
 - [x] 03-05-PLAN.md — Wave 2: payment flow — purchase initiation (single-pending), idempotent callback (PENDING+EXPIRED→SUCCESS), 2-min EXPIRED sweep, PaymentConfirmed outbox, history (PYMT-02/03/04/05/06/07)
-- [ ] 03-06-PLAN.md — Wave 3: wallet PaymentConfirmed consumer (12-mo purchased grant) + idempotent refund mechanism + low-credit/expiry-warning sweeps + Azampay reconciliation + prod gateway (PYMT-08, WLET-04/05)
+- [x] 03-06-PLAN.md — Wave 3: wallet PaymentConfirmed consumer (12-mo purchased grant) + idempotent refund mechanism + low-credit/expiry-warning sweeps + Azampay reconciliation + prod gateway (PYMT-08, WLET-04/05)
 **UI hint**: no
 
 ### Phase 4: Contacts & Messaging
@@ -141,7 +141,7 @@ Phase 0 runs as a parallel background track. Coding phases execute: 1 → 2 → 
 | 0. Pre-Implementation Blockers | 0/TBD | Not started | - |
 | 1. Foundation | 1/1 | Complete   | 2026-06-19 |
 | 2. Identity & Auth | 6/6 | Complete   | 2026-06-19 |
-| 3. Wallet & Payments | 5/6 | In Progress|  |
+| 3. Wallet & Payments | 6/6 | Complete   | 2026-06-20 |
 | 4. Contacts & Messaging | 0/TBD | Not started | - |
 | 5. Notifications, Admin & Analytics | 0/TBD | Not started | - |
 | 6. Flutter Mobile App | 0/TBD | Not started | - |
