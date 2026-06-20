@@ -79,6 +79,21 @@ calls it. The Flutter customer UI (Phase 6).
   merchant account arrives). Full purchase flow incl. countdown + EXPIRED must be demoable
   before Azampay credentials exist.
 
+### Resolved from research open questions (2026-06-20)
+- **D-11:** **Money is stored as raw TZS in `BIGINT`** (whole shillings, e.g. 3200 = 3,200 TZS).
+  TZS has no decimal subdivision and Azampay transacts in whole shillings, so the ×100 "cents"
+  convention is unnecessary. **This supersedes CLAUDE.md's "integer cents" wording for TZS** —
+  values are still BIGINT and integer-safe, just not scaled. (Note: SMS *credits* are a separate
+  integer count, not money.)
+- **D-12:** The bundle **catalog lives inside `payment-service`** (a small read-mostly table
+  seeded via Flyway, D-09) — no separate catalog-service at MVP. **`wallet-service` (append-only
+  ledger, reservation) and `payment-service` (Azampay gateway + catalog) remain separate modules**
+  per the 8-schema architecture. Cross-module communication is via AMQP events + the wallet's
+  reservation API, never cross-service DB joins (CLAUDE.md).
+- **D-13:** **Single-pending-payment (D-05) is enforced by a DB partial unique index** on
+  payment status = PENDING per user (research recommendation), not a Redis lock — simpler and
+  transactionally correct.
+
 ### Claude's Discretion
 - Exact ledger table shape (lots, reservations, transactions), reconciliation poll interval
   (CLAUDE.md suggests every ~2 min for payments older than 5 min), outbox table/relay reuse vs
