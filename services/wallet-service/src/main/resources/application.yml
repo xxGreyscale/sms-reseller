@@ -33,4 +33,7 @@ management:
 
 app:
   wallet:
-    low-credit-threshold: 20   # D-08: alert when available credits fall below this value
+    low-credit-threshold: 20          # D-08: alert when available credits fall below this value
+    low-credit-alert-delay-ms: 300000 # LowCreditAlertJob interval — 5 minutes
+    expiry-warning-cron: "0 0 8 * * ?" # ExpiryWarningJob — daily at 08:00 UTC
+    expiry-sweep-cron: "0 0 2 * * ?"   # ExpirySweepJob — daily at 02:00 UTC

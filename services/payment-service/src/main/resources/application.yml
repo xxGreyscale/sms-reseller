@@ -40,3 +40,27 @@ app:
       delay-ms: 500            # Simulated callback delay for stub
   reconciliation:
     fixed-delay-ms: 120000     # ReconciliationJob interval — 2 minutes
+    max-per-run: 50            # Max stale payments checked per reconciliation run
+  # Azampay prod credentials — injected via K8s Secrets in prod (D-10, CLAUDE.md)
+  azampay:
+    base-url: ${AZAMPAY_BASE_URL:https://sandbox.azampay.co.tz}
+    app-name: ${AZAMPAY_APP_NAME:open-desk}
+    client-id: ${AZAMPAY_CLIENT_ID:placeholder}
+    client-secret: ${AZAMPAY_CLIENT_SECRET:placeholder}
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      azampay:
+        failure-rate-threshold: 50
+        sliding-window-size: 10
+        wait-duration-in-open-state: 30s
+        permitted-number-of-calls-in-half-open-state: 3
+        register-health-indicator: true
+  retry:
+    instances:
+      azampay:
+        max-attempts: 3
+        wait-duration: 1s
+        enable-exponential-backoff: true
+        exponential-backoff-multiplier: 2

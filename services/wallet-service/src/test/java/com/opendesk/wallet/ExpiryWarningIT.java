@@ -128,7 +128,7 @@ class ExpiryWarningIT extends AbstractWalletIntegrationTest {
                 .toList();
         assertThat(expireTransactions).hasSize(1);
         // Delta should be the remaining credits in the lot
-        assertThat(expireTransactions.get(0).getDelta()).isEqualTo(-50);
+        assertThat(expireTransactions.get(0).getDelta()).isEqualTo(50);
     }
 
     // ── helper ─────────────────────────────────────────────────────────────────

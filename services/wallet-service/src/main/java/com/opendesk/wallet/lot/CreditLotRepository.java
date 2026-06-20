@@ -37,4 +37,41 @@ public interface CreditLotRepository extends JpaRepository<CreditLot, UUID> {
     @Query("SELECT COALESCE(SUM(l.granted - l.consumed - l.reserved), 0) FROM CreditLot l " +
            "WHERE l.userId = :userId AND l.expiresAt > :now")
     int sumAvailableCredits(@Param("userId") UUID userId, @Param("now") Instant now);
+
+    /**
+     * Finds PURCHASED lots expiring before the given cutoff (expiry warning sweep).
+     *
+     * <p>Used by {@code ExpiryWarningJob} to find lots expiring within 7 days.
+     *
+     * @param cutoff   lots with expiresAt before this instant are returned
+     * @param lotType  lot type to filter by (PURCHASED)
+     * @param pageable bounded page to prevent unbounded queries
+     */
+    @Query("SELECT l FROM CreditLot l WHERE l.expiresAt > :now AND l.expiresAt < :cutoff " +
+           "AND l.lotType = :lotType ORDER BY l.expiresAt ASC")
+    List<CreditLot> findExpiringBefore(
+            @Param("now") Instant now,
+            @Param("cutoff") Instant cutoff,
+            @Param("lotType") LotType lotType,
+            Pageable pageable);
+
+    /**
+     * Finds lots that have already expired (past {@code expiresAt}) — used by ExpirySweepJob.
+     *
+     * @param cutoff  lots with expiresAt before this instant are returned
+     * @param pageable bounded page
+     */
+    @Query("SELECT l FROM CreditLot l WHERE l.expiresAt < :cutoff ORDER BY l.expiresAt ASC")
+    List<CreditLot> findExpiredBefore(@Param("cutoff") Instant cutoff, Pageable pageable);
+
+    /**
+     * Returns all distinct userIds with available balance below the given threshold.
+     * Used by LowCreditAlertJob to find users needing an alert.
+     *
+     * @param threshold alert if balance < threshold
+     * @param now       filter out expired lots
+     */
+    @Query("SELECT DISTINCT l.userId FROM CreditLot l WHERE l.expiresAt > :now " +
+           "GROUP BY l.userId HAVING COALESCE(SUM(l.granted - l.consumed - l.reserved), 0) < :threshold")
+    List<UUID> findUserIdsWithBalanceBelow(@Param("threshold") int threshold, @Param("now") Instant now);
 }
