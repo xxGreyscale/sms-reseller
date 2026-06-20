@@ -22,15 +22,18 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMqConfig {
 
+    /** Wallet-service outbound events exchange (wallet.events TopicExchange). */
+    public static final String EXCHANGE = "wallet.events";
+
+    /** Routing key prefix — all wallet events are published as wallet.{EventType}. */
+    public static final String ROUTING_KEY_PREFIX = "wallet.";
+
     /**
      * Wallet-service outbound events exchange.
-     *
-     * <p>Not used in Phase 3 but declared here so it exists before wallet-service
-     * starts publishing balance-related events in later phases.
      */
     @Bean
     public TopicExchange walletEventsExchange() {
-        return new TopicExchange("wallet.events", true, false);
+        return new TopicExchange(EXCHANGE, true, false);
     }
 
     /**

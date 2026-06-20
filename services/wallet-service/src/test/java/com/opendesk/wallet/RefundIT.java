@@ -1,5 +1,6 @@
 package com.opendesk.wallet;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.opendesk.wallet.balance.BalanceService;
 import com.opendesk.wallet.consumer.ProcessedEventRepository;
 import com.opendesk.wallet.lot.CreditLotRepository;
@@ -9,18 +10,22 @@ import com.opendesk.wallet.refund.RefundService;
 import org.awaitility.Awaitility;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.amqp.core.MessageBuilder;
+import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.*;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
+import java.util.Map;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.*;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 /**
  * Integration tests for:
@@ -40,6 +45,9 @@ class RefundIT extends AbstractWalletIntegrationTest {
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Autowired
     private BalanceService balanceService;
@@ -72,22 +80,30 @@ class RefundIT extends AbstractWalletIntegrationTest {
      * and 12-month expiry (D-03). [PYMT-04]
      */
     @Test
-    void paymentConfirmedGrantsPurchasedLot() {
+    void paymentConfirmedGrantsPurchasedLot() throws Exception {
         UUID paymentId = UUID.randomUUID();
         String eventId = UUID.randomUUID().toString();
         int smsCount = 200;
 
+        String payload = objectMapper.writeValueAsString(Map.of(
+                "eventId", eventId,
+                "userId", userId.toString(),
+                "paymentId", paymentId.toString(),
+                "smsCount", smsCount
+        ));
+
+        var message = MessageBuilder.withBody(payload.getBytes())
+                .andProperties(new MessageProperties())
+                .build();
+        message.getMessageProperties().setContentType("application/json");
+
         // Publish to the payment.events exchange with key payment.PaymentConfirmed
-        String payload = String.format(
-                "{\"eventId\":\"%s\",\"userId\":\"%s\",\"paymentId\":\"%s\",\"smsCount\":%d}",
-                eventId, userId, paymentId, smsCount
-        );
-        rabbitTemplate.convertAndSend("payment.events", "payment.PaymentConfirmed", payload);
+        rabbitTemplate.send("payment.events", "payment.PaymentConfirmed", message);
 
         // Wait for consumer to process
         Awaitility.await()
-                .atMost(Duration.ofSeconds(10))
-                .until(() -> balanceService.getBalance(userId) >= smsCount);
+                .atMost(10, SECONDS)
+                .untilAsserted(() -> assertThat(balanceService.getBalance(userId)).isEqualTo(smsCount));
 
         // Verify exactly one PURCHASED lot
         var lots = lotRepository.findAll().stream()
@@ -110,34 +126,44 @@ class RefundIT extends AbstractWalletIntegrationTest {
      * processed_events guard ensures exactly-once credit [T-03-16].
      */
     @Test
-    void paymentConfirmedIsIdempotentOnRedelivery() {
+    void paymentConfirmedIsIdempotentOnRedelivery() throws Exception {
         UUID paymentId = UUID.randomUUID();
         String eventId = UUID.randomUUID().toString();
         int smsCount = 100;
 
-        String payload = String.format(
-                "{\"eventId\":\"%s\",\"userId\":\"%s\",\"paymentId\":\"%s\",\"smsCount\":%d}",
-                eventId, userId, paymentId, smsCount
-        );
+        String payload = objectMapper.writeValueAsString(Map.of(
+                "eventId", eventId,
+                "userId", userId.toString(),
+                "paymentId", paymentId.toString(),
+                "smsCount", smsCount
+        ));
+
+        var message = MessageBuilder.withBody(payload.getBytes())
+                .andProperties(new MessageProperties())
+                .build();
+        message.getMessageProperties().setContentType("application/json");
 
         // First delivery
-        rabbitTemplate.convertAndSend("payment.events", "payment.PaymentConfirmed", payload);
+        rabbitTemplate.send("payment.events", "payment.PaymentConfirmed", message);
         Awaitility.await()
-                .atMost(Duration.ofSeconds(10))
-                .until(() -> balanceService.getBalance(userId) >= smsCount);
+                .atMost(10, SECONDS)
+                .untilAsserted(() -> assertThat(balanceService.getBalance(userId)).isEqualTo(smsCount));
 
         // Second delivery (same eventId — duplicate re-delivery)
-        rabbitTemplate.convertAndSend("payment.events", "payment.PaymentConfirmed", payload);
+        rabbitTemplate.send("payment.events", "payment.PaymentConfirmed", message);
 
-        // Wait a moment then assert still only one lot
-        try { Thread.sleep(2000); } catch (InterruptedException e) { Thread.currentThread().interrupt(); }
-
-        long lotCount = lotRepository.findAll().stream()
-                .filter(l -> userId.equals(l.getUserId()))
-                .filter(l -> LotType.PURCHASED.equals(l.getLotType()))
-                .count();
-        assertThat(lotCount).isEqualTo(1);
-        assertThat(balanceService.getBalance(userId)).isEqualTo(smsCount);
+        // Wait then assert still only one lot
+        Awaitility.await()
+                .atMost(5, SECONDS)
+                .pollDelay(Duration.ofSeconds(2))
+                .untilAsserted(() -> {
+                    long lotCount = lotRepository.findAll().stream()
+                            .filter(l -> userId.equals(l.getUserId()))
+                            .filter(l -> LotType.PURCHASED.equals(l.getLotType()))
+                            .count();
+                    assertThat(lotCount).isEqualTo(1);
+                    assertThat(balanceService.getBalance(userId)).isEqualTo(smsCount);
+                });
     }
 
     // ── RefundService tests ──────────────────────────────────────────────────────
@@ -218,7 +244,7 @@ class RefundIT extends AbstractWalletIntegrationTest {
         RefundRequest request = new RefundRequest(userId, credits, referenceId, idempotencyKey);
         HttpEntity<RefundRequest> entity = new HttpEntity<>(request, headers);
 
-        // First call — should succeed (201 or 200)
+        // First call — should succeed (200)
         ResponseEntity<Void> response = restTemplate.postForEntity(
                 "http://localhost:" + port + "/api/v1/wallet/refunds", entity, Void.class);
         assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
