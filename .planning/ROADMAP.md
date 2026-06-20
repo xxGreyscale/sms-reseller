@@ -82,7 +82,13 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. If the STK push times out or the user declines, the payment is marked EXPIRED/FAILED and the user sees a clear error — no infinite spinner
   4. User can view their full credit balance, transaction history (append-only ledger), and payment history at any time
   5. System refuses any credit reservation that would take available balance below zero (`SELECT FOR UPDATE` pessimistic lock verified), and credits expire correctly at 12 months (purchased) and 30 days (bonus)
-**Plans**: TBD
+**Plans**: 6 plans (4 waves)
+- [ ] 03-01-PLAN.md — Wave 0: both-service build deps + Testcontainers bases (PG16/Redis/RabbitMQ) + 14 placeholder ITs (one per requirement)
+- [ ] 03-02-PLAN.md — Wave 1: wallet ledger core — lot-based append-only credit_lots/credit_transactions, derived balance, expiry-soonest-first SELECT FOR UPDATE reservation (WLET-02/03/06/07)
+- [ ] 03-03-PLAN.md — Wave 1: payment foundation — Flyway-seeded bundle catalog + read API, Payment entity/state-machine + single-pending index, PaymentGateway stub, security/AMQP config (PYMT-01)
+- [ ] 03-04-PLAN.md — Wave 2: wallet UserVerified consumer (idempotent 50-credit bonus grant) + balance/transaction-history API (WLET-01/02)
+- [ ] 03-05-PLAN.md — Wave 2: payment flow — purchase initiation (single-pending), idempotent callback (PENDING+EXPIRED→SUCCESS), 2-min EXPIRED sweep, PaymentConfirmed outbox, history (PYMT-02/03/04/05/06/07)
+- [ ] 03-06-PLAN.md — Wave 3: wallet PaymentConfirmed consumer (12-mo purchased grant) + idempotent refund mechanism + low-credit/expiry-warning sweeps + Azampay reconciliation + prod gateway (PYMT-08, WLET-04/05)
 **UI hint**: no
 
 ### Phase 4: Contacts & Messaging
