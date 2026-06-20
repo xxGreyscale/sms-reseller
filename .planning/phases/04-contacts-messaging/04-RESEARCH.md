@@ -423,7 +423,7 @@ public void onMessageAccepted(MessageAccepted event) {
 
 `ReservationService.reserve(userId, count, campaignId)` returns `ReservationResult { List<UUID> lotIds, int reservedCount }`.
 
-`lotIds` is an ordered list where `lotIds.get(i)` is the lot that slot `i` drew from (expiry-soonest-first). For campaigns with `N` recipients the list has `N` entries. messaging-service zips `lotIds.get(i)` with recipient `i` when persisting `OutboundMessage` rows and building AMQP payloads.
+**RESOLVED (D-13):** `lotIds` is **per distinct lot touched**, NOT one UUID per credit — an N-credit reservation across 2 lots returns 2 UUIDs, not N. So a naive `lotIds.get(i)` ↔ recipient `i` zip is WRONG. Plan 04-07 Task 1 enriches `ReservationResult` with `List<LotAllocation>{lotId, count}` (preserving legacy `lotIds` for Phase 3 back-compat); messaging-service then fills recipients from `allocation[k].count` recipients per `allocation[k].lotId` (expiry-soonest-first order), persisting that `lotId` on each `OutboundMessage` row and in every AMQP payload so wallet's CONSUME/RELEASE/REFUND target the correct lot.
 
 **Edge case:** `ReservationService.reserve` returns a list of lot UUIDs one-per-credit. For large campaigns this could be a list of 1000+ UUIDs. The planner should ensure the wallet REST response can handle this — consider pagination or a stream if recipient count is very large. At MVP the cap is the user's available balance (practical limit is a few thousand).
 
@@ -915,7 +915,11 @@ Wallet-service binds passively to `messaging.events` (does NOT redeclare the exc
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
+
+> All open questions below were resolved during planning via CONTEXT decisions D-13/D-14/D-15
+> and the plan actions in 04-05/04-07. Retained for audit trail.
+
 
 1. **Recipient expansion — contact-service REST call vs direct schema access?**
    - What we know: both services share the same PG cluster with separate schemas; CLAUDE.md says "do not cross-service sync HTTP in AMQP consumer critical path."
