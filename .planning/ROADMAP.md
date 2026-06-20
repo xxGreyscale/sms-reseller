@@ -104,7 +104,7 @@ Decimal phases appear between their surrounding integers in numeric order.
   5. Failed messages are retried via dead letter queue with exponential backoff; permanently undeliverable messages result in credit refund back to the wallet and the user sees the correct final counts
   6. User can request a custom alphanumeric sender ID; admin can approve or reject it from the admin panel; user is notified of the outcome
 **Plans**: 8 plans (5 waves)
-- [ ] 04-01-PLAN.md — Wave 0: contact + messaging module deps (commons-csv, libphonenumber), Testcontainers IT bases, one placeholder failing test per requirement
+- [x] 04-01-PLAN.md — Wave 0: contact + messaging module deps (commons-csv, libphonenumber), Testcontainers IT bases, one placeholder failing test per requirement
 - [ ] 04-02-PLAN.md — Wave 1: contact-service core — Contact/Group/Suppression entities + migrations + CRUD API + IDOR guard (CONT-01/02/03/04/08)
 - [ ] 04-04-PLAN.md — Wave 1: messaging foundation — campaign/message/sender-id entities + migrations, SmsProvider stub, GSM-7/UCS-2 encoder, quorum+DLX queue topology, outbox (MESG-01/02)
 - [ ] 04-07-PLAN.md — Wave 1: wallet additions — per-lot allocation in ReservationResult, consumeFromLot/releaseFromLot, idempotent MessagingEventConsumer (CONSUME/RELEASE/REFUND) (MESG-10 wallet side)
@@ -150,7 +150,7 @@ Phase 0 runs as a parallel background track. Coding phases execute: 1 → 2 → 
 | 1. Foundation | 1/1 | Complete   | 2026-06-19 |
 | 2. Identity & Auth | 6/6 | Complete   | 2026-06-19 |
 | 3. Wallet & Payments | 6/6 | Complete   | 2026-06-20 |
-| 4. Contacts & Messaging | 0/8 | Not started | - |
+| 4. Contacts & Messaging | 1/8 | In Progress|  |
 | 5. Notifications, Admin & Analytics | 0/TBD | Not started | - |
 | 6. Flutter Mobile App | 0/TBD | Not started | - |
 

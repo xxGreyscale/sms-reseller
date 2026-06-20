@@ -41,35 +41,35 @@
 
 ### Contact Management
 
-- [ ] **CONT-01**: User can add individual contacts manually (name + phone number)
-- [ ] **CONT-02**: User can edit existing contacts
-- [ ] **CONT-03**: User can delete contacts
-- [ ] **CONT-04**: User can organize contacts into named groups
-- [ ] **CONT-05**: User can import contacts from CSV file
-- [ ] **CONT-06**: System automatically deduplicates phone numbers on import and within groups
-- [ ] **CONT-07**: System normalizes Tanzanian phone numbers to E.164 format (07xx / 06xx → +255XXXXXXXXX)
-- [ ] **CONT-08**: User can add phone numbers to a suppression list — suppressed numbers are excluded from all future campaigns
-- [ ] **CONT-09**: System shows import summary screen (X contacts imported, Y duplicates skipped, Z invalid)
+- [x] **CONT-01**: User can add individual contacts manually (name + phone number)
+- [x] **CONT-02**: User can edit existing contacts
+- [x] **CONT-03**: User can delete contacts
+- [x] **CONT-04**: User can organize contacts into named groups
+- [x] **CONT-05**: User can import contacts from CSV file
+- [x] **CONT-06**: System automatically deduplicates phone numbers on import and within groups
+- [x] **CONT-07**: System normalizes Tanzanian phone numbers to E.164 format (07xx / 06xx → +255XXXXXXXXX)
+- [x] **CONT-08**: User can add phone numbers to a suppression list — suppressed numbers are excluded from all future campaigns
+- [x] **CONT-09**: System shows import summary screen (X contacts imported, Y duplicates skipped, Z invalid)
 
 ### Messaging & Campaigns
 
-- [ ] **MESG-01**: User can create a bulk SMS campaign targeting one or more contact groups
-- [ ] **MESG-02**: Campaign composer shows real-time character counter with SMS part count and UCS-2 encoding warning for non-GSM characters
-- [ ] **MESG-03**: System reserves SMS credits before campaign is queued — campaign cannot transition to QUEUED if credits are insufficient
-- [ ] **MESG-04**: User can schedule a campaign for a specific future date and time
-- [ ] **MESG-05**: User can cancel a scheduled campaign before it dispatches
-- [ ] **MESG-06**: User can view campaign history with aggregate status (sent / delivered / failed counts)
-- [ ] **MESG-07**: User can view per-message delivery status within a campaign
-- [ ] **MESG-08**: User sees a post-send confirmation screen showing credits deducted and messages queued
-- [ ] **MESG-09**: System automatically excludes suppressed numbers from campaign recipients
-- [ ] **MESG-10**: System retries failed messages via dead letter queue; credits are refunded for permanently undeliverable messages
+- [x] **MESG-01**: User can create a bulk SMS campaign targeting one or more contact groups
+- [x] **MESG-02**: Campaign composer shows real-time character counter with SMS part count and UCS-2 encoding warning for non-GSM characters
+- [x] **MESG-03**: System reserves SMS credits before campaign is queued — campaign cannot transition to QUEUED if credits are insufficient
+- [x] **MESG-04**: User can schedule a campaign for a specific future date and time
+- [x] **MESG-05**: User can cancel a scheduled campaign before it dispatches
+- [x] **MESG-06**: User can view campaign history with aggregate status (sent / delivered / failed counts)
+- [x] **MESG-07**: User can view per-message delivery status within a campaign
+- [x] **MESG-08**: User sees a post-send confirmation screen showing credits deducted and messages queued
+- [x] **MESG-09**: System automatically excludes suppressed numbers from campaign recipients
+- [x] **MESG-10**: System retries failed messages via dead letter queue; credits are refunded for permanently undeliverable messages
 
 ### Sender ID Management
 
 - [x] **SNDR-01**: User is assigned a default numeric sender ID (shortcode) at registration
-- [ ] **SNDR-02**: User can request a custom alphanumeric sender ID (subject to admin and TCRA approval)
-- [ ] **SNDR-03**: Admin can approve or reject sender ID requests from the admin panel
-- [ ] **SNDR-04**: User receives notification when their sender ID request is approved or rejected
+- [x] **SNDR-02**: User can request a custom alphanumeric sender ID (subject to admin and TCRA approval)
+- [x] **SNDR-03**: Admin can approve or reject sender ID requests from the admin panel
+- [x] **SNDR-04**: User receives notification when their sender ID request is approved or rejected
 
 ### Notifications
 
@@ -186,29 +186,29 @@ _Populated by roadmapper on 2026-06-18._
 | PYMT-06 | Phase 3 | Complete |
 | PYMT-07 | Phase 3 | Complete |
 | PYMT-08 | Phase 3 | Complete |
-| CONT-01 | Phase 4 | Pending |
-| CONT-02 | Phase 4 | Pending |
-| CONT-03 | Phase 4 | Pending |
-| CONT-04 | Phase 4 | Pending |
-| CONT-05 | Phase 4 | Pending |
-| CONT-06 | Phase 4 | Pending |
-| CONT-07 | Phase 4 | Pending |
-| CONT-08 | Phase 4 | Pending |
-| CONT-09 | Phase 4 | Pending |
-| MESG-01 | Phase 4 | Pending |
-| MESG-02 | Phase 4 | Pending |
-| MESG-03 | Phase 4 | Pending |
-| MESG-04 | Phase 4 | Pending |
-| MESG-05 | Phase 4 | Pending |
-| MESG-06 | Phase 4 | Pending |
-| MESG-07 | Phase 4 | Pending |
-| MESG-08 | Phase 4 | Pending |
-| MESG-09 | Phase 4 | Pending |
-| MESG-10 | Phase 4 | Pending |
+| CONT-01 | Phase 4 | Complete |
+| CONT-02 | Phase 4 | Complete |
+| CONT-03 | Phase 4 | Complete |
+| CONT-04 | Phase 4 | Complete |
+| CONT-05 | Phase 4 | Complete |
+| CONT-06 | Phase 4 | Complete |
+| CONT-07 | Phase 4 | Complete |
+| CONT-08 | Phase 4 | Complete |
+| CONT-09 | Phase 4 | Complete |
+| MESG-01 | Phase 4 | Complete |
+| MESG-02 | Phase 4 | Complete |
+| MESG-03 | Phase 4 | Complete |
+| MESG-04 | Phase 4 | Complete |
+| MESG-05 | Phase 4 | Complete |
+| MESG-06 | Phase 4 | Complete |
+| MESG-07 | Phase 4 | Complete |
+| MESG-08 | Phase 4 | Complete |
+| MESG-09 | Phase 4 | Complete |
+| MESG-10 | Phase 4 | Complete |
 | SNDR-01 | Phase 2 | Complete |
-| SNDR-02 | Phase 4 | Pending |
-| SNDR-03 | Phase 4 | Pending |
-| SNDR-04 | Phase 4 | Pending |
+| SNDR-02 | Phase 4 | Complete |
+| SNDR-03 | Phase 4 | Complete |
+| SNDR-04 | Phase 4 | Complete |
 | NOTF-01 | Phase 5 | Pending |
 | NOTF-02 | Phase 5 | Pending |
 | NOTF-03 | Phase 5 | Pending |
