@@ -23,7 +23,7 @@ import java.util.UUID;
  * Editable via admin UI (Phase 5) without code change.
  *
  * <p>Price is stored as raw TZS whole shillings ({@code long}) per D-11.
- * Never use {@code BigDecimal} or {@code Double} for TZS amounts (Pitfall 7).
+ * TZS amounts must never use floating-point types — use {@code long} only.
  */
 @Entity
 @Table(name = "sms_bundles")
@@ -48,6 +48,7 @@ public class SmsBundle {
     /**
      * Price in raw TZS whole shillings. 0 = free (Taster).
      * D-11: stored as BIGINT raw shillings — no ×100 "cents" scaling.
+     * Type is {@code long} — integer-safe for TZS amounts (Pitfall 7).
      */
     @Column(name = "price_tzs", nullable = false)
     private long priceTzs;
