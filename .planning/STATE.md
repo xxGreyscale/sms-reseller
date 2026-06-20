@@ -4,13 +4,13 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: Phase 3 context gathered
-last_updated: "2026-06-20T06:08:22.799Z"
+last_updated: "2026-06-20T06:15:56.684Z"
 last_activity: 2026-06-20
 progress:
   total_phases: 7
   completed_phases: 2
   total_plans: 13
-  completed_plans: 8
+  completed_plans: 9
   percent: 29
 ---
 
@@ -26,11 +26,11 @@ See: .planning/PROJECT.md (updated 2026-06-18)
 ## Current Position
 
 Phase: 03 (wallet-payments) — EXECUTING
-Plan: 2 of 6
+Plan: 3 of 6
 Status: Ready to execute
 Last activity: 2026-06-20
 
-Progress: [██████░░░░] 62%
+Progress: [███████░░░] 69%
 
 ## Performance Metrics
 
@@ -58,6 +58,7 @@ Progress: [██████░░░░] 62%
 | Phase 02-identity-auth P05 | 20m | 2 tasks | 9 files |
 | Phase 02-identity-auth P06 | 20 | 2 tasks | 11 files |
 | Phase 03-wallet-payments P01 | 20 | 3 tasks | 29 files |
+| Phase 03-wallet-payments P02 | 25m | 2 tasks | 16 files |
 
 ## Accumulated Context
 
@@ -80,6 +81,7 @@ Recent decisions affecting current work:
 - 02-06: identity.events TopicExchange with routing key prefix identity. — Phase 3 wallet binds queue to identity.UserVerified for credit grant (IDEN-03)
 - [Phase ?]: RabbitMQ added to AbstractIntegrationTest base for wallet/payment (both services need AMQP in tests)
 - [Phase ?]: RSA test keys copied verbatim from identity-service to wallet/payment test-keys — same keypair, no new generation
+- [Phase ?]: grantPurchased two-save pattern: populates @CreatedDate first, then derives expiresAt=createdAt.plus(365d)
 
 ### Pending Todos
 
@@ -99,6 +101,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-06-20T06:08:15.825Z
+Last session: 2026-06-20T06:15:51.502Z
 Stopped at: Phase 3 context gathered
 Resume file: None
