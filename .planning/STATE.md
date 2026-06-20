@@ -4,13 +4,13 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: Phase 3 context gathered
-last_updated: "2026-06-20T12:37:43.867Z"
+last_updated: "2026-06-20T12:50:44.784Z"
 last_activity: 2026-06-20
 progress:
   total_phases: 7
   completed_phases: 2
   total_plans: 13
-  completed_plans: 9
+  completed_plans: 11
   percent: 29
 ---
 
@@ -26,11 +26,11 @@ See: .planning/PROJECT.md (updated 2026-06-18)
 ## Current Position
 
 Phase: 03 (wallet-payments) — EXECUTING
-Plan: 3 of 6
+Plan: 4 of 6
 Status: Ready to execute
 Last activity: 2026-06-20
 
-Progress: [███████░░░] 69%
+Progress: [█████████░] 85%
 
 ## Performance Metrics
 
@@ -59,6 +59,7 @@ Progress: [███████░░░] 69%
 | Phase 02-identity-auth P06 | 20 | 2 tasks | 11 files |
 | Phase 03-wallet-payments P01 | 20 | 3 tasks | 29 files |
 | Phase 03-wallet-payments P02 | 25m | 2 tasks | 16 files |
+| Phase 03-wallet-payments P04 | 22m | 2 tasks | 13 files |
 
 ## Accumulated Context
 
@@ -82,6 +83,8 @@ Recent decisions affecting current work:
 - [Phase ?]: RabbitMQ added to AbstractIntegrationTest base for wallet/payment (both services need AMQP in tests)
 - [Phase ?]: RSA test keys copied verbatim from identity-service to wallet/payment test-keys — same keypair, no new generation
 - [Phase ?]: grantPurchased two-save pattern: populates @CreatedDate first, then derives expiresAt=createdAt.plus(365d)
+- [Phase ?]: UserVerifiedEvent local record in wallet.consumer — service boundary respected
+- [Phase ?]: ProcessedEventRepository.tryInsert uses native INSERT ON CONFLICT DO NOTHING — atomically safe
 
 ### Pending Todos
 
@@ -101,6 +104,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-06-20T06:15:51.502Z
+Last session: 2026-06-20T12:50:37.225Z
 Stopped at: Phase 3 context gathered
 Resume file: None
