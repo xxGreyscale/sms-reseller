@@ -88,6 +88,22 @@ UI — Phase 6. SNDR-01 (default numeric sender ID) already shipped in Phase 2.
   upstream provider is contracted). Full campaign send + delivery tracking demoable before any SMS
   provider is signed. Mirrors the Phase 2 NIDA / Phase 3 Azampay stub pattern.
 
+### Resolved from research open questions (2026-06-21)
+- **D-13:** `ReservationResult` from Phase 3 is `{List<UUID> lotIds, int reservedCount}` — `lotIds`
+  is **per distinct lot**, NOT one UUID per credit. An N-credit reservation can span multiple lots.
+  So the planner must **allocate reserved credits to messages** and reconcile CONSUME/RELEASE/REFUND
+  against lots in aggregate — naive "1 message = 1 lotId" is wrong. Each `outbound_messages` row
+  carries the `lotId` it draws from; wallet applies per-lot deltas idempotently. The planner owns
+  the allocation algorithm (e.g. fill messages from lots in the reserved order).
+- **D-14:** Recipient expansion uses a **REST call to contact-service** at campaign dispatch, with
+  recipients **cached into `outbound_messages` rows at creation** (snapshot — no later cross-service
+  read, honoring CLAUDE.md "denormalize at write time"). Suppression (D-08) is applied during this
+  expansion so suppressed numbers never become messages (MESG-09).
+- **D-15:** wallet-service does **not** yet expose consume/release/refund-by-lot — Phase 4 adds the
+  wallet-side AMQP consumers + the `LotService` consume/release operations that apply the per-lot
+  deltas for `MessageAccepted` (RESERVE→CONSUME), `MessageReleased` (RESERVE→release), and
+  `MessageRefundDue` (CONSUME→REFUND credit-back), all idempotent via `processed_events`.
+
 ### Claude's Discretion
 - Exact event names + payloads for the consume/release/refund AMQP contract, delivery-receipt
   ingestion shape (stub-simulated now; real DLR webhook later mirroring the Azampay callback),
