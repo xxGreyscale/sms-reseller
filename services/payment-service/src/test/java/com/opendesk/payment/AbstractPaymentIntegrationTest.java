@@ -2,6 +2,7 @@ package com.opendesk.payment;
 
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
@@ -33,6 +34,7 @@ import org.testcontainers.containers.RabbitMQContainer;
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles({"stub", "test"})
+@Import(PaymentTestConfiguration.class)
 public abstract class AbstractPaymentIntegrationTest {
 
     @ServiceConnection
