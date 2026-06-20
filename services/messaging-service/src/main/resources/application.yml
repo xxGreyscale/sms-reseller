@@ -1,0 +1,50 @@
+spring:
+  application:
+    name: messaging-service
+  threads:
+    virtual:
+      enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+  flyway:
+    enabled: true
+  profiles:
+    group:
+      dev: stub
+      staging: stub
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          public-key-location: classpath:keys/jwt-public.pem
+  rabbitmq:
+    listener:
+      simple:
+        default-requeue-rejected: false   # MUST be false — nacked messages must route to DLX, not re-loop (Pitfall 1)
+        acknowledge-mode: manual          # manual ack: consumer controls ack/nack explicitly
+
+management:
+  endpoint:
+    health:
+      probes:
+        enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+
+app:
+  messaging:
+    retry:
+      ttl-1: 60000    # 1 minute (production TTL for messaging.retry.1m)
+      ttl-2: 300000   # 5 minutes (production TTL for messaging.retry.5m)
+      ttl-3: 900000   # 15 minutes (production TTL for messaging.retry.15m)
+    scheduler:
+      dispatch-delay-ms: 30000  # ScheduledCampaignDispatchJob poll interval
+      dispatch-max-per-run: 50
+  sms:
+    stub:
+      default-outcome: ACCEPTED   # StubSmsProvider default (ACCEPTED | HARD_FAIL | TRANSIENT_FAIL)
+      dlr-delay-ms: 10000         # Stub DLR simulation delay

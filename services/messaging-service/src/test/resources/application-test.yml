@@ -1,0 +1,33 @@
+spring:
+  flyway:
+    enabled: false   # Testcontainers DB; schema managed via ddl-auto=create-drop
+  jpa:
+    hibernate:
+      ddl-auto: create-drop   # Test DB lifecycle managed by Testcontainers
+    show-sql: false
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          public-key-location: classpath:test-keys/jwt-public.pem
+
+app:
+  messaging:
+    retry:
+      # Shortened DLX TTL ladder for tests — keeps DlxRetryIT under 180s feedback budget
+      ttl-1: 2000    # 2 seconds (vs 60 000 ms in prod)
+      ttl-2: 4000    # 4 seconds (vs 300 000 ms in prod)
+      ttl-3: 6000    # 6 seconds (vs 900 000 ms in prod)
+    scheduler:
+      dispatch-delay-ms: 500    # Fast poll in tests
+      dispatch-max-per-run: 50
+  sms:
+    stub:
+      default-outcome: ACCEPTED
+      dlr-delay-ms: 100         # Fast DLR in tests
+
+logging:
+  level:
+    com.opendesk: DEBUG
+    org.springframework.security: WARN
+    org.springframework.amqp: WARN
