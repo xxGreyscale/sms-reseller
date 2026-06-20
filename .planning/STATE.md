@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: planning
+status: executing
 stopped_at: Phase 3 context gathered
-last_updated: "2026-06-20T05:57:12.930Z"
-last_activity: 2026-06-19
+last_updated: "2026-06-20T06:08:22.799Z"
+last_activity: 2026-06-20
 progress:
   total_phases: 7
   completed_phases: 2
-  total_plans: 7
-  completed_plans: 7
+  total_plans: 13
+  completed_plans: 8
   percent: 29
 ---
 
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-06-18)
 
 **Core value:** Small organizations can send bulk SMS to their members in minutes — verified, trusted, and without needing any technical knowledge.
-**Current focus:** Phase 02 — identity-auth
+**Current focus:** Phase 03 — wallet-payments
 
 ## Current Position
 
-Phase: 02 (identity-auth) — EXECUTING
-Plan: 6 of 6
-Status: planning
-Last activity: 2026-06-19
+Phase: 03 (wallet-payments) — EXECUTING
+Plan: 2 of 6
+Status: Ready to execute
+Last activity: 2026-06-20
 
-Progress: [██████████] 100%
+Progress: [██████░░░░] 62%
 
 ## Performance Metrics
 
@@ -57,6 +57,7 @@ Progress: [██████████] 100%
 | Phase 02-identity-auth P04 | 45 | 3 tasks | 9 files |
 | Phase 02-identity-auth P05 | 20m | 2 tasks | 9 files |
 | Phase 02-identity-auth P06 | 20 | 2 tasks | 11 files |
+| Phase 03-wallet-payments P01 | 20 | 3 tasks | 29 files |
 
 ## Accumulated Context
 
@@ -77,6 +78,8 @@ Recent decisions affecting current work:
 - [Phase ?]: Token deleted BEFORE password update (delete-before-apply): prevents concurrent reuse race in reset flow
 - 02-06: VerificationFinalizerImpl bean name 'transactionalVerificationFinalizer' displaces NoOpVerificationFinalizer without code deletion
 - 02-06: identity.events TopicExchange with routing key prefix identity. — Phase 3 wallet binds queue to identity.UserVerified for credit grant (IDEN-03)
+- [Phase ?]: RabbitMQ added to AbstractIntegrationTest base for wallet/payment (both services need AMQP in tests)
+- [Phase ?]: RSA test keys copied verbatim from identity-service to wallet/payment test-keys — same keypair, no new generation
 
 ### Pending Todos
 
@@ -96,6 +99,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-06-20T04:13:23.770Z
+Last session: 2026-06-20T06:08:15.825Z
 Stopped at: Phase 3 context gathered
-Resume file: .planning/phases/03-wallet-payments/03-CONTEXT.md
+Resume file: None

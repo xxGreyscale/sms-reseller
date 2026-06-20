@@ -20,24 +20,24 @@
 
 ### Wallet & Credits
 
-- [ ] **WLET-01**: User can view current SMS credit balance on every screen
-- [ ] **WLET-02**: User can view full credit transaction history (append-only ledger)
-- [ ] **WLET-03**: System prevents balance from going below zero using credit reservation before send (pessimistic lock — `SELECT FOR UPDATE`)
-- [ ] **WLET-04**: User receives low-credit alert when balance drops below configurable threshold
-- [ ] **WLET-05**: User receives 7-day warning before purchased credits expire
-- [ ] **WLET-06**: Purchased credits expire after 12 months from purchase date
-- [ ] **WLET-07**: Bonus credits (NIDA grant, promotions) expire after 30 days
+- [x] **WLET-01**: User can view current SMS credit balance on every screen
+- [x] **WLET-02**: User can view full credit transaction history (append-only ledger)
+- [x] **WLET-03**: System prevents balance from going below zero using credit reservation before send (pessimistic lock — `SELECT FOR UPDATE`)
+- [x] **WLET-04**: User receives low-credit alert when balance drops below configurable threshold
+- [x] **WLET-05**: User receives 7-day warning before purchased credits expire
+- [x] **WLET-06**: Purchased credits expire after 12 months from purchase date
+- [x] **WLET-07**: Bonus credits (NIDA grant, promotions) expire after 30 days
 
 ### Payments
 
-- [ ] **PYMT-01**: User can view available SMS bundles with prices (Taster FREE / Starter / Growth / Pro / Scale)
-- [ ] **PYMT-02**: User can purchase a bundle via Azampay mobile money (M-Pesa, Tigo Pesa, Airtel Money, Halo Pesa, AzamPesa)
-- [ ] **PYMT-03**: Payment flow shows 2-minute countdown during Azampay STK push — explicit timeout state (not infinite spinner)
-- [ ] **PYMT-04**: User receives confirmation screen and notification after successful payment with credits credited
-- [ ] **PYMT-05**: User can view full payment history with statuses
-- [ ] **PYMT-06**: System processes Azampay callbacks idempotently — duplicate callbacks never double-credit wallet
-- [ ] **PYMT-07**: System marks unresolved STK push payments as EXPIRED after timeout and surfaces this to user
-- [ ] **PYMT-08**: System issues refunds for payments linked to failed campaigns
+- [x] **PYMT-01**: User can view available SMS bundles with prices (Taster FREE / Starter / Growth / Pro / Scale)
+- [x] **PYMT-02**: User can purchase a bundle via Azampay mobile money (M-Pesa, Tigo Pesa, Airtel Money, Halo Pesa, AzamPesa)
+- [x] **PYMT-03**: Payment flow shows 2-minute countdown during Azampay STK push — explicit timeout state (not infinite spinner)
+- [x] **PYMT-04**: User receives confirmation screen and notification after successful payment with credits credited
+- [x] **PYMT-05**: User can view full payment history with statuses
+- [x] **PYMT-06**: System processes Azampay callbacks idempotently — duplicate callbacks never double-credit wallet
+- [x] **PYMT-07**: System marks unresolved STK push payments as EXPIRED after timeout and surfaces this to user
+- [x] **PYMT-08**: System issues refunds for payments linked to failed campaigns
 
 ### Contact Management
 
@@ -171,21 +171,21 @@ _Populated by roadmapper on 2026-06-18._
 | IDEN-06 | Phase 2 | Complete |
 | IDEN-07 | Phase 2 | Complete |
 | IDEN-08 | Phase 2 | Complete |
-| WLET-01 | Phase 3 | Pending |
-| WLET-02 | Phase 3 | Pending |
-| WLET-03 | Phase 3 | Pending |
-| WLET-04 | Phase 3 | Pending |
-| WLET-05 | Phase 3 | Pending |
-| WLET-06 | Phase 3 | Pending |
-| WLET-07 | Phase 3 | Pending |
-| PYMT-01 | Phase 3 | Pending |
-| PYMT-02 | Phase 3 | Pending |
-| PYMT-03 | Phase 3 | Pending |
-| PYMT-04 | Phase 3 | Pending |
-| PYMT-05 | Phase 3 | Pending |
-| PYMT-06 | Phase 3 | Pending |
-| PYMT-07 | Phase 3 | Pending |
-| PYMT-08 | Phase 3 | Pending |
+| WLET-01 | Phase 3 | Complete |
+| WLET-02 | Phase 3 | Complete |
+| WLET-03 | Phase 3 | Complete |
+| WLET-04 | Phase 3 | Complete |
+| WLET-05 | Phase 3 | Complete |
+| WLET-06 | Phase 3 | Complete |
+| WLET-07 | Phase 3 | Complete |
+| PYMT-01 | Phase 3 | Complete |
+| PYMT-02 | Phase 3 | Complete |
+| PYMT-03 | Phase 3 | Complete |
+| PYMT-04 | Phase 3 | Complete |
+| PYMT-05 | Phase 3 | Complete |
+| PYMT-06 | Phase 3 | Complete |
+| PYMT-07 | Phase 3 | Complete |
+| PYMT-08 | Phase 3 | Complete |
 | CONT-01 | Phase 4 | Pending |
 | CONT-02 | Phase 4 | Pending |
 | CONT-03 | Phase 4 | Pending |

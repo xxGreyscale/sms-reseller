@@ -83,7 +83,7 @@ Decimal phases appear between their surrounding integers in numeric order.
   4. User can view their full credit balance, transaction history (append-only ledger), and payment history at any time
   5. System refuses any credit reservation that would take available balance below zero (`SELECT FOR UPDATE` pessimistic lock verified), and credits expire correctly at 12 months (purchased) and 30 days (bonus)
 **Plans**: 6 plans (4 waves)
-- [ ] 03-01-PLAN.md — Wave 0: both-service build deps + Testcontainers bases (PG16/Redis/RabbitMQ) + 14 placeholder ITs (one per requirement)
+- [x] 03-01-PLAN.md — Wave 0: both-service build deps + Testcontainers bases (PG16/Redis/RabbitMQ) + 14 placeholder ITs (one per requirement)
 - [ ] 03-02-PLAN.md — Wave 1: wallet ledger core — lot-based append-only credit_lots/credit_transactions, derived balance, expiry-soonest-first SELECT FOR UPDATE reservation (WLET-02/03/06/07)
 - [ ] 03-03-PLAN.md — Wave 1: payment foundation — Flyway-seeded bundle catalog + read API, Payment entity/state-machine + single-pending index, PaymentGateway stub, security/AMQP config (PYMT-01)
 - [ ] 03-04-PLAN.md — Wave 2: wallet UserVerified consumer (idempotent 50-credit bonus grant) + balance/transaction-history API (WLET-01/02)
@@ -141,7 +141,7 @@ Phase 0 runs as a parallel background track. Coding phases execute: 1 → 2 → 
 | 0. Pre-Implementation Blockers | 0/TBD | Not started | - |
 | 1. Foundation | 1/1 | Complete   | 2026-06-19 |
 | 2. Identity & Auth | 6/6 | Complete   | 2026-06-19 |
-| 3. Wallet & Payments | 0/TBD | Not started | - |
+| 3. Wallet & Payments | 1/6 | In Progress|  |
 | 4. Contacts & Messaging | 0/TBD | Not started | - |
 | 5. Notifications, Admin & Analytics | 0/TBD | Not started | - |
 | 6. Flutter Mobile App | 0/TBD | Not started | - |
