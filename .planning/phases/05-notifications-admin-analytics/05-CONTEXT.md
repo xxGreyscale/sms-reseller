@@ -75,6 +75,24 @@ features — this phase observes, administers, and reports on what Phases 2–4 
   customer-facing → Phase 6 Flutter); operator-level delivery-rate views for admins MAY appear in
   admin-web.
 
+### Resolved from research open questions (2026-06-21)
+- **D-12:** **`CampaignCompleted` event is a confirmed GAP.** `DeliveryReceiptService.checkCampaignCompletion()`
+  (Phase 4, 04-06) flips campaign status→COMPLETED in the DB but emits NO outbox event. Phase 5 MUST
+  add a `CampaignCompleted` outbox emit to messaging-service (on `messaging.events`, with delivered/
+  failed counts) BEFORE the NOTF-05 notification consumer can be wired. The other 5 events are
+  confirmed emitted. This small upstream emit is in Phase 5 scope.
+- **D-13:** **ANLX-03 (operator-level delivery rates) has no source column.** `outbound_messages`
+  stores `external_id` (provider reference) but NOT the recipient's carrier/operator. Phase 5 must
+  derive the carrier — preferred: compute/store the TZ carrier (Vodacom/Tigo/Airtel/Halotel) from the
+  E.164 prefix (libphonenumber carrier mapping, already a dependency) at message creation or at
+  query time. Planner decides store-vs-compute; either way ANLX-03 needs this derivation added.
+- **D-14:** Admin module is **colocated in the owning service per domain** (admin read/mutation
+  endpoints live in the service that owns the data — e.g. ledger inspection in wallet-service, user
+  search in identity-service), exposed under ADMIN-guarded routes; there is no monolithic admin
+  backend service. admin-web composes across these. The `admin`/audit schema + audit consumer is its
+  own small module. Seeded admin password: BCrypt hash injected via env/secret (NOT hardcoded in
+  Flyway) — Flyway seeds the admin row referencing the env-provided hash.
+
 ### Frontend stack (locked by CLAUDE.md)
 - **D-11:** Next.js 14 (App Router, `app/` dir), TypeScript 5, Tailwind 3, shadcn/ui 3.5
   (components copied into repo, not npm). Prefer Server Actions for mutations. 1 replica at MVP.
