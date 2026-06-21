@@ -1,9 +1,11 @@
 spring:
   flyway:
-    enabled: false   # Testcontainers DB; schema managed via ddl-auto=create-drop
+    enabled: true      # Run Flyway migrations — creates admin schema + tables in Testcontainers DB
+    schemas: admin     # Must match production config; Flyway creates the schema if missing
+    create-schemas: true
   jpa:
     hibernate:
-      ddl-auto: create-drop   # Test DB lifecycle managed by Testcontainers
+      ddl-auto: validate   # Validate against Flyway-created schema (not create-drop — no admin schema exists otherwise)
     show-sql: false
   security:
     oauth2:
