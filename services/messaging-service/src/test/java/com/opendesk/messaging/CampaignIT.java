@@ -4,16 +4,32 @@ package com.opendesk.messaging;
 // Implementing plan: 04-04
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assumptions.abort;
 
 /**
  * Integration tests for campaign creation and dispatch.
- *
- * <p>Wave 0 placeholders — all tests abort immediately.
- * Implemented in plan 04-04 (Campaign Create + Send Pipeline).
  */
 class CampaignIT extends AbstractMessagingIntegrationTest {
+
+    @Autowired
+    private TestRestTemplate restTemplate;
+
+    @Autowired
+    private JwtTestHelper jwtTestHelper;
 
     /**
      * MESG-01: User can create a bulk SMS campaign targeting one or more contact groups.
@@ -21,26 +37,47 @@ class CampaignIT extends AbstractMessagingIntegrationTest {
      */
     @Test
     void createCampaignTargetingGroups() {
-        abort("Wave 0 placeholder — implement in 04-04");
+        String userId = UUID.randomUUID().toString();
+        String token = jwtTestHelper.createToken(userId);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(token);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        Map<String, Object> body = Map.of(
+                "name", "Test Campaign",
+                "body", "Hello from open-desk",
+                "senderId", "OPENDESK",
+                "groupIds", List.of(UUID.randomUUID().toString())
+        );
+
+        ResponseEntity<Map> response = restTemplate.exchange(
+                "/api/v1/campaigns",
+                HttpMethod.POST,
+                new HttpEntity<>(body, headers),
+                Map.class
+        );
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+        Map<?, ?> responseBody = response.getBody();
+        assertThat(responseBody).isNotNull();
+        assertThat(responseBody.get("status")).isEqualTo("DRAFT");
+        assertThat(responseBody.get("id")).isNotNull();
     }
 
     /**
      * MESG-03: System reserves credits before campaign QUEUED; refuses with clear error if insufficient.
-     * Attempt to send campaign when wallet has insufficient credits → 402/409 response;
-     * campaign remains in DRAFT or FAILED state; no AMQP messages published.
      */
     @Test
     void insufficientCreditsBlocksQueuedTransition() {
-        abort("Wave 0 placeholder — implement in 04-04");
+        abort("04-05 plan — requires send pipeline and wallet client stub");
     }
 
     /**
      * MESG-08: User sees post-send confirmation including credits deducted and messages queued.
-     * POST /api/v1/campaigns/{id}/send → 202 with CampaignDispatchResponse containing
-     * campaignId, recipientCount, and creditsReserved.
      */
     @Test
     void dispatchResponseIncludesCreditsAndCount() {
-        abort("Wave 0 placeholder — implement in 04-04");
+        abort("04-05 plan — requires send pipeline and wallet client stub");
     }
 }
