@@ -19,6 +19,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.Instant;
 import java.util.UUID;
 
+
 /**
  * User aggregate root — stores credentials and NIDA verification status.
  *
@@ -51,14 +52,30 @@ public class User {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "phone", nullable = false, unique = true)
+    /**
+     * Phone number — nullable for operator admin accounts (seeded via Flyway, no phone required).
+     * Required for all self-registered USER accounts (enforced at registration layer).
+     */
+    @Column(name = "phone", unique = true)
     private String phone;
+
+    @Column(name = "full_name")
+    private String fullName;
 
     /**
      * BCrypt password hash — NEVER exposed in DTOs or serialized to any external representation.
      */
     @Column(name = "password_hash", nullable = false)
     private String passwordHash;
+
+    /**
+     * Account role — USER for self-registered accounts, ADMIN for seeded operator accounts (D-02).
+     * Defaults to USER so existing registration flow does not need changes.
+     */
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false)
+    @Builder.Default
+    private UserRole role = UserRole.USER;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
