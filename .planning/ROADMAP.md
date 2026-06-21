@@ -130,7 +130,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] 05-04-PLAN.md — Wave 1: wallet-service — admin ledger inspection (ADMN-03), credit-usage trend (ANLX-02), admin-reachable refund (ADMN-05)
 - [x] 05-05-PLAN.md — Wave 1: payment-service — ADMIN bundle catalog CRUD + validation (ADMN-07)
 - [ ] 05-06-PLAN.md — Wave 2: notification-service — 4 passive idempotent consumers (6 events), notification log + feed API, NotificationChannel/StubPushChannel (NOTF-01..06)
-- [ ] 05-07-PLAN.md — Wave 2: admin-service — dual-source append-only audit log (mutations + domain-event consumer) + ADMIN viewer (ADMN-06)
+- [x] 05-07-PLAN.md — Wave 2: admin-service — dual-source append-only audit log (mutations + domain-event consumer) + ADMIN viewer (ADMN-06)
 - [ ] 05-08-PLAN.md — Wave 3: admin-web — httpOnly cookie login + middleware + shell/sidebar + user search + ledger screens (ADMN-01/02/03 UI)
 - [ ] 05-09-PLAN.md — Wave 4: admin-web — sender-ID queue, manual refund, bundle catalog, audit-log screens (ADMN-04/05/06/07 UI)
 **UI hint**: yes
@@ -160,7 +160,7 @@ Phase 0 runs as a parallel background track. Coding phases execute: 1 → 2 → 
 | 2. Identity & Auth | 6/6 | Complete   | 2026-06-19 |
 | 3. Wallet & Payments | 6/6 | Complete   | 2026-06-20 |
 | 4. Contacts & Messaging | 8/8 | Complete   | 2026-06-21 |
-| 5. Notifications, Admin & Analytics | 5/9 | In Progress|  |
+| 5. Notifications, Admin & Analytics | 6/9 | In Progress|  |
 | 6. Flutter Mobile App | 0/TBD | Not started | - |
 
 ---

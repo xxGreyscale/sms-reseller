@@ -4,13 +4,13 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: Completed 05-01 (Wave 0) — ready for 05-02 (notification-service production code)
-last_updated: "2026-06-21T23:01:22.575Z"
+last_updated: "2026-06-21T23:11:43.222Z"
 last_activity: 2026-06-21
 progress:
   total_phases: 7
   completed_phases: 4
   total_plans: 30
-  completed_plans: 26
+  completed_plans: 27
   percent: 57
 ---
 
@@ -26,11 +26,11 @@ See: .planning/PROJECT.md (updated 2026-06-18)
 ## Current Position
 
 Phase: 05 (notifications-admin-analytics) — EXECUTING
-Plan: 6 of 9 (plan 01 complete)
+Plan: 7 of 9 (plan 01 complete)
 Status: Ready to execute
 Last activity: 2026-06-21
 
-Progress: [█████████░] 87%
+Progress: [█████████░] 90%
 
 ## Performance Metrics
 
@@ -66,6 +66,7 @@ Progress: [█████████░] 87%
 | Phase 05-notifications-admin-analytics P01 | 35m | 3 tasks | 44 files |
 | Phase 05 P02 | 35 | 3 tasks | 14 files |
 | Phase 05 P03 | 25m | 2 tasks | 14 files |
+| Phase 05 P07 | 30m | 2 tasks | 19 files |
 
 ## Accumulated Context
 
@@ -99,6 +100,7 @@ Recent decisions affecting current work:
 - 05-01: RSA test keys copied to notification-service + admin-service from messaging-service (same shared keypair pattern established in Phase 2)
 - [Phase ?]: 05-02: CampaignCompleted payload {eventId,campaignId,userId,totalCount,deliveredCount,failedCount} on messaging.events/messaging.CampaignCompleted — consumed by 05-06 notification-service
 - [Phase ?]: 05-02: Analytics endpoints JWT-subject-scoped, no ROLE_ADMIN — user-facing owner analytics not admin views
+- [Phase ?]: 05-07: Flyway enabled in admin-service test profile — ddl-auto=create-drop cannot create a PostgreSQL schema
 
 ### Pending Todos
 
@@ -118,6 +120,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-06-21T23:01:22.571Z
+Last session: 2026-06-21T23:11:39.247Z
 Stopped at: Completed 05-01 (Wave 0) — ready for 05-02 (notification-service production code)
 Resume file: None
