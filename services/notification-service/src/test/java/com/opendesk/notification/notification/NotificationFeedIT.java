@@ -4,6 +4,7 @@ package com.opendesk.notification.notification;
 // RED → made GREEN by plan 05-06 Task 1
 
 import com.opendesk.notification.AbstractNotificationIntegrationTest;
+import com.opendesk.notification.JwtTestHelper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -13,12 +14,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.oauth2.jwt.JwtClaimsSet;
-import org.springframework.security.oauth2.jwt.JwtEncoder;
-import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -37,21 +33,9 @@ class NotificationFeedIT extends AbstractNotificationIntegrationTest {
     TestRestTemplate restTemplate;
 
     @Autowired
-    JwtEncoder jwtEncoder;
-
-    @Autowired
     NotificationRepository notificationRepository;
 
-    private String issueToken(UUID userId) {
-        JwtClaimsSet claims = JwtClaimsSet.builder()
-                .issuer("open-desk")
-                .subject(userId.toString())
-                .issuedAt(Instant.now())
-                .expiresAt(Instant.now().plus(30, ChronoUnit.MINUTES))
-                .claim("roles", List.of("ROLE_USER"))
-                .build();
-        return jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
-    }
+    private final JwtTestHelper jwtHelper = new JwtTestHelper();
 
     @Test
     void feedReturnsPaginatedResultsScopedToJwt() {
@@ -59,15 +43,12 @@ class NotificationFeedIT extends AbstractNotificationIntegrationTest {
         UUID userB = UUID.randomUUID();
 
         // Persist two notifications for user A and one for user B directly via repo
-        Notification n1 = new Notification(userA, NotificationType.NIDA_VERIFIED, "Verified", "Your identity was verified.", null);
-        Notification n2 = new Notification(userA, NotificationType.PAYMENT_CONFIRMED, "Payment", "Payment received.", null);
-        Notification n3 = new Notification(userB, NotificationType.LOW_CREDIT, "Low credit", "Credits low.", null);
-        notificationRepository.save(n1);
-        notificationRepository.save(n2);
-        notificationRepository.save(n3);
+        notificationRepository.save(new Notification(userA, NotificationType.NIDA_VERIFIED, "Verified", "Your identity was verified.", null));
+        notificationRepository.save(new Notification(userA, NotificationType.PAYMENT_CONFIRMED, "Payment", "Payment received.", null));
+        notificationRepository.save(new Notification(userB, NotificationType.LOW_CREDIT, "Low credit", "Credits low.", null));
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(issueToken(userA));
+        headers.setBearerAuth(jwtHelper.generateToken(userA));
 
         ResponseEntity<Map<String, Object>> response = restTemplate.exchange(
                 "/api/v1/notifications?page=0&size=20",
@@ -92,7 +73,7 @@ class NotificationFeedIT extends AbstractNotificationIntegrationTest {
         notificationRepository.save(new Notification(userB, NotificationType.LOW_CREDIT, "Low credit", "Only for B.", null));
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(issueToken(userA));
+        headers.setBearerAuth(jwtHelper.generateToken(userA));
 
         ResponseEntity<Map<String, Object>> response = restTemplate.exchange(
                 "/api/v1/notifications?page=0&size=20",
