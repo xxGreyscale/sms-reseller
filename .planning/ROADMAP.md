@@ -106,7 +106,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 8 plans (5 waves)
 - [x] 04-01-PLAN.md — Wave 0: contact + messaging module deps (commons-csv, libphonenumber), Testcontainers IT bases, one placeholder failing test per requirement
 - [x] 04-02-PLAN.md — Wave 1: contact-service core — Contact/Group/Suppression entities + migrations + CRUD API + IDOR guard (CONT-01/02/03/04/08)
-- [ ] 04-04-PLAN.md — Wave 1: messaging foundation — campaign/message/sender-id entities + migrations, SmsProvider stub, GSM-7/UCS-2 encoder, quorum+DLX queue topology, outbox (MESG-01/02)
+- [x] 04-04-PLAN.md — Wave 1: messaging foundation — campaign/message/sender-id entities + migrations, SmsProvider stub, GSM-7/UCS-2 encoder, quorum+DLX queue topology, outbox (MESG-01/02)
 - [ ] 04-07-PLAN.md — Wave 1: wallet additions — per-lot allocation in ReservationResult, consumeFromLot/releaseFromLot, idempotent MessagingEventConsumer (CONSUME/RELEASE/REFUND) (MESG-10 wallet side)
 - [ ] 04-03-PLAN.md — Wave 2: CSV import — libphonenumber E.164 normalization + dedup + import summary (CONT-05/06/07/09)
 - [ ] 04-05-PLAN.md — Wave 2: send pipeline — recipient expansion + suppression, sync reserve-before-QUEUED, per-message lot snapshot, publish, SendMessageConsumer accept→CONSUME/release→RELEASE (MESG-03/08/09)
@@ -150,7 +150,7 @@ Phase 0 runs as a parallel background track. Coding phases execute: 1 → 2 → 
 | 1. Foundation | 1/1 | Complete   | 2026-06-19 |
 | 2. Identity & Auth | 6/6 | Complete   | 2026-06-19 |
 | 3. Wallet & Payments | 6/6 | Complete   | 2026-06-20 |
-| 4. Contacts & Messaging | 2/8 | In Progress|  |
+| 4. Contacts & Messaging | 3/8 | In Progress|  |
 | 5. Notifications, Admin & Analytics | 0/TBD | Not started | - |
 | 6. Flutter Mobile App | 0/TBD | Not started | - |
 
