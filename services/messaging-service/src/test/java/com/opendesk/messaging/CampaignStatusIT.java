@@ -122,8 +122,10 @@ class CampaignStatusIT extends AbstractMessagingIntegrationTest {
 
         // Await all messages reach terminal state (DELIVERED or FAILED)
         // The HARD_FAIL goes immediately to FAILED; the normal one hits DLR after ~100ms
+        // 30s: the messaging suite shares one broker + single consumer thread; DlxRetryIT's
+        // retry-ladder traffic can queue ahead of this campaign, so allow generous async settle.
         Awaitility.await("All messages reach terminal state")
-                .atMost(Duration.ofSeconds(15))
+                .atMost(Duration.ofSeconds(30))
                 .pollInterval(Duration.ofMillis(300))
                 .untilAsserted(() -> {
                     List<OutboundMessage> messages = outboundMessageRepository.findByCampaignId(campaignId);

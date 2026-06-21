@@ -125,27 +125,23 @@ class SendPipelineIT extends AbstractMessagingIntegrationTest {
 
         // Wait for SendMessageConsumer to process the AMQP message
         // StubSmsProvider ACCEPTED → MessageAccepted outbox entry written
+        // Scope to THIS campaign's lot — the broker/context is shared across test classes,
+        // so other tests' MessageAccepted entries can be present concurrently (#flaky-isolation).
         long deadline = System.currentTimeMillis() + 10_000;
         boolean found = false;
         while (System.currentTimeMillis() < deadline) {
-            long acceptedCount = outboxRepository.findBySentFalse().stream()
+            long acceptedForLot = outboxRepository.findBySentFalse().stream()
                     .filter(e -> "MessageAccepted".equals(e.getEventType()))
+                    .filter(e -> e.getPayload() != null && e.getPayload().contains(lotId.toString()))
                     .count();
-            if (acceptedCount >= 1) {
+            if (acceptedForLot >= 1) {
                 found = true;
                 break;
             }
             Thread.sleep(200);
         }
         assertThat(found)
-                .as("Expected at least one MessageAccepted outbox entry after consumer processes the message")
+                .as("Expected a MessageAccepted outbox entry carrying this campaign's lotId after the consumer processes the message")
                 .isTrue();
-
-        // Verify the MessageAccepted entry carries the lotId
-        var acceptedEntries = outboxRepository.findBySentFalse().stream()
-                .filter(e -> "MessageAccepted".equals(e.getEventType()))
-                .toList();
-        assertThat(acceptedEntries).isNotEmpty();
-        assertThat(acceptedEntries.get(0).getPayload()).contains(lotId.toString());
     }
 }
