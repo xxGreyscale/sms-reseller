@@ -123,7 +123,16 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. Admin can log in with ROLE_ADMIN credentials (separate JWT), search users, inspect any user's ledger, view the sender ID approval queue, approve/reject with reason, and execute manual refunds
   3. Admin can view a full audit log of all platform actions and manage the bundle catalog (pricing, SMS count per bundle)
   4. User can view per-campaign delivery statistics (sent / delivered / failed rates), credit usage over time with spend trend, and operator-level delivery rates (M-Pesa vs Tigo vs Airtel etc.)
-**Plans**: TBD
+**Plans**: 9 plans (5 waves)
+- [ ] 05-01-PLAN.md — Wave 0: notification + admin Spring modules + Testcontainers bases, 15 RED placeholder ITs (all 16 reqs), admin-web Next.js 14 scaffold + Tailwind 3 + shadcn 3.5 + Vitest/Playwright harness + Dockerfile
+- [ ] 05-02-PLAN.md — Wave 1: messaging-service — D-12 CampaignCompleted outbox emit + D-13 operator column/CarrierResolver, ANLX-01/03 analytics (NOTF-05 prereq)
+- [ ] 05-03-PLAN.md — Wave 1: identity-service — issueAdminToken (60-min ROLE_ADMIN), admin login + seeded admin (Flyway placeholder), user search (ADMN-01/02)
+- [ ] 05-04-PLAN.md — Wave 1: wallet-service — admin ledger inspection (ADMN-03), credit-usage trend (ANLX-02), admin-reachable refund (ADMN-05)
+- [ ] 05-05-PLAN.md — Wave 1: payment-service — ADMIN bundle catalog CRUD + validation (ADMN-07)
+- [ ] 05-06-PLAN.md — Wave 2: notification-service — 4 passive idempotent consumers (6 events), notification log + feed API, NotificationChannel/StubPushChannel (NOTF-01..06)
+- [ ] 05-07-PLAN.md — Wave 2: admin-service — dual-source append-only audit log (mutations + domain-event consumer) + ADMIN viewer (ADMN-06)
+- [ ] 05-08-PLAN.md — Wave 3: admin-web — httpOnly cookie login + middleware + shell/sidebar + user search + ledger screens (ADMN-01/02/03 UI)
+- [ ] 05-09-PLAN.md — Wave 4: admin-web — sender-ID queue, manual refund, bundle catalog, audit-log screens (ADMN-04/05/06/07 UI)
 **UI hint**: yes
 
 ### Phase 6: Flutter Mobile App
