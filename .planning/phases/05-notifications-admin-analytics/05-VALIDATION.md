@@ -21,16 +21,16 @@ created: 2026-06-21
 | **Frontend framework** | Vitest (unit — Server Actions, utils, sync components) + Playwright (E2E — admin auth + key flows) for admin-web (Next.js 14) |
 | **Backend bases** | `services/notification-service/.../AbstractNotificationIntegrationTest.java` + admin/analytics ITs in owning services (Wave 0) |
 | **Quick run command** | `./gradlew :services:notification-service:test` (+ owning-service admin/analytics unit tests) |
-| **Full suite command** | `./gradlew test` (all backend services) ; `cd apps/admin-web && pnpm test` (Vitest) |
+| **Full suite command** | `./gradlew test` (all backend services) ; `cd apps/admin-web && npm run test -- --run` (Vitest) |
 | **Estimated runtime** | ~120–240 seconds backend + ~30–60s frontend unit |
 
 ---
 
 ## Sampling Rate
 
-- **After every task commit:** Run the touched module's quick test (backend gradle test or `pnpm test` for admin-web)
-- **After every plan wave:** Run the full backend suite + admin-web Vitest
-- **Before `/gsd:verify-work`:** Full backend suite green + admin-web Vitest green + Playwright auth E2E green
+- **After every task commit:** Run the touched module's quick test (backend gradle test or `npm run test -- --run` for admin-web)
+- **After every plan wave:** Run the full backend suite + admin-web Vitest (`npm run test -- --run`)
+- **Before `/gsd:verify-work`:** Full backend suite green + admin-web Vitest (`npm run test -- --run`) green + Playwright auth E2E green
 - **Max feedback latency:** 240 seconds
 
 ---
