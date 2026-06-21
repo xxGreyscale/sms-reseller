@@ -3,6 +3,8 @@ package com.opendesk.messaging.message;
 import com.opendesk.messaging.campaign.Campaign;
 import com.opendesk.messaging.campaign.CampaignRepository;
 import com.opendesk.messaging.campaign.CampaignStatus;
+import com.opendesk.messaging.outbox.OutboxEntry;
+import com.opendesk.messaging.outbox.OutboxRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,7 +28,8 @@ import java.util.UUID;
  *
  * <p>After updating per-message status, this service checks whether all messages in the
  * campaign have reached a terminal state (DELIVERED or FAILED). If so, the campaign is
- * advanced to {@link CampaignStatus#COMPLETED}.
+ * advanced to {@link CampaignStatus#COMPLETED} and a {@code CampaignCompleted} outbox event
+ * is emitted atomically in the same transaction (D-12 gap fix — NOTF-05 prerequisite).
  */
 @Service
 @RequiredArgsConstructor
@@ -35,6 +38,7 @@ public class DeliveryReceiptService {
 
     private final OutboundMessageRepository outboundMessageRepository;
     private final CampaignRepository campaignRepository;
+    private final OutboxRepository outboxRepository;
 
     /**
      * Process a delivery receipt for a message identified by its provider external ID.
@@ -70,7 +74,11 @@ public class DeliveryReceiptService {
 
     /**
      * If all messages in the campaign are in a terminal state (DELIVERED or FAILED),
-     * advance the campaign to COMPLETED.
+     * advance the campaign to COMPLETED and emit a CampaignCompleted outbox event
+     * in the same transaction (D-12 gap fix).
+     *
+     * <p>The emit is guarded by the {@code status != COMPLETED} check so that a late
+     * duplicate DLR never produces a second CampaignCompleted row (T-05-03).
      */
     private void checkCampaignCompletion(UUID campaignId) {
         List<OutboundMessage> messages = outboundMessageRepository.findByCampaignId(campaignId);
@@ -87,8 +95,48 @@ public class DeliveryReceiptService {
                     campaign.setStatus(CampaignStatus.COMPLETED);
                     campaignRepository.save(campaign);
                     log.info("Campaign {} set to COMPLETED — all {} messages terminal", campaignId, messages.size());
+
+                    // D-12 gap fix: emit CampaignCompleted outbox event in same transaction
+                    emitCampaignCompleted(campaign, messages);
                 }
             });
         }
+    }
+
+    /**
+     * Builds and persists the CampaignCompleted outbox row.
+     * OutboxRelay @Scheduled polls and publishes to messaging.events/messaging.CampaignCompleted.
+     */
+    private void emitCampaignCompleted(Campaign campaign, List<OutboundMessage> messages) {
+        long delivered = messages.stream().filter(m -> m.getStatus() == MessageStatus.DELIVERED).count();
+        long failed = messages.stream().filter(m -> m.getStatus() == MessageStatus.FAILED).count();
+
+        UUID eventId = UUID.randomUUID();
+        String payload = buildCampaignCompletedPayload(
+                eventId, campaign.getId(), campaign.getUserId(),
+                messages.size(), (int) delivered, (int) failed);
+
+        OutboxEntry outbox = OutboxEntry.builder()
+                .id(UUID.randomUUID())
+                .eventId(eventId)
+                .aggregateType("Campaign")
+                .aggregateId(campaign.getId().toString())
+                .eventType("CampaignCompleted")
+                .payload(payload)
+                .build();
+
+        outboxRepository.save(outbox);
+        log.info("CampaignCompleted outbox event emitted: campaignId={} delivered={} failed={}",
+                campaign.getId(), delivered, failed);
+    }
+
+    private String buildCampaignCompletedPayload(
+            UUID eventId, UUID campaignId, UUID userId,
+            int totalCount, int deliveredCount, int failedCount) {
+        // Simple JSON construction — avoids Jackson ObjectMapper dependency in this service
+        return String.format(
+                "{\"eventId\":\"%s\",\"campaignId\":\"%s\",\"userId\":\"%s\","
+                + "\"totalCount\":%d,\"deliveredCount\":%d,\"failedCount\":%d}",
+                eventId, campaignId, userId, totalCount, deliveredCount, failedCount);
     }
 }

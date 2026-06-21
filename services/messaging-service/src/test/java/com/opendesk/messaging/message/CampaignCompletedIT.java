@@ -47,9 +47,9 @@ class CampaignCompletedIT extends AbstractMessagingIntegrationTest {
         Campaign campaign = Campaign.builder()
                 .id(campaignId)
                 .userId(userId)
-                .senderIdName("TEST")
-                .message("Hello TZ")
-                .status(CampaignStatus.DISPATCHING)
+                .senderId("TEST")
+                .name("Test Campaign").body("Hello TZ")
+                .status(CampaignStatus.SENDING)
                 .build();
         campaignRepository.save(campaign);
 
@@ -76,11 +76,13 @@ class CampaignCompletedIT extends AbstractMessagingIntegrationTest {
                 .build();
         outboundMessageRepository.saveAll(List.of(msg1, msg2));
 
-        // Deliver first — campaign still DISPATCHING (not all terminal)
+        // Deliver first — campaign still SENDING (not all terminal)
         deliveryReceiptService.handleDeliveryReceipt(externalId1, "DELIVERED");
         assertThat(campaignRepository.findById(campaignId).get().getStatus())
-                .isEqualTo(CampaignStatus.DISPATCHING);
-        long outboxCountAfterFirst = outboxRepository.findByEventType("CampaignCompleted").size();
+                .isEqualTo(CampaignStatus.SENDING);
+        // Filter by this campaign's ID to avoid cross-test pollution (shared DB context)
+        long outboxCountAfterFirst = outboxRepository.findByEventType("CampaignCompleted").stream()
+                .filter(e -> e.getAggregateId().equals(campaignId.toString())).count();
         assertThat(outboxCountAfterFirst).isZero();
 
         // Deliver second — campaign becomes COMPLETED; outbox row must be written
@@ -88,7 +90,8 @@ class CampaignCompletedIT extends AbstractMessagingIntegrationTest {
         assertThat(campaignRepository.findById(campaignId).get().getStatus())
                 .isEqualTo(CampaignStatus.COMPLETED);
 
-        var completedOutbox = outboxRepository.findByEventType("CampaignCompleted");
+        var completedOutbox = outboxRepository.findByEventType("CampaignCompleted").stream()
+                .filter(e -> e.getAggregateId().equals(campaignId.toString())).toList();
         assertThat(completedOutbox).hasSize(1);
         var outboxEntry = completedOutbox.get(0);
         assertThat(outboxEntry.getAggregateType()).isEqualTo("Campaign");
@@ -107,9 +110,9 @@ class CampaignCompletedIT extends AbstractMessagingIntegrationTest {
         Campaign campaign = Campaign.builder()
                 .id(campaignId)
                 .userId(userId)
-                .senderIdName("TEST")
-                .message("Dupe guard")
-                .status(CampaignStatus.DISPATCHING)
+                .senderId("TEST")
+                .name("Dupe Campaign").body("Dupe guard")
+                .status(CampaignStatus.SENDING)
                 .build();
         campaignRepository.save(campaign);
 

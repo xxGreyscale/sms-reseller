@@ -1,5 +1,6 @@
 package com.opendesk.messaging.message;
 
+import com.opendesk.messaging.analytics.OperatorRateDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -28,4 +29,36 @@ public interface OutboundMessageRepository extends JpaRepository<OutboundMessage
      */
     @Query("SELECT m.status, COUNT(m) FROM OutboundMessage m WHERE m.campaignId = :campaignId GROUP BY m.status")
     List<Object[]> countByStatusForCampaign(@Param("campaignId") UUID campaignId);
+
+    /**
+     * ANLX-01: count total messages for a campaign scoped to a user (IDOR-safe).
+     */
+    @Query("SELECT COUNT(m) FROM OutboundMessage m WHERE m.campaignId = :campaignId AND m.userId = :userId")
+    long countByCampaignIdAndUserId(@Param("campaignId") UUID campaignId, @Param("userId") UUID userId);
+
+    /**
+     * ANLX-01: aggregate counts by status for a campaign scoped to userId (IDOR-safe).
+     * Returns Object[] tuples of [status, count].
+     */
+    @Query("""
+        SELECT m.status, COUNT(m) FROM OutboundMessage m
+        WHERE m.campaignId = :campaignId AND m.userId = :userId
+        GROUP BY m.status
+    """)
+    List<Object[]> countByStatusForCampaignAndUser(
+            @Param("campaignId") UUID campaignId,
+            @Param("userId") UUID userId);
+
+    /**
+     * ANLX-03: operator-level delivery rates grouped by (operator, status) for a user.
+     * Returns OperatorRateDto records directly via constructor expression.
+     */
+    @Query("""
+        SELECT new com.opendesk.messaging.analytics.OperatorRateDto(m.operator, CAST(m.status AS string), COUNT(m))
+        FROM OutboundMessage m
+        WHERE m.userId = :userId
+        GROUP BY m.operator, m.status
+        ORDER BY m.operator ASC, m.status ASC
+    """)
+    List<OperatorRateDto> findOperatorRatesByUser(@Param("userId") UUID userId);
 }

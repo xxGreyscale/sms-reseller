@@ -1,6 +1,7 @@
 package com.opendesk.messaging.campaign;
 
 import com.opendesk.messaging.contact.ContactRecipientClient;
+import com.opendesk.messaging.message.CarrierResolver;
 import com.opendesk.messaging.message.MessageStatus;
 import com.opendesk.messaging.message.MessageView;
 import com.opendesk.messaging.message.OutboundMessage;
@@ -42,6 +43,7 @@ public class CampaignService {
     private final WalletReservationClient walletReservationClient;
     private final ContactRecipientClient contactRecipientClient;
     private final RabbitTemplate rabbitTemplate;
+    private final CarrierResolver carrierResolver;
 
     /**
      * Create a campaign in DRAFT state (MESG-01).
@@ -205,6 +207,7 @@ public class CampaignService {
                         .phoneE164(phone)
                         .lotId(allocation.lotId())
                         .status(MessageStatus.PENDING)
+                        .operator(carrierResolver.resolve(phone))
                         .build();
                 messages.add(message);
             }

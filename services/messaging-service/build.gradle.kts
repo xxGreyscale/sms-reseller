@@ -12,6 +12,7 @@ dependencies {
     implementation(libs.spring.boot.starter.oauth2.resource.server)
     implementation(libs.spring.boot.starter.validation)
     implementation(libs.spring.boot.starter.amqp)
+    implementation(libs.libphonenumber)
     implementation(libs.resilience4j.spring.boot3)
     implementation(libs.mapstruct)
     annotationProcessor(libs.mapstruct.processor)  // AFTER lombok

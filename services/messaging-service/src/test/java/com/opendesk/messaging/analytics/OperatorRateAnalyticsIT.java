@@ -51,8 +51,8 @@ class OperatorRateAnalyticsIT extends AbstractMessagingIntegrationTest {
         campaignRepository.save(Campaign.builder()
                 .id(campaignId)
                 .userId(userId)
-                .senderIdName("TEST")
-                .message("Hello")
+                .senderId("TEST")
+                .name("Test Campaign").body("Hello")
                 .status(CampaignStatus.COMPLETED)
                 .build());
 
@@ -93,10 +93,10 @@ class OperatorRateAnalyticsIT extends AbstractMessagingIntegrationTest {
         UUID campaignId2 = UUID.randomUUID();
 
         campaignRepository.saveAll(List.of(
-                Campaign.builder().id(campaignId1).userId(user1).senderIdName("TEST")
-                        .message("A").status(CampaignStatus.COMPLETED).build(),
-                Campaign.builder().id(campaignId2).userId(user2).senderIdName("TEST")
-                        .message("B").status(CampaignStatus.COMPLETED).build()
+                Campaign.builder().id(campaignId1).userId(user1).senderId("TEST")
+                        .name("Campaign A").body("A").status(CampaignStatus.COMPLETED).build(),
+                Campaign.builder().id(campaignId2).userId(user2).senderId("TEST")
+                        .name("Campaign B").body("B").status(CampaignStatus.COMPLETED).build()
         ));
 
         outboundMessageRepository.saveAll(List.of(

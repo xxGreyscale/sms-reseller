@@ -51,8 +51,8 @@ class CampaignAnalyticsIT extends AbstractMessagingIntegrationTest {
         campaignRepository.save(Campaign.builder()
                 .id(campaignId)
                 .userId(userId)
-                .senderIdName("TEST")
-                .message("Hello")
+                .senderId("TEST")
+                .name("Test Campaign").body("Hello")
                 .status(CampaignStatus.COMPLETED)
                 .build());
 
@@ -92,8 +92,8 @@ class CampaignAnalyticsIT extends AbstractMessagingIntegrationTest {
         campaignRepository.save(Campaign.builder()
                 .id(campaignId)
                 .userId(owner)
-                .senderIdName("TEST")
-                .message("Private")
+                .senderId("TEST")
+                .name("Private Campaign").body("Private")
                 .status(CampaignStatus.COMPLETED)
                 .build());
 

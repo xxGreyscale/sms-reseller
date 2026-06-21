@@ -70,6 +70,14 @@ public class OutboundMessage {
     @Column(name = "external_id")
     private String externalId;
 
+    /**
+     * TZ mobile network operator derived from phoneE164 at dispatch time (D-13).
+     * Values: "Vodacom", "Tigo", "Airtel", "Halotel", "UNKNOWN", or null for legacy rows.
+     * Required for ANLX-03 GROUP BY operator analytics.
+     */
+    @Column(name = "operator")
+    private String operator;
+
     @CreatedDate
     @Column(name = "created_at", updatable = false)
     private Instant createdAt;
