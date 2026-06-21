@@ -1,10 +1,11 @@
 ---
 phase: 5
 slug: notifications-admin-analytics
-status: draft
+status: approved
 shadcn_initialized: false
 preset: none
 created: 2026-06-21
+reviewed_at: 2026-06-21
 ---
 
 # Phase 5 — UI Design Contract (admin-web)
@@ -62,11 +63,11 @@ Four sizes, two weights. Admin-web is data-dense — avoid large display text.
 | Role | Size | Weight | Line Height | Usage |
 |------|------|--------|-------------|-------|
 | Body | 14px | 400 (Regular) | 1.5 | Table cell content, form input text, description paragraphs |
-| Label | 12px | 500 (Medium) | 1.4 | Table column headers, form field labels, badge text, nav sub-labels |
+| Label | 12px | 400 (Regular) | 1.4 | Table column headers, form field labels, badge text, nav sub-labels (uppercase + 12px size differentiates from body — no separate weight) |
 | Heading | 18px | 600 (Semibold) | 1.3 | Page titles (h1), section titles (h2) |
 | Display | 24px | 600 (Semibold) | 1.2 | Stat callouts (e.g. total pending sender-IDs count on queue page) |
 
-Weights declared: Regular (400) and Semibold (600). Medium (500) is used only for labels and is provided by Inter at no extra weight load.
+Weights declared: exactly two — Regular (400) for body + labels, Semibold (600) for headings + display.
 
 Font stack: `font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif`
 
@@ -183,7 +184,7 @@ npx shadcn@3.5 add button input table badge dialog textarea form label separator
 
 | Element | Spec |
 |---------|------|
-| Search | Input + Button row at top: placeholder "Search by email or phone…", Button "Search" |
+| Search | Input + Button row at top: placeholder "Search by email or phone…", Button "Search Users" |
 | Table columns | Full Name, Email, Phone, Status (Badge: VERIFIED / PENDING / SUSPENDED), Registered (date), Actions |
 | Row action | "View Ledger" link-button — navigates to `/ledger/[userId]` |
 | Empty state (no search) | Heading "Search for a user", body "Enter an email address or phone number above." (no icon) |
@@ -254,7 +255,7 @@ npx shadcn@3.5 add button input table badge dialog textarea form label separator
 |--------|------------------|
 | Login | "Sign in" |
 | Sender IDs | "Approve" / "Reject" |
-| Users | "Search" |
+| Users | "Search Users" |
 | Ledger | (read-only — no CTA) |
 | Refunds | "Issue Refund" |
 | Bundles | "Add Bundle" / "Save Bundle" |
