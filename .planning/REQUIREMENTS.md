@@ -82,8 +82,8 @@
 
 ### Admin Panel
 
-- [ ] **ADMN-01**: Admin can log in with separate admin credentials (distinct JWT, ROLE_ADMIN)
-- [ ] **ADMN-02**: Admin can search and view user accounts
+- [x] **ADMN-01**: Admin can log in with separate admin credentials (distinct JWT, ROLE_ADMIN)
+- [x] **ADMN-02**: Admin can search and view user accounts
 - [ ] **ADMN-03**: Admin can inspect any user's credit ledger history
 - [ ] **ADMN-04**: Admin can view and process the sender ID approval queue (approve / reject with reason)
 - [ ] **ADMN-05**: Admin can execute manual refunds for users
@@ -215,8 +215,8 @@ _Populated by roadmapper on 2026-06-18._
 | NOTF-04 | Phase 5 | Pending |
 | NOTF-05 | Phase 5 | Complete |
 | NOTF-06 | Phase 5 | Pending |
-| ADMN-01 | Phase 5 | Pending |
-| ADMN-02 | Phase 5 | Pending |
+| ADMN-01 | Phase 5 | Complete |
+| ADMN-02 | Phase 5 | Complete |
 | ADMN-03 | Phase 5 | Pending |
 | ADMN-04 | Phase 5 | Pending |
 | ADMN-05 | Phase 5 | Pending |
