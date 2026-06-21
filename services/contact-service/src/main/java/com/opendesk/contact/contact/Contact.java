@@ -19,7 +19,13 @@ import java.util.UUID;
  * same E.164 number twice (deduplication for CSV import in 04-03).
  */
 @Entity
-@Table(name = "contacts")
+@Table(
+        name = "contacts",
+        uniqueConstraints = @UniqueConstraint(
+                name = "uq_contact_user_phone",
+                columnNames = {"user_id", "phone_e164"}
+        )
+)
 @EntityListeners(AuditingEntityListener.class)
 @Getter @Setter @Builder @NoArgsConstructor @AllArgsConstructor
 public class Contact {
