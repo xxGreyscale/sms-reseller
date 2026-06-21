@@ -88,7 +88,7 @@
 - [ ] **ADMN-04**: Admin can view and process the sender ID approval queue (approve / reject with reason)
 - [x] **ADMN-05**: Admin can execute manual refunds for users
 - [ ] **ADMN-06**: Admin can view a full audit log of platform actions
-- [ ] **ADMN-07**: Admin can view and update SMS bundle catalog (pricing, SMS count)
+- [x] **ADMN-07**: Admin can view and update SMS bundle catalog (pricing, SMS count)
 
 ### Analytics
 
@@ -221,7 +221,7 @@ _Populated by roadmapper on 2026-06-18._
 | ADMN-04 | Phase 5 | Pending |
 | ADMN-05 | Phase 5 | Complete |
 | ADMN-06 | Phase 5 | Pending |
-| ADMN-07 | Phase 5 | Pending |
+| ADMN-07 | Phase 5 | Complete |
 | ANLX-01 | Phase 5 | Complete |
 | ANLX-02 | Phase 5 | Complete |
 | ANLX-03 | Phase 5 | Complete |
