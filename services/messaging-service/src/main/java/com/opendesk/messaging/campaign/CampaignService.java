@@ -124,6 +124,37 @@ public class CampaignService {
     }
 
     /**
+     * Cancel a SCHEDULED (or DRAFT) campaign (MESG-05).
+     *
+     * <p>IDOR-guarded: looks up by (id, userId) so a user cannot cancel another user's campaign.
+     * Idempotent: if already CANCELLED, returns silently.
+     * T-04-18: only SCHEDULED/DRAFT campaigns can be cancelled; QUEUED/SENDING are rejected.
+     *
+     * @param campaignId campaign to cancel
+     * @param userId     owner from JWT subject
+     * @throws IllegalStateException if campaign not found, not owned, or in non-cancellable state
+     */
+    @Transactional
+    public Campaign cancel(UUID campaignId, UUID userId) {
+        Campaign campaign = campaignRepository.findByIdAndUserId(campaignId, userId)
+                .orElseThrow(() -> new IllegalStateException("Campaign not found or not owned by user"));
+
+        if (campaign.getStatus() == CampaignStatus.CANCELLED) {
+            return campaign; // idempotent
+        }
+
+        if (campaign.getStatus() != CampaignStatus.SCHEDULED && campaign.getStatus() != CampaignStatus.DRAFT) {
+            throw new IllegalStateException(
+                    "Cannot cancel campaign in state " + campaign.getStatus() + " — only SCHEDULED or DRAFT allowed");
+        }
+
+        campaign.setStatus(CampaignStatus.CANCELLED);
+        campaign = campaignRepository.save(campaign);
+        log.info("Campaign cancelled: id={} userId={}", campaignId, userId);
+        return campaign;
+    }
+
+    /**
      * Dispatch an immediate send campaign (MESG-03, MESG-08, MESG-09).
      *
      * <p>Steps:

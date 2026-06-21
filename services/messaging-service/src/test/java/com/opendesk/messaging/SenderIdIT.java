@@ -192,7 +192,7 @@ class SenderIdIT extends AbstractMessagingIntegrationTest {
                 .filter(e -> e.getEventType().equals("SenderIdDecided"))
                 .toList();
 
-        assertThat(decidedEntries.size()).isGreaterThan(outboxCountBefore);
+        assertThat(decidedEntries.size()).isGreaterThan((int) outboxCountBefore);
 
         // Latest entry payload must contain REJECTED decision and senderName
         var latestDecided = decidedEntries.stream()

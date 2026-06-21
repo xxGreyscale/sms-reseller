@@ -101,6 +101,29 @@ public class CampaignController {
     }
 
     /**
+     * Cancel a SCHEDULED or DRAFT campaign (MESG-05).
+     *
+     * <p>POST /api/v1/campaigns/{id}/cancel → 200 OK on success.
+     * Returns 404 if campaign not owned by user; 409 if state not cancellable.
+     */
+    @PostMapping("/{id}/cancel")
+    public ResponseEntity<?> cancel(
+            JwtAuthenticationToken auth,
+            @PathVariable UUID id) {
+        UUID userId = UUID.fromString(auth.getToken().getSubject());
+        try {
+            Campaign campaign = campaignService.cancel(id, userId);
+            return ResponseEntity.ok(CampaignResponse.from(campaign));
+        } catch (IllegalStateException e) {
+            String msg = e.getMessage();
+            if (msg != null && msg.contains("not found")) {
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.status(409).body(Map.of("error", "invalid_state", "message", msg));
+        }
+    }
+
+    /**
      * Dispatch a campaign for immediate send (MESG-03, MESG-08).
      *
      * <p>POST /api/v1/campaigns/{id}/send → 200 OK with CampaignDispatchResponse.
