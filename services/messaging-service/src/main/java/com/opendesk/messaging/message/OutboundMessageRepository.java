@@ -19,6 +19,9 @@ public interface OutboundMessageRepository extends JpaRepository<OutboundMessage
     /** IDOR-safe lookup: find message by ID scoped to a specific user. */
     Optional<OutboundMessage> findByIdAndUserId(UUID id, UUID userId);
 
+    /** Find by provider external ID — used by DeliveryReceiptService for DLR matching (D-12). */
+    Optional<OutboundMessage> findByExternalId(String externalId);
+
     /**
      * Aggregate counts by status for a campaign (MESG-06 campaign status summary).
      * Returns Object[] tuples of [status, count].

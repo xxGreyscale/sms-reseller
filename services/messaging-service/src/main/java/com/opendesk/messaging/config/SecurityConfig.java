@@ -33,7 +33,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/actuator/health/**",
-                                "/error"
+                                "/error",
+                                // DLR webhook — provider callbacks carry no JWT (T-04-16 accepted at MVP)
+                                "/api/v1/messaging/dlr"
                         ).permitAll()
                         // T-04-05: Sender-ID approve/reject endpoints are ADMIN-only
                         .requestMatchers("/api/v1/internal/**").hasRole("ADMIN")

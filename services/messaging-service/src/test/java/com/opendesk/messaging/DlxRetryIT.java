@@ -148,16 +148,25 @@ class DlxRetryIT extends AbstractMessagingIntegrationTest {
                     assertThat(messages).allMatch(m -> m.getStatus() == MessageStatus.FAILED);
                 });
 
+        // Collect the message IDs that were created for THIS test run
+        List<OutboundMessage> testMessages = outboundMessageRepository.findByCampaignId(campaignId);
+        assertThat(testMessages).hasSize(2);
+        var testMessageIds = testMessages.stream().map(m -> m.getId().toString()).toList();
+
         // Two MessageRefundDue outbox entries must exist (one per FAILED message)
-        // Each must have a unique eventId and carry the lotId
+        // Filter to entries that reference one of THIS test's message IDs (avoids cross-test
+        // contamination from prior test runs' dead-queue messages).
+        // Note: findByEventType queries all rows regardless of sent=true/false (OutboxRelay may
+        // have already relayed them before the assertion runs).
         Awaitility.await("Two MessageRefundDue outbox entries written")
                 .atMost(Duration.ofSeconds(5))
                 .untilAsserted(() -> {
-                    var refundEntries = outboxRepository.findBySentFalse().stream()
-                            .filter(e -> "MessageRefundDue".equals(e.getEventType()))
+                    var allRefundEntries = outboxRepository.findByEventType("MessageRefundDue");
+                    var refundEntries = allRefundEntries.stream()
+                            .filter(e -> testMessageIds.stream().anyMatch(id -> e.getPayload().contains(id)))
                             .toList();
                     assertThat(refundEntries)
-                            .as("Expected 2 MessageRefundDue entries (one per failed message)")
+                            .as("Expected 2 MessageRefundDue entries for this test's messages (one per failed message)")
                             .hasSize(2);
 
                     // Each entry carries the lotId in its payload

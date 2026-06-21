@@ -1,5 +1,7 @@
 package com.opendesk.messaging.campaign;
 
+import com.opendesk.messaging.message.DeliveryReceiptService;
+import com.opendesk.messaging.message.MessageView;
 import com.opendesk.messaging.wallet.InsufficientCreditsException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -31,6 +34,7 @@ import java.util.UUID;
 public class CampaignController {
 
     private final CampaignService campaignService;
+    private final DeliveryReceiptService deliveryReceiptService;
 
     /**
      * Create a new campaign in DRAFT state (MESG-01).
@@ -64,7 +68,8 @@ public class CampaignController {
     }
 
     /**
-     * Get a specific campaign (IDOR-safe: returns 404 if not owned by the requester).
+     * Get a specific campaign with aggregate message counts (IDOR-safe, MESG-06).
+     * Returns 404 if campaign is not owned by the requester.
      */
     @GetMapping("/{id}")
     public ResponseEntity<CampaignResponse> get(
@@ -72,9 +77,27 @@ public class CampaignController {
             @PathVariable UUID id) {
         UUID userId = UUID.fromString(auth.getToken().getSubject());
         return campaignService.findByIdAndUser(id, userId)
-                .map(CampaignResponse::from)
+                .map(campaignService::toCampaignResponseWithCounts)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    /**
+     * List per-message delivery statuses for a campaign (MESG-07).
+     * IDOR-safe: returns 404 if campaign is not owned by the requester.
+     */
+    @GetMapping("/{id}/messages")
+    public ResponseEntity<List<MessageView>> getMessages(
+            JwtAuthenticationToken auth,
+            @PathVariable UUID id) {
+        UUID userId = UUID.fromString(auth.getToken().getSubject());
+        // IDOR check in getMessages — returns empty list if not owned
+        boolean owned = campaignService.findByIdAndUser(id, userId).isPresent();
+        if (!owned) {
+            return ResponseEntity.notFound().build();
+        }
+        List<MessageView> messages = campaignService.getMessages(id, userId);
+        return ResponseEntity.ok(messages);
     }
 
     /**

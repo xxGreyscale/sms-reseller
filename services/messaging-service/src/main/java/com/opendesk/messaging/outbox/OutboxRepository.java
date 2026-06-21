@@ -16,4 +16,7 @@ public interface OutboxRepository extends JpaRepository<OutboxEntry, UUID> {
 
     /** All unsent rows — for tests only (unbounded). */
     List<OutboxEntry> findBySentFalse();
+
+    /** All rows by event type (regardless of sent status) — for tests only. */
+    List<OutboxEntry> findByEventType(String eventType);
 }

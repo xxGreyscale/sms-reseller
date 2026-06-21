@@ -2,6 +2,7 @@ package com.opendesk.messaging.campaign;
 
 import com.opendesk.messaging.contact.ContactRecipientClient;
 import com.opendesk.messaging.message.MessageStatus;
+import com.opendesk.messaging.message.MessageView;
 import com.opendesk.messaging.message.OutboundMessage;
 import com.opendesk.messaging.message.OutboundMessageRepository;
 import com.opendesk.messaging.message.SendMessagePayload;
@@ -82,6 +83,44 @@ public class CampaignService {
     @Transactional(readOnly = true)
     public Optional<Campaign> findByIdAndUser(UUID id, UUID userId) {
         return campaignRepository.findByIdAndUserId(id, userId);
+    }
+
+    /**
+     * Build a CampaignResponse with aggregate message counts (MESG-06).
+     * Counts are computed from outbound_messages grouped by status.
+     */
+    @Transactional(readOnly = true)
+    public CampaignResponse toCampaignResponseWithCounts(Campaign campaign) {
+        List<Object[]> statusCounts = outboundMessageRepository.countByStatusForCampaign(campaign.getId());
+        int total = 0, sent = 0, delivered = 0, failed = 0;
+        for (Object[] row : statusCounts) {
+            MessageStatus status = (MessageStatus) row[0];
+            int count = ((Number) row[1]).intValue();
+            total += count;
+            switch (status) {
+                case SENT -> sent += count;
+                case DELIVERED -> delivered += count;
+                case FAILED -> failed += count;
+                default -> {} // PENDING — not counted in terminal aggregates
+            }
+        }
+        return CampaignResponse.from(campaign, total, sent, delivered, failed);
+    }
+
+    /**
+     * Return per-message views for a campaign (MESG-07), IDOR-safe.
+     * Returns empty list if campaignId is not found or belongs to another user.
+     */
+    @Transactional(readOnly = true)
+    public List<MessageView> getMessages(UUID campaignId, UUID userId) {
+        // IDOR check: ensure campaign belongs to the requesting user
+        boolean owned = campaignRepository.findByIdAndUserId(campaignId, userId).isPresent();
+        if (!owned) {
+            return List.of();
+        }
+        return outboundMessageRepository.findByCampaignId(campaignId).stream()
+                .map(MessageView::from)
+                .toList();
     }
 
     /**
