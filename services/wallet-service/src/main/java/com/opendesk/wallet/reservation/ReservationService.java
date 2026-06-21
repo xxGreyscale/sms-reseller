@@ -15,6 +15,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+// LotAllocation is in the same package — no import needed
 
 /**
  * Pessimistic expiry-soonest-first credit reservation (D-01, D-02, WLET-03).
@@ -61,6 +62,7 @@ public class ReservationService {
 
         int remaining = count;
         List<UUID> lotIds = new ArrayList<>();
+        List<LotAllocation> allocations = new ArrayList<>();
 
         for (CreditLot lot : lots) {
             if (remaining <= 0) break;
@@ -72,6 +74,7 @@ public class ReservationService {
             lot.setReserved(lot.getReserved() + take);
             remaining -= take;
             lotIds.add(lot.getId());
+            allocations.add(new LotAllocation(lot.getId(), take));
 
             txnRepository.save(
                     new CreditTransaction(userId, lot.getId(), TxnType.RESERVE, take, referenceId));
@@ -83,6 +86,6 @@ public class ReservationService {
                     "Requested " + count + " credits but only " + (count - remaining) + " available");
         }
 
-        return new ReservationResult(lotIds, count);
+        return new ReservationResult(lotIds, count, allocations);
     }
 }

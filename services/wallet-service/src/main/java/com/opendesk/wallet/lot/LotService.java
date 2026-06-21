@@ -85,6 +85,43 @@ public class LotService {
     }
 
     /**
+     * Applies a CONSUME delta against a specific lot (D-15).
+     *
+     * <p>Decrements {@code reserved} by 1 and increments {@code consumed} by 1.
+     * Writes an append-only {@link TxnType#CONSUME} CreditTransaction.
+     * Called by {@code MessagingEventConsumer} on a {@code MessageAccepted} event.
+     *
+     * @param userId owner of the lot (for the transaction record)
+     * @param lotId  lot to consume from (must exist)
+     */
+    @Transactional
+    public void consumeFromLot(UUID userId, UUID lotId) {
+        CreditLot lot = lotRepository.findById(lotId)
+                .orElseThrow(() -> new IllegalStateException("Lot not found: " + lotId));
+        lot.setReserved(lot.getReserved() - 1);
+        lot.setConsumed(lot.getConsumed() + 1);
+        txnRepository.save(new CreditTransaction(userId, lotId, TxnType.CONSUME, 1, null));
+    }
+
+    /**
+     * Applies a RELEASE delta against a specific lot (D-15).
+     *
+     * <p>Decrements {@code reserved} by 1; {@code consumed} is unchanged (credit was not used).
+     * Writes an append-only {@link TxnType#RELEASE} CreditTransaction.
+     * Called by {@code MessagingEventConsumer} on a {@code MessageReleased} event.
+     *
+     * @param userId owner of the lot (for the transaction record)
+     * @param lotId  lot to release from (must exist)
+     */
+    @Transactional
+    public void releaseFromLot(UUID userId, UUID lotId) {
+        CreditLot lot = lotRepository.findById(lotId)
+                .orElseThrow(() -> new IllegalStateException("Lot not found: " + lotId));
+        lot.setReserved(lot.getReserved() - 1);
+        txnRepository.save(new CreditTransaction(userId, lotId, TxnType.RELEASE, 1, null));
+    }
+
+    /**
      * Creates a REFUND lot crediting credits back for a failed campaign (D-07).
      *
      * <p>Expiry is set to 30 days from now (same as bonus). The caller (Phase 4 refund
