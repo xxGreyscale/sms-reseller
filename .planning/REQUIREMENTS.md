@@ -77,7 +77,7 @@
 - [ ] **NOTF-02**: User receives in-app and push notification on successful payment and credit top-up
 - [ ] **NOTF-03**: User receives low-credit alert notification when balance drops below threshold
 - [ ] **NOTF-04**: User receives 7-day credit expiry warning notification
-- [ ] **NOTF-05**: User receives campaign completion summary notification (delivered / failed counts)
+- [x] **NOTF-05**: User receives campaign completion summary notification (delivered / failed counts)
 - [ ] **NOTF-06**: User receives sender ID approval or rejection notification
 
 ### Admin Panel
@@ -92,9 +92,9 @@
 
 ### Analytics
 
-- [ ] **ANLX-01**: User can view campaign delivery statistics (sent, delivered, failed rates per campaign)
+- [x] **ANLX-01**: User can view campaign delivery statistics (sent, delivered, failed rates per campaign)
 - [ ] **ANLX-02**: User can view credit usage history over time with spend trend
-- [ ] **ANLX-03**: User can view operator-level delivery rates (M-Pesa vs Tigo vs Airtel etc.)
+- [x] **ANLX-03**: User can view operator-level delivery rates (M-Pesa vs Tigo vs Airtel etc.)
 
 ### Infrastructure & Developer Experience
 
@@ -213,7 +213,7 @@ _Populated by roadmapper on 2026-06-18._
 | NOTF-02 | Phase 5 | Pending |
 | NOTF-03 | Phase 5 | Pending |
 | NOTF-04 | Phase 5 | Pending |
-| NOTF-05 | Phase 5 | Pending |
+| NOTF-05 | Phase 5 | Complete |
 | NOTF-06 | Phase 5 | Pending |
 | ADMN-01 | Phase 5 | Pending |
 | ADMN-02 | Phase 5 | Pending |
@@ -222,9 +222,9 @@ _Populated by roadmapper on 2026-06-18._
 | ADMN-05 | Phase 5 | Pending |
 | ADMN-06 | Phase 5 | Pending |
 | ADMN-07 | Phase 5 | Pending |
-| ANLX-01 | Phase 5 | Pending |
+| ANLX-01 | Phase 5 | Complete |
 | ANLX-02 | Phase 5 | Pending |
-| ANLX-03 | Phase 5 | Pending |
+| ANLX-03 | Phase 5 | Complete |
 | INFR-01 | Phase 1 | Pending |
 | INFR-02 | Phase 1 | Pending |
 | INFR-03 | Phase 1 | Pending |
