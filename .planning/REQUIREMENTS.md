@@ -84,16 +84,16 @@
 
 - [x] **ADMN-01**: Admin can log in with separate admin credentials (distinct JWT, ROLE_ADMIN)
 - [x] **ADMN-02**: Admin can search and view user accounts
-- [ ] **ADMN-03**: Admin can inspect any user's credit ledger history
+- [x] **ADMN-03**: Admin can inspect any user's credit ledger history
 - [ ] **ADMN-04**: Admin can view and process the sender ID approval queue (approve / reject with reason)
-- [ ] **ADMN-05**: Admin can execute manual refunds for users
+- [x] **ADMN-05**: Admin can execute manual refunds for users
 - [ ] **ADMN-06**: Admin can view a full audit log of platform actions
 - [ ] **ADMN-07**: Admin can view and update SMS bundle catalog (pricing, SMS count)
 
 ### Analytics
 
 - [x] **ANLX-01**: User can view campaign delivery statistics (sent, delivered, failed rates per campaign)
-- [ ] **ANLX-02**: User can view credit usage history over time with spend trend
+- [x] **ANLX-02**: User can view credit usage history over time with spend trend
 - [x] **ANLX-03**: User can view operator-level delivery rates (M-Pesa vs Tigo vs Airtel etc.)
 
 ### Infrastructure & Developer Experience
@@ -217,13 +217,13 @@ _Populated by roadmapper on 2026-06-18._
 | NOTF-06 | Phase 5 | Pending |
 | ADMN-01 | Phase 5 | Complete |
 | ADMN-02 | Phase 5 | Complete |
-| ADMN-03 | Phase 5 | Pending |
+| ADMN-03 | Phase 5 | Complete |
 | ADMN-04 | Phase 5 | Pending |
-| ADMN-05 | Phase 5 | Pending |
+| ADMN-05 | Phase 5 | Complete |
 | ADMN-06 | Phase 5 | Pending |
 | ADMN-07 | Phase 5 | Pending |
 | ANLX-01 | Phase 5 | Complete |
-| ANLX-02 | Phase 5 | Pending |
+| ANLX-02 | Phase 5 | Complete |
 | ANLX-03 | Phase 5 | Complete |
 | INFR-01 | Phase 1 | Pending |
 | INFR-02 | Phase 1 | Pending |

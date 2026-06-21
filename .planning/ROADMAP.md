@@ -127,7 +127,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] 05-01-PLAN.md — Wave 0: notification + admin Spring modules + Testcontainers bases, 15 RED placeholder ITs (all 16 reqs), admin-web Next.js 14 scaffold + Tailwind 3 + shadcn 3.5 + Vitest/Playwright harness + Dockerfile
 - [x] 05-02-PLAN.md — Wave 1: messaging-service — D-12 CampaignCompleted outbox emit + D-13 operator column/CarrierResolver, ANLX-01/03 analytics (NOTF-05 prereq)
 - [x] 05-03-PLAN.md — Wave 1: identity-service — issueAdminToken (60-min ROLE_ADMIN), admin login + seeded admin (Flyway placeholder), user search (ADMN-01/02)
-- [ ] 05-04-PLAN.md — Wave 1: wallet-service — admin ledger inspection (ADMN-03), credit-usage trend (ANLX-02), admin-reachable refund (ADMN-05)
+- [x] 05-04-PLAN.md — Wave 1: wallet-service — admin ledger inspection (ADMN-03), credit-usage trend (ANLX-02), admin-reachable refund (ADMN-05)
 - [ ] 05-05-PLAN.md — Wave 1: payment-service — ADMIN bundle catalog CRUD + validation (ADMN-07)
 - [ ] 05-06-PLAN.md — Wave 2: notification-service — 4 passive idempotent consumers (6 events), notification log + feed API, NotificationChannel/StubPushChannel (NOTF-01..06)
 - [ ] 05-07-PLAN.md — Wave 2: admin-service — dual-source append-only audit log (mutations + domain-event consumer) + ADMIN viewer (ADMN-06)
@@ -160,7 +160,7 @@ Phase 0 runs as a parallel background track. Coding phases execute: 1 → 2 → 
 | 2. Identity & Auth | 6/6 | Complete   | 2026-06-19 |
 | 3. Wallet & Payments | 6/6 | Complete   | 2026-06-20 |
 | 4. Contacts & Messaging | 8/8 | Complete   | 2026-06-21 |
-| 5. Notifications, Admin & Analytics | 3/9 | In Progress|  |
+| 5. Notifications, Admin & Analytics | 4/9 | In Progress|  |
 | 6. Flutter Mobile App | 0/TBD | Not started | - |
 
 ---
