@@ -73,12 +73,12 @@
 
 ### Notifications
 
-- [ ] **NOTF-01**: User receives in-app notification on successful NIDA verification
-- [ ] **NOTF-02**: User receives in-app and push notification on successful payment and credit top-up
-- [ ] **NOTF-03**: User receives low-credit alert notification when balance drops below threshold
-- [ ] **NOTF-04**: User receives 7-day credit expiry warning notification
+- [x] **NOTF-01**: User receives in-app notification on successful NIDA verification
+- [x] **NOTF-02**: User receives in-app and push notification on successful payment and credit top-up
+- [x] **NOTF-03**: User receives low-credit alert notification when balance drops below threshold
+- [x] **NOTF-04**: User receives 7-day credit expiry warning notification
 - [x] **NOTF-05**: User receives campaign completion summary notification (delivered / failed counts)
-- [ ] **NOTF-06**: User receives sender ID approval or rejection notification
+- [x] **NOTF-06**: User receives sender ID approval or rejection notification
 
 ### Admin Panel
 
@@ -209,12 +209,12 @@ _Populated by roadmapper on 2026-06-18._
 | SNDR-02 | Phase 4 | Complete |
 | SNDR-03 | Phase 4 | Complete |
 | SNDR-04 | Phase 4 | Complete |
-| NOTF-01 | Phase 5 | Pending |
-| NOTF-02 | Phase 5 | Pending |
-| NOTF-03 | Phase 5 | Pending |
-| NOTF-04 | Phase 5 | Pending |
+| NOTF-01 | Phase 5 | Complete |
+| NOTF-02 | Phase 5 | Complete |
+| NOTF-03 | Phase 5 | Complete |
+| NOTF-04 | Phase 5 | Complete |
 | NOTF-05 | Phase 5 | Complete |
-| NOTF-06 | Phase 5 | Pending |
+| NOTF-06 | Phase 5 | Complete |
 | ADMN-01 | Phase 5 | Complete |
 | ADMN-02 | Phase 5 | Complete |
 | ADMN-03 | Phase 5 | Complete |
