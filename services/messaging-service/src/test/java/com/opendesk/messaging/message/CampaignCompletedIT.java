@@ -4,32 +4,138 @@ package com.opendesk.messaging.message;
 // Requirement: NOTF-05 prerequisite — CampaignCompleted event emitted by messaging-service
 
 import com.opendesk.messaging.AbstractMessagingIntegrationTest;
-import org.junit.jupiter.api.Assumptions;
+import com.opendesk.messaging.JwtTestHelper;
+import com.opendesk.messaging.campaign.Campaign;
+import com.opendesk.messaging.campaign.CampaignRepository;
+import com.opendesk.messaging.campaign.CampaignStatus;
+import com.opendesk.messaging.outbox.OutboxRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+import java.util.UUID;
+
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.awaitility.Awaitility.await;
-import static java.util.concurrent.TimeUnit.SECONDS;
 
 /**
- * RED placeholder: verifies that when all messages in a campaign reach terminal state,
+ * RED→GREEN: verifies that when all messages in a campaign reach terminal state,
  * DeliveryReceiptService emits a CampaignCompleted outbox row to messaging.events.
  *
  * <p>This tests the upstream gap fix (D-12): Phase 4 set campaign to COMPLETED in DB
  * but did NOT emit an outbox event. Plan 05-02 adds the outbox emit.
- *
- * <p>Will FAIL until plan 05-02 extends DeliveryReceiptService.checkCampaignCompletion()
- * to write a CampaignCompleted OutboxEntry.
  */
 class CampaignCompletedIT extends AbstractMessagingIntegrationTest {
 
+    @Autowired
+    private DeliveryReceiptService deliveryReceiptService;
+
+    @Autowired
+    private CampaignRepository campaignRepository;
+
+    @Autowired
+    private OutboundMessageRepository outboundMessageRepository;
+
+    @Autowired
+    private OutboxRepository outboxRepository;
+
     @Test
     void campaignCompletionEmitsCampaignCompletedOutboxEvent() {
-        Assumptions.abort("NOTF-05 upstream RED placeholder — production code absent (plan 05-02 makes this GREEN)");
+        UUID userId = UUID.randomUUID();
+        UUID campaignId = UUID.randomUUID();
 
-        // When all messages for a campaign reach DELIVERED or FAILED status,
-        // an OutboxEntry with eventType=CampaignCompleted must be persisted.
-        assertThat(false).as("OutboxEntry for CampaignCompleted not yet emitted").isTrue();
+        // Create campaign
+        Campaign campaign = Campaign.builder()
+                .id(campaignId)
+                .userId(userId)
+                .senderIdName("TEST")
+                .message("Hello TZ")
+                .status(CampaignStatus.DISPATCHING)
+                .build();
+        campaignRepository.save(campaign);
+
+        // Create two outbound messages — both start SENT, then one DLR each
+        String externalId1 = "ext-" + UUID.randomUUID();
+        String externalId2 = "ext-" + UUID.randomUUID();
+        OutboundMessage msg1 = OutboundMessage.builder()
+                .id(UUID.randomUUID())
+                .campaignId(campaignId)
+                .userId(userId)
+                .phoneE164("+255740000001")
+                .lotId(UUID.randomUUID())
+                .status(MessageStatus.SENT)
+                .externalId(externalId1)
+                .build();
+        OutboundMessage msg2 = OutboundMessage.builder()
+                .id(UUID.randomUUID())
+                .campaignId(campaignId)
+                .userId(userId)
+                .phoneE164("+255710000002")
+                .lotId(UUID.randomUUID())
+                .status(MessageStatus.SENT)
+                .externalId(externalId2)
+                .build();
+        outboundMessageRepository.saveAll(List.of(msg1, msg2));
+
+        // Deliver first — campaign still DISPATCHING (not all terminal)
+        deliveryReceiptService.handleDeliveryReceipt(externalId1, "DELIVERED");
+        assertThat(campaignRepository.findById(campaignId).get().getStatus())
+                .isEqualTo(CampaignStatus.DISPATCHING);
+        long outboxCountAfterFirst = outboxRepository.findByEventType("CampaignCompleted").size();
+        assertThat(outboxCountAfterFirst).isZero();
+
+        // Deliver second — campaign becomes COMPLETED; outbox row must be written
+        deliveryReceiptService.handleDeliveryReceipt(externalId2, "DELIVERED");
+        assertThat(campaignRepository.findById(campaignId).get().getStatus())
+                .isEqualTo(CampaignStatus.COMPLETED);
+
+        var completedOutbox = outboxRepository.findByEventType("CampaignCompleted");
+        assertThat(completedOutbox).hasSize(1);
+        var outboxEntry = completedOutbox.get(0);
+        assertThat(outboxEntry.getAggregateType()).isEqualTo("Campaign");
+        assertThat(outboxEntry.getAggregateId()).isEqualTo(campaignId.toString());
+        assertThat(outboxEntry.getPayload()).contains("campaignId");
+        assertThat(outboxEntry.getPayload()).contains("deliveredCount");
+        assertThat(outboxEntry.getPayload()).contains("failedCount");
+        assertThat(outboxEntry.getPayload()).contains("totalCount");
+    }
+
+    @Test
+    void duplicateCompletionDoesNotEmitSecondOutboxEvent() {
+        UUID userId = UUID.randomUUID();
+        UUID campaignId = UUID.randomUUID();
+
+        Campaign campaign = Campaign.builder()
+                .id(campaignId)
+                .userId(userId)
+                .senderIdName("TEST")
+                .message("Dupe guard")
+                .status(CampaignStatus.DISPATCHING)
+                .build();
+        campaignRepository.save(campaign);
+
+        String externalId = "ext-dupe-" + UUID.randomUUID();
+        OutboundMessage msg = OutboundMessage.builder()
+                .id(UUID.randomUUID())
+                .campaignId(campaignId)
+                .userId(userId)
+                .phoneE164("+255740000099")
+                .lotId(UUID.randomUUID())
+                .status(MessageStatus.SENT)
+                .externalId(externalId)
+                .build();
+        outboundMessageRepository.save(msg);
+
+        // First DLR — campaign transitions COMPLETED + outbox emitted
+        deliveryReceiptService.handleDeliveryReceipt(externalId, "DELIVERED");
+        assertThat(outboxRepository.findByEventType("CampaignCompleted")
+                .stream().filter(e -> e.getAggregateId().equals(campaignId.toString())).count())
+                .isEqualTo(1);
+
+        // Second DLR for same externalId — handleDeliveryReceipt no-ops (message not SENT)
+        // The campaign is already COMPLETED — no second outbox row
+        deliveryReceiptService.handleDeliveryReceipt(externalId, "DELIVERED");
+        assertThat(outboxRepository.findByEventType("CampaignCompleted")
+                .stream().filter(e -> e.getAggregateId().equals(campaignId.toString())).count())
+                .isEqualTo(1);
     }
 }
