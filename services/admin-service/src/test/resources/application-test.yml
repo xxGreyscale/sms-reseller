@@ -1,0 +1,18 @@
+spring:
+  flyway:
+    enabled: false   # Testcontainers DB; schema managed via ddl-auto=create-drop
+  jpa:
+    hibernate:
+      ddl-auto: create-drop   # Test DB lifecycle managed by Testcontainers
+    show-sql: false
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          public-key-location: classpath:test-keys/jwt-public.pem
+
+logging:
+  level:
+    com.opendesk: DEBUG
+    org.springframework.security: WARN
+    org.springframework.amqp: WARN
