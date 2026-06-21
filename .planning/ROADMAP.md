@@ -19,7 +19,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 2: Identity & Auth** - User registration, NIDA async verification, JWT auth, sessions, password reset, default sender ID (completed 2026-06-19)
 - [x] **Phase 3: Wallet & Payments** - Append-only credit ledger with pessimistic reservation, Azampay STK push with outbox and idempotent callbacks (completed 2026-06-20)
 - [x] **Phase 4: Contacts & Messaging** - Contact CRUD/CSV import/dedup, bulk SMS campaigns, credit reservation, DLX retry, sender ID lifecycle (completed 2026-06-21)
-- [ ] **Phase 5: Notifications, Admin & Analytics** - RabbitMQ event fan-out to notification log, Next.js admin panel, cross-module read views, analytics queries
+- [x] **Phase 5: Notifications, Admin & Analytics** - RabbitMQ event fan-out to notification log, Next.js admin panel, cross-module read views, analytics queries (completed 2026-06-21)
 - [ ] **Phase 6: Flutter Mobile App** - Full Flutter customer app from onboarding through campaign history, published to both stores
 
 ## Phase Details
@@ -132,7 +132,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] 05-06-PLAN.md — Wave 2: notification-service — 4 passive idempotent consumers (6 events), notification log + feed API, NotificationChannel/StubPushChannel (NOTF-01..06)
 - [x] 05-07-PLAN.md — Wave 2: admin-service — dual-source append-only audit log (mutations + domain-event consumer) + ADMIN viewer (ADMN-06)
 - [x] 05-08-PLAN.md — Wave 3: admin-web — httpOnly cookie login + middleware + shell/sidebar + user search + ledger screens (ADMN-01/02/03 UI)
-- [ ] 05-09-PLAN.md — Wave 4: admin-web — sender-ID queue, manual refund, bundle catalog, audit-log screens (ADMN-04/05/06/07 UI)
+- [x] 05-09-PLAN.md — Wave 4: admin-web — sender-ID queue, manual refund, bundle catalog, audit-log screens (ADMN-04/05/06/07 UI)
 **UI hint**: yes
 
 ### Phase 6: Flutter Mobile App
@@ -160,7 +160,7 @@ Phase 0 runs as a parallel background track. Coding phases execute: 1 → 2 → 
 | 2. Identity & Auth | 6/6 | Complete   | 2026-06-19 |
 | 3. Wallet & Payments | 6/6 | Complete   | 2026-06-20 |
 | 4. Contacts & Messaging | 8/8 | Complete   | 2026-06-21 |
-| 5. Notifications, Admin & Analytics | 8/9 | In Progress|  |
+| 5. Notifications, Admin & Analytics | 9/9 | Complete   | 2026-06-21 |
 | 6. Flutter Mobile App | 0/TBD | Not started | - |
 
 ---
