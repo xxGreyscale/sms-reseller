@@ -25,6 +25,18 @@ app:
     stub:
       default-outcome: ACCEPTED
       dlr-delay-ms: 100         # Fast DLR in tests
+  wallet:
+    base-url: http://localhost:9999   # not called in ITs — WalletReservationClient is @MockBean
+  contact:
+    base-url: http://localhost:9999   # not called in ITs — ContactRecipientClient is @MockBean
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      wallet:
+        register-health-indicator: false
+        sliding-window-size: 5
+        failure-rate-threshold: 50
 
 logging:
   level:

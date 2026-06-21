@@ -1,7 +1,10 @@
 package com.opendesk.messaging.campaign;
 
+import com.opendesk.messaging.wallet.InsufficientCreditsException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,16 +14,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 
 import java.net.URI;
+import java.util.Map;
 import java.util.UUID;
 
 /**
  * Campaign REST controller — campaign lifecycle endpoints.
  *
  * <p>IDOR guard: userId is always extracted from the JWT subject claim, never from the request body.
+ * T-04-12: recipients expanded only for the authenticated user's groups.
  */
 @RestController
 @RequestMapping("/api/v1/campaigns")
@@ -72,5 +75,37 @@ public class CampaignController {
                 .map(CampaignResponse::from)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    /**
+     * Dispatch a campaign for immediate send (MESG-03, MESG-08).
+     *
+     * <p>POST /api/v1/campaigns/{id}/send → 200 OK with CampaignDispatchResponse.
+     * On insufficient credits → 402 Payment Required.
+     * On campaign not found for this user → 404.
+     *
+     * <p>D-03: credit reservation is synchronous on the request path. The campaign transitions
+     * to QUEUED only after a successful reservation. On InsufficientCreditsException, the
+     * campaign remains in DRAFT (T-04-10).
+     */
+    @PostMapping("/{id}/send")
+    public ResponseEntity<?> send(
+            JwtAuthenticationToken auth,
+            @PathVariable UUID id) {
+        UUID userId = UUID.fromString(auth.getToken().getSubject());
+
+        Campaign campaign = campaignService.findByIdAndUser(id, userId)
+                .orElse(null);
+        if (campaign == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        try {
+            CampaignDispatchResponse dispatchResponse = campaignService.executeSend(campaign);
+            return ResponseEntity.ok(dispatchResponse);
+        } catch (InsufficientCreditsException e) {
+            return ResponseEntity.status(402)
+                    .body(Map.of("error", "insufficient_credits", "message", e.getMessage()));
+        }
     }
 }
