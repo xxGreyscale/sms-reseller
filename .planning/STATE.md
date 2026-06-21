@@ -4,13 +4,13 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: Phase 4 context gathered
-last_updated: "2026-06-21T09:19:14.127Z"
+last_updated: "2026-06-21T09:59:23.908Z"
 last_activity: 2026-06-21
 progress:
   total_phases: 7
   completed_phases: 3
   total_plans: 21
-  completed_plans: 19
+  completed_plans: 20
   percent: 43
 ---
 
@@ -26,11 +26,11 @@ See: .planning/PROJECT.md (updated 2026-06-18)
 ## Current Position
 
 Phase: 04 (contacts-messaging) — EXECUTING
-Plan: 7 of 8
+Plan: 8 of 8
 Status: Ready to execute
 Last activity: 2026-06-21
 
-Progress: [█████████░] 90%
+Progress: [██████████] 95%
 
 ## Performance Metrics
 
@@ -62,6 +62,7 @@ Progress: [█████████░] 90%
 | Phase 03-wallet-payments P04 | 22m | 2 tasks | 13 files |
 | Phase 04-contacts-messaging P03 | 15m | 1 tasks | 7 files |
 | Phase 04-contacts-messaging P05 | 25m | 2 tasks | 15 files |
+| Phase 04 P06 | 40m | 2 tasks | 13 files |
 
 ## Accumulated Context
 
@@ -89,6 +90,7 @@ Recent decisions affecting current work:
 - [Phase ?]: ProcessedEventRepository.tryInsert uses native INSERT ON CONFLICT DO NOTHING — atomically safe
 - [Phase ?]: simpler streaming API (Reader-based), no field-mapping ceremony; contact CSV has name + phone only
 - [Phase ?]: mirrors UserVerifiedConsumer/identity.events pattern from 03-04
+- [Phase ?]: Approach A DLX routing over nack-based DLX — HARD_FAIL direct to dead queue, TRANSIENT_FAIL advances through ladder explicitly
 
 ### Pending Todos
 
@@ -108,6 +110,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-06-21T09:19:14.121Z
+Last session: 2026-06-21T09:59:19.336Z
 Stopped at: Phase 4 context gathered
 Resume file: None

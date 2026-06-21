@@ -110,7 +110,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] 04-07-PLAN.md — Wave 1: wallet additions — per-lot allocation in ReservationResult, consumeFromLot/releaseFromLot, idempotent MessagingEventConsumer (CONSUME/RELEASE/REFUND) (MESG-10 wallet side)
 - [x] 04-03-PLAN.md — Wave 2: CSV import — libphonenumber E.164 normalization + dedup + import summary (CONT-05/06/07/09)
 - [x] 04-05-PLAN.md — Wave 2: send pipeline — recipient expansion + suppression, sync reserve-before-QUEUED, per-message lot snapshot, publish, SendMessageConsumer accept→CONSUME/release→RELEASE (MESG-03/08/09)
-- [ ] 04-06-PLAN.md — Wave 3: DLX retry ladder + DeadLetterConsumer refund + delivery-receipt ingestion + per-message/aggregate status (MESG-06/07/10)
+- [x] 04-06-PLAN.md — Wave 3: DLX retry ladder + DeadLetterConsumer refund + delivery-receipt ingestion + per-message/aggregate status (MESG-06/07/10)
 - [ ] 04-08-PLAN.md — Wave 4: scheduled dispatch + cancel + sender-ID request/approve/reject state machine + SenderIdDecided event (MESG-04/05, SNDR-02/03/04)
 **UI hint**: no
 
@@ -150,7 +150,7 @@ Phase 0 runs as a parallel background track. Coding phases execute: 1 → 2 → 
 | 1. Foundation | 1/1 | Complete   | 2026-06-19 |
 | 2. Identity & Auth | 6/6 | Complete   | 2026-06-19 |
 | 3. Wallet & Payments | 6/6 | Complete   | 2026-06-20 |
-| 4. Contacts & Messaging | 6/8 | In Progress|  |
+| 4. Contacts & Messaging | 7/8 | In Progress|  |
 | 5. Notifications, Admin & Analytics | 0/TBD | Not started | - |
 | 6. Flutter Mobile App | 0/TBD | Not started | - |
 
