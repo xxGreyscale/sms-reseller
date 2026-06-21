@@ -63,4 +63,29 @@ public class JwtTestHelper {
     public String generateToken() {
         return generateToken(UUID.randomUUID().toString());
     }
+
+    /**
+     * Generates a signed JWT with ROLE_ADMIN for the given admin ID.
+     *
+     * @param adminId admin UUID string (becomes JWT subject)
+     * @return compact JWT string with roles=["ROLE_ADMIN"]
+     */
+    public String generateAdminToken(String adminId) {
+        Instant now = Instant.now();
+        JwtClaimsSet claims = JwtClaimsSet.builder()
+                .issuer(ISSUER)
+                .subject(adminId)
+                .issuedAt(now)
+                .expiresAt(now.plusSeconds(60 * 60))
+                .claim("roles", List.of("ROLE_ADMIN"))
+                .build();
+        return jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
+    }
+
+    /**
+     * Generates a signed JWT with ROLE_ADMIN for a random admin (convenience method).
+     */
+    public String generateAdminToken() {
+        return generateAdminToken(UUID.randomUUID().toString());
+    }
 }
