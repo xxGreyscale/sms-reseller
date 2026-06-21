@@ -67,6 +67,30 @@ public class JwtIssuer {
         return jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
     }
 
+    @Value("${app.jwt.admin-token-ttl-minutes:60}")
+    private long adminTokenTtlMinutes;
+
+    /**
+     * Issues a signed admin JWT for the given admin user (ADMN-01, D-02).
+     *
+     * <p>Claims: roles:[ROLE_ADMIN], no verification_status claim (admin is always VERIFIED).
+     * TTL: 60 minutes (RESEARCH.md Pitfall 6 — no refresh for admin tokens at MVP).
+     *
+     * @param adminId UUID of the admin user (becomes JWT subject)
+     * @return compact JWT string ready to send to the admin-web client
+     */
+    public String issueAdminToken(UUID adminId) {
+        Instant now = Instant.now();
+        JwtClaimsSet claims = JwtClaimsSet.builder()
+                .issuer(ISSUER)
+                .subject(adminId.toString())
+                .issuedAt(now)
+                .expiresAt(now.plus(adminTokenTtlMinutes, ChronoUnit.MINUTES))
+                .claim("roles", List.of("ROLE_ADMIN"))
+                .build();
+        return jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
+    }
+
     /**
      * Factory method for unit tests — builds a standalone {@link JwtIssuer} with a
      * default 15-minute TTL using the provided test keys, without a Spring context.

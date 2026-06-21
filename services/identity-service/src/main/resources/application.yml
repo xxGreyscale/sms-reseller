@@ -10,6 +10,10 @@ spring:
     open-in-view: false
   flyway:
     enabled: true
+    placeholder-replacement: true
+    placeholders:
+      adminEmail: ${ADMIN_EMAIL:admin@open-desk.app}
+      adminPasswordHash: ${ADMIN_PASSWORD_HASH:{bcrypt}$2a$10$PLACEHOLDER_REPLACE_IN_PROD}
   profiles:
     group:
       dev: stub
@@ -32,6 +36,7 @@ app:
     public-key-location: classpath:keys/jwt-public.pem
     access-token-ttl-minutes: 15
     refresh-token-ttl-days: 7
+    admin-token-ttl-minutes: 60
   nida:
     stub:
       default-outcome: SUCCESS
