@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: planning
-stopped_at: Phase 5 UI-SPEC approved
-last_updated: "2026-06-21T17:43:09.008Z"
-last_activity: 2026-06-21
+status: executing
+stopped_at: Completed 05-01 — Wave 0 test infrastructure + admin-web scaffold
+last_updated: "2026-06-21T22:05:00.000Z"
+last_activity: 2026-06-21 -- Phase 05 Plan 01 completed
 progress:
   total_phases: 7
   completed_phases: 4
-  total_plans: 21
-  completed_plans: 21
-  percent: 57
+  total_plans: 30
+  completed_plans: 22
+  percent: 60
 ---
 
 # Project State
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-06-18)
 
 **Core value:** Small organizations can send bulk SMS to their members in minutes — verified, trusted, and without needing any technical knowledge.
-**Current focus:** Phase 04 — contacts-messaging
+**Current focus:** Phase 05 — notifications-admin-analytics
 
 ## Current Position
 
-Phase: 04 (contacts-messaging) — EXECUTING
-Plan: 8 of 8
-Status: planning
-Last activity: 2026-06-21
+Phase: 05 (notifications-admin-analytics) — EXECUTING
+Plan: 2 of 9 (plan 01 complete)
+Status: Executing Phase 05
+Last activity: 2026-06-21 -- Phase 05 Plan 01 completed (Wave 0 infrastructure)
 
 Progress: [██████████] 100%
 
@@ -63,6 +63,7 @@ Progress: [██████████] 100%
 | Phase 04-contacts-messaging P03 | 15m | 1 tasks | 7 files |
 | Phase 04-contacts-messaging P05 | 25m | 2 tasks | 15 files |
 | Phase 04 P06 | 40m | 2 tasks | 13 files |
+| Phase 05-notifications-admin-analytics P01 | 35m | 3 tasks | 44 files |
 
 ## Accumulated Context
 
@@ -91,6 +92,9 @@ Recent decisions affecting current work:
 - [Phase ?]: simpler streaming API (Reader-based), no field-mapping ceremony; contact CSV has name + phone only
 - [Phase ?]: mirrors UserVerifiedConsumer/identity.events pattern from 03-04
 - [Phase ?]: Approach A DLX routing over nack-based DLX — HARD_FAIL direct to dead queue, TRANSIENT_FAIL advances through ladder explicitly
+- 05-01: Assumptions.abort() used for backend RED placeholders — compiled but skipped, not failing builds; satisfies Nyquist without noise
+- 05-01: shadcn components hand-written (not CLI) to avoid conflict with existing Gradle stub in apps/admin-web/
+- 05-01: RSA test keys copied to notification-service + admin-service from messaging-service (same shared keypair pattern established in Phase 2)
 
 ### Pending Todos
 
@@ -110,6 +114,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-06-21T17:18:26.422Z
-Stopped at: Phase 5 UI-SPEC approved
-Resume file: .planning/phases/05-notifications-admin-analytics/05-UI-SPEC.md
+Last session: 2026-06-21T22:05:00.000Z
+Stopped at: Completed 05-01 (Wave 0) — ready for 05-02 (notification-service production code)
+Resume file: .planning/phases/05-notifications-admin-analytics/05-02-PLAN.md
