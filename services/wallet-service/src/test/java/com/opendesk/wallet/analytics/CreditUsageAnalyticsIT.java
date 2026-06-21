@@ -1,37 +1,114 @@
 package com.opendesk.wallet.analytics;
 
-// Wave 0 RED placeholder — made GREEN by plan 05-07
-// Requirement: ANLX-02 — credit usage over time with spend trend
+// ANLX-02 — credit usage over time with spend trend
+// RED: fails until CreditUsageController + CreditTransactionRepository.findDailyUsageByUser exist (plan 05-04)
 
 import com.opendesk.wallet.AbstractWalletIntegrationTest;
-import org.junit.jupiter.api.Assumptions;
+import com.opendesk.wallet.JwtTestHelper;
+import com.opendesk.wallet.transaction.CreditTransaction;
+import com.opendesk.wallet.transaction.CreditTransactionRepository;
+import com.opendesk.wallet.transaction.TxnType;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.*;
+
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * RED placeholder: verifies that GET /api/v1/analytics/credit-usage with a valid user JWT
- * returns daily credit consumption aggregates grouped by date (last 90 days).
+ * Integration tests for ANLX-02: JWT-scoped daily credit-usage aggregates.
  *
- * <p>Will FAIL until plan 05-07 implements CreditUsageController + CreditUsageService.
+ * <p>GET /api/v1/analytics/credit-usage returns daily consumption totals for the
+ * authenticated caller only. Another user's debits are never exposed (no IDOR).
  */
 class CreditUsageAnalyticsIT extends AbstractWalletIntegrationTest {
+
+    @LocalServerPort
+    int port;
 
     @Autowired
     TestRestTemplate restTemplate;
 
+    @Autowired
+    JwtTestHelper jwtTestHelper;
+
+    @Autowired
+    CreditTransactionRepository txnRepository;
+
+    private UUID callerUserId;
+    private UUID otherUserId;
+
+    @BeforeEach
+    void setUp() {
+        callerUserId = UUID.randomUUID();
+        otherUserId = UUID.randomUUID();
+        txnRepository.deleteAll();
+    }
+
     @Test
     void creditUsageEndpointReturnsDailyAggregatesScopedToJwt() {
-        Assumptions.abort("ANLX-02 RED placeholder — production code absent (plan 05-07 makes this GREEN)");
+        // Seed a CONSUME (debit) transaction for the caller
+        txnRepository.save(new CreditTransaction(
+                callerUserId, UUID.randomUUID(), TxnType.CONSUME, 50, UUID.randomUUID()));
 
-        ResponseEntity<String> response = restTemplate.getForEntity(
-                "/api/v1/analytics/credit-usage", String.class);
+        String token = jwtTestHelper.createToken(callerUserId.toString());
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(token);
+
+        ResponseEntity<String> response = restTemplate.exchange(
+                "http://localhost:" + port + "/api/v1/analytics/credit-usage",
+                HttpMethod.GET,
+                new HttpEntity<>(headers),
+                String.class);
+
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).contains("date");
         assertThat(response.getBody()).contains("consumed");
+    }
+
+    @Test
+    void anotherUsersDebitsAreExcluded() {
+        // Seed CONSUME for otherUser only
+        txnRepository.save(new CreditTransaction(
+                otherUserId, UUID.randomUUID(), TxnType.CONSUME, 200, UUID.randomUUID()));
+
+        String token = jwtTestHelper.createToken(callerUserId.toString());
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(token);
+
+        ResponseEntity<String> response = restTemplate.exchange(
+                "http://localhost:" + port + "/api/v1/analytics/credit-usage",
+                HttpMethod.GET,
+                new HttpEntity<>(headers),
+                String.class);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        // Caller has no debits — result should be empty array
+        assertThat(response.getBody()).contains("[]");
+    }
+
+    @Test
+    void grantTransactionsAreExcluded() {
+        // Seed only a GRANT (credit) transaction for the caller — should NOT appear in usage
+        txnRepository.save(new CreditTransaction(
+                callerUserId, UUID.randomUUID(), TxnType.GRANT, 100, UUID.randomUUID()));
+
+        String token = jwtTestHelper.createToken(callerUserId.toString());
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(token);
+
+        ResponseEntity<String> response = restTemplate.exchange(
+                "http://localhost:" + port + "/api/v1/analytics/credit-usage",
+                HttpMethod.GET,
+                new HttpEntity<>(headers),
+                String.class);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        // Only debits count — GRANT should not appear in usage
+        assertThat(response.getBody()).contains("[]");
     }
 }

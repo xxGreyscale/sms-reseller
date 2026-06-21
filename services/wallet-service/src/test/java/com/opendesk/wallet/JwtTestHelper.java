@@ -31,6 +31,33 @@ public class JwtTestHelper {
     }
 
     /**
+     * Creates a short-lived (15 min) RSA-signed JWT with ROLE_ADMIN for integration tests.
+     *
+     * @param adminId the UUID string to set as the JWT subject
+     * @return signed compact JWT string (Bearer-ready)
+     */
+    public String createAdminToken(String adminId) {
+        try {
+            JWTClaimsSet claims = new JWTClaimsSet.Builder()
+                    .subject(adminId)
+                    .issuer("https://identity.open-desk")
+                    .issueTime(new Date())
+                    .expirationTime(new Date(System.currentTimeMillis() + 15 * 60 * 1000L))
+                    .claim("roles", List.of("ROLE_ADMIN"))
+                    .build();
+
+            SignedJWT jwt = new SignedJWT(
+                    new JWSHeader(JWSAlgorithm.RS256),
+                    claims
+            );
+            jwt.sign(signer);
+            return jwt.serialize();
+        } catch (Exception e) {
+            throw new IllegalStateException("Failed to create admin test JWT for adminId=" + adminId, e);
+        }
+    }
+
+    /**
      * Creates a short-lived (15 min) RSA-signed JWT with the given subject (userId).
      *
      * @param userId the UUID string to set as the JWT subject

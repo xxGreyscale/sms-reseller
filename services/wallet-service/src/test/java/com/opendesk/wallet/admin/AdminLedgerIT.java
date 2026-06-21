@@ -1,39 +1,101 @@
 package com.opendesk.wallet.admin;
 
-// Wave 0 RED placeholder — made GREEN by plan 05-05
-// Requirement: ADMN-03 — admin inspect any user's credit ledger
+// ADMN-03 — admin inspect any user's credit ledger
+// RED: fails until AdminLedgerController + SecurityConfig ADMIN guard exist (plan 05-04)
 
 import com.opendesk.wallet.AbstractWalletIntegrationTest;
-import org.junit.jupiter.api.Assumptions;
+import com.opendesk.wallet.JwtTestHelper;
+import com.opendesk.wallet.transaction.CreditTransaction;
+import com.opendesk.wallet.transaction.CreditTransactionRepository;
+import com.opendesk.wallet.transaction.TxnType;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.*;
 
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * RED placeholder: verifies that GET /api/v1/admin/ledger/{userId} with a valid ROLE_ADMIN JWT
- * returns the full credit ledger for the specified user.
+ * Integration tests for ADMN-03: admin ledger inspection endpoint.
  *
- * <p>Will FAIL until plan 05-05 implements AdminLedgerController.
+ * <p>GET /api/v1/admin/ledger/{userId} returns that user's transaction history
+ * to a ROLE_ADMIN caller. ROLE_USER callers receive 403.
  */
 class AdminLedgerIT extends AbstractWalletIntegrationTest {
+
+    @LocalServerPort
+    int port;
 
     @Autowired
     TestRestTemplate restTemplate;
 
+    @Autowired
+    JwtTestHelper jwtTestHelper;
+
+    @Autowired
+    CreditTransactionRepository txnRepository;
+
+    private UUID targetUserId;
+
+    @BeforeEach
+    void setUp() {
+        targetUserId = UUID.randomUUID();
+        txnRepository.deleteAll();
+    }
+
     @Test
     void adminCanInspectAnyUsersLedger() {
-        Assumptions.abort("ADMN-03 RED placeholder — production code absent (plan 05-05 makes this GREEN)");
+        // Seed one transaction for targetUserId
+        txnRepository.save(new CreditTransaction(
+                targetUserId, UUID.randomUUID(), TxnType.GRANT, 100, UUID.randomUUID()));
 
-        UUID userId = UUID.randomUUID();
-        ResponseEntity<String> response = restTemplate.getForEntity(
-                "/api/v1/admin/ledger/" + userId, String.class);
+        String adminToken = jwtTestHelper.createAdminToken(UUID.randomUUID().toString());
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(adminToken);
+
+        ResponseEntity<String> response = restTemplate.exchange(
+                "http://localhost:" + port + "/api/v1/admin/ledger/" + targetUserId,
+                HttpMethod.GET,
+                new HttpEntity<>(headers),
+                String.class);
+
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody()).contains("transactions");
+        assertThat(response.getBody()).contains("content");
+        assertThat(response.getBody()).contains("GRANT");
+    }
+
+    @Test
+    void userTokenIsRejectedWithForbidden() {
+        String userToken = jwtTestHelper.createToken(UUID.randomUUID().toString());
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(userToken);
+
+        ResponseEntity<String> response = restTemplate.exchange(
+                "http://localhost:" + port + "/api/v1/admin/ledger/" + targetUserId,
+                HttpMethod.GET,
+                new HttpEntity<>(headers),
+                String.class);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
+    }
+
+    @Test
+    void adminCanInspectAnyUserLedgerEvenWithNoTransactions() {
+        String adminToken = jwtTestHelper.createAdminToken(UUID.randomUUID().toString());
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(adminToken);
+
+        ResponseEntity<String> response = restTemplate.exchange(
+                "http://localhost:" + port + "/api/v1/admin/ledger/" + UUID.randomUUID(),
+                HttpMethod.GET,
+                new HttpEntity<>(headers),
+                String.class);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody()).contains("content");
     }
 }
