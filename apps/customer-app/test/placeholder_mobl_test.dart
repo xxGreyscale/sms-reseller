@@ -4,8 +4,7 @@
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  test('MOBL-01 placeholder', () => fail('not implemented'));
-  test('MOBL-02 placeholder', () => fail('not implemented'));
+test('MOBL-02 placeholder', () => fail('not implemented'));
   test('MOBL-03 placeholder', () => fail('not implemented'));
   test('MOBL-04 placeholder', () => fail('not implemented'));
   test('MOBL-05 placeholder', () => fail('not implemented'));

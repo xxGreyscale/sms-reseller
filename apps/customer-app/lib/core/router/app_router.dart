@@ -4,6 +4,10 @@ import 'package:go_router/go_router.dart';
 import 'package:customer_app/core/auth/auth_notifier.dart';
 import 'package:customer_app/core/auth/auth_state.dart';
 import 'package:customer_app/core/router/go_router_refresh_stream.dart';
+import 'package:customer_app/features/onboarding/splash_screen.dart';
+import 'package:customer_app/features/onboarding/onboarding_screen.dart';
+import 'package:customer_app/features/auth/register_screen.dart';
+import 'package:customer_app/features/auth/login_screen.dart';
 
 // ---------------------------------------------------------------------------
 // Placeholder screens (to be replaced in later waves)
@@ -87,19 +91,19 @@ final appRouterProvider = Provider<GoRouter>((ref) {
     routes: [
       GoRoute(
         path: kSplashRoute,
-        builder: (_, __) => const _PlaceholderScreen('Splash'),
+        builder: (_, __) => const SplashScreen(),
       ),
       GoRoute(
         path: kOnboardingRoute,
-        builder: (_, __) => const _PlaceholderScreen('Onboarding'),
+        builder: (_, __) => const OnboardingScreen(),
       ),
       GoRoute(
         path: kLoginRoute,
-        builder: (_, __) => const _PlaceholderScreen('Login'),
+        builder: (_, __) => const LoginScreen(),
       ),
       GoRoute(
         path: kRegisterRoute,
-        builder: (_, __) => const _PlaceholderScreen('Register'),
+        builder: (_, __) => const RegisterScreen(),
       ),
       GoRoute(
         path: kPendingRoute,
