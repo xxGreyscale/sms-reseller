@@ -67,9 +67,34 @@ existing backend stubs/live APIs as available).
   identity status endpoint and transitions to the full dashboard on VERIFIED (then the 50 free
   credits appear via the wallet balance). go_router redirect enforces the wall.
 
+### Resolved from research — verified stack corrections (2026-06-22)
+- **D-10:** Stack version specifics (verified on this machine, Flutter 3.41.5 / Dart 3.11.3):
+  use **`hive_ce_flutter`** (maintained community fork) — NOT the abandoned `hive_flutter`;
+  **go_router 17.x**, **Riverpod 3.x with mandatory `@riverpod` code-gen**. Store **JWT access +
+  refresh tokens in `flutter_secure_storage`** (Keychain/Keystore), NOT a plain Hive box; Hive is
+  for the read-cache (D-05) only. The Dio refresh-on-401 handler MUST use **`QueuedInterceptor`**
+  (serializes concurrent 401s so only one refresh fires against Phase 2's rotating refresh tokens).
+
+### Resolved from research — BACKEND GAPS this phase must close (confirmed against code, 2026-06-22)
+This is a client phase, but the app needs four small backend additions that do NOT exist yet —
+each is in Phase 6 scope and the planner MUST create explicit backend tasks for them:
+- **D-11:** **`GET /api/v1/payments/{id}`** — payment-service has only the list endpoint; the
+  2-minute STK countdown screen needs single-payment status polling (MOBL-05). Add it (ADMIN/owner
+  JWT-scoped).
+- **D-12:** **Campaign targeting by `contactIds`** — `CreateCampaignRequest` accepts only
+  `groupIds[]`, but the Flutter MVP has flat contacts/no groups (D-08). Add a `contactIds[]` path
+  to campaign creation (or an implicit single-group expansion) so a flat-contact campaign can send
+  (MOBL-07). Planner picks the cleaner of the two; prefer extending the request contract.
+- **D-13:** **Lightweight verification-status read** — identity has no `GET /auth/me|status`; the
+  NIDA PENDING auto-poll (D-09) would otherwise hit `/auth/refresh` and rotate the refresh token
+  on every poll. Add a thin authenticated `GET /auth/me` (or `/auth/status`) returning current
+  `verification_status` + balance summary, so polling is cheap and non-rotating (MOBL-02).
+- **D-14 (optional/nice-to-have):** notification mark-as-read (`PATCH /api/v1/notifications/{id}/read`)
+  for the in-app feed badge — include only if it fits; the feed read API already exists.
+
 ### Claude's Discretion
-- Exact Riverpod provider structure, Dio interceptor design (JWT attach + refresh-on-401 against
-  Phase 2 rotating refresh tokens), Hive box/schema layout, go_router route tree, polling intervals
+- Exact Riverpod provider structure, Dio interceptor design (JWT attach + QueuedInterceptor
+  refresh-on-401), Hive read-cache box layout, go_router route tree, polling intervals
   (NIDA status, balance, feed), l10n key naming, and theming/design-token mapping from the UI-SPEC.
 
 </decisions>
