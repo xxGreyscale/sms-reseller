@@ -41,4 +41,18 @@ public interface PaymentRepository extends JpaRepository<Payment, UUID> {
      */
     List<Payment> findByStatusInAndCreatedAtBefore(
             List<PaymentStatus> statuses, Instant cutoff, Pageable pageable);
+
+    /**
+     * Owner-scoped single-payment lookup — compound (id, userId) WHERE clause.
+     *
+     * <p>Used by {@link PaymentService#findByIdAndUser(UUID, UUID)} to implement
+     * GET /api/v1/payments/{id} (D-11, MOBL-05). The compound key ensures that
+     * a payment belonging to another user is indistinguishable from a missing payment
+     * (IDOR guard — T-06-02-02).
+     *
+     * @param id     payment UUID (path parameter — attacker-controlled)
+     * @param userId user UUID from JWT subject (trusted)
+     * @return the payment if it exists AND belongs to the caller; empty otherwise
+     */
+    Optional<Payment> findByIdAndUserId(UUID id, UUID userId);
 }

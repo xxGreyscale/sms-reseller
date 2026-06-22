@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -105,5 +106,21 @@ public class PaymentService {
      */
     public Page<Payment> history(UUID userId, Pageable pageable) {
         return paymentRepository.findByUserIdOrderByCreatedAtDesc(userId, pageable);
+    }
+
+    /**
+     * Returns a single payment scoped to the authenticated user (D-11, MOBL-05).
+     *
+     * <p>Delegates to the compound {@code findByIdAndUserId} repository method so that
+     * payments belonging to other users are indistinguishable from missing payments
+     * (IDOR guard — T-06-02-01, T-06-02-02). The caller must return 404 on empty.
+     *
+     * @param id     payment UUID (from path — attacker-controlled)
+     * @param userId user UUID from JWT subject (trusted)
+     * @return the payment if it exists and belongs to the caller; empty otherwise
+     */
+    @Transactional(readOnly = true)
+    public Optional<Payment> findByIdAndUser(UUID id, UUID userId) {
+        return paymentRepository.findByIdAndUserId(id, userId);
     }
 }
