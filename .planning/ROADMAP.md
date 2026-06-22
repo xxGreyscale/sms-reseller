@@ -147,7 +147,7 @@ Decimal phases appear between their surrounding integers in numeric order.
   5. App is live on Google Play and Apple App Store with all required metadata (icon, screenshots, privacy policy, store description)
 **Plans**: 12 plans (6 waves)
 - [x] 06-01-PLAN.md — Wave 1: Flutter scaffold + l10n (EN+SW) + Dio QueuedInterceptor + go_router guards + Hive/secure-storage + Riverpod auth state + test harness (MOBL placeholder map)
-- [ ] 06-02-PLAN.md — Wave 1: backend D-11 — GET /api/v1/payments/{id} owner-scoped status endpoint (payment-service)
+- [x] 06-02-PLAN.md — Wave 1: backend D-11 — GET /api/v1/payments/{id} owner-scoped status endpoint (payment-service)
 - [ ] 06-03-PLAN.md — Wave 1: backend D-12 — campaign contactIds[] targeting (messaging + contact-service recipients-by-ids)
 - [ ] 06-04-PLAN.md — Wave 1: backend D-13 GET /auth/me + D-14 PATCH notifications/{id}/read (identity + notification services)
 - [ ] 06-05-PLAN.md — Wave 2: splash + onboarding (MOBL-01) + register/NIDA + login session persistence (MOBL-03)
@@ -173,7 +173,7 @@ Phase 0 runs as a parallel background track. Coding phases execute: 1 → 2 → 
 | 3. Wallet & Payments | 6/6 | Complete   | 2026-06-20 |
 | 4. Contacts & Messaging | 8/8 | Complete   | 2026-06-21 |
 | 5. Notifications, Admin & Analytics | 9/9 | Complete   | 2026-06-21 |
-| 6. Flutter Mobile App | 1/12 | In Progress|  |
+| 6. Flutter Mobile App | 2/12 | In Progress|  |
 
 ---
 

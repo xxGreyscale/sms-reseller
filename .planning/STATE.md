@@ -4,13 +4,13 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: Phase 6 UI-SPEC approved
-last_updated: "2026-06-22T12:10:20.093Z"
+last_updated: "2026-06-22T12:14:25.318Z"
 last_activity: 2026-06-22
 progress:
   total_phases: 7
   completed_phases: 5
   total_plans: 42
-  completed_plans: 31
+  completed_plans: 32
   percent: 71
 ---
 
@@ -26,11 +26,11 @@ See: .planning/PROJECT.md (updated 2026-06-18)
 ## Current Position
 
 Phase: 06 (flutter-mobile-app) — EXECUTING
-Plan: 2 of 12
+Plan: 3 of 12
 Status: Ready to execute
 Last activity: 2026-06-22
 
-Progress: [███████░░░] 74%
+Progress: [████████░░] 76%
 
 ## Performance Metrics
 
@@ -68,6 +68,7 @@ Progress: [███████░░░] 74%
 | Phase 05 P03 | 25m | 2 tasks | 14 files |
 | Phase 05 P07 | 30m | 2 tasks | 19 files |
 | Phase 06-flutter-mobile-app P01 | 45 | 3 tasks | 18 files |
+| Phase 06 P02 | 18 | 1 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -104,6 +105,7 @@ Recent decisions affecting current work:
 - [Phase ?]: 05-07: Flyway enabled in admin-service test profile — ddl-auto=create-drop cannot create a PostgreSQL schema
 - [Phase ?]: Use _refreshFuture gate set synchronously before first await to ensure concurrent 401s await same in-flight refresh
 - [Phase ?]: GoRouterRefreshNotifier uses ref.listen (Riverpod 3.x removed .stream from AsyncNotifierProvider)
+- [Phase ?]: 06-02: findByIdAndUserId compound JPA derived query enforces owner scope; userId from JWT subject only (T-06-02-02)
 
 ### Pending Todos
 
@@ -123,6 +125,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-06-22T12:10:14.933Z
+Last session: 2026-06-22T12:14:20.608Z
 Stopped at: Phase 6 UI-SPEC approved
 Resume file: None
