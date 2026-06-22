@@ -1,4 +1,4 @@
-// balance_cache_test.dart — TDD RED
+// balance_cache_test.dart — TDD GREEN
 // Tests for the Hive cache-read + online-write balance pattern (D-05).
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -11,6 +11,8 @@ import 'package:customer_app/features/dashboard/balance_provider.dart';
 // Mocks
 // ---------------------------------------------------------------------------
 
+class MockDio extends Mock implements Dio {}
+
 class MockBox extends Mock implements Box<int> {}
 
 // ---------------------------------------------------------------------------
@@ -18,17 +20,22 @@ class MockBox extends Mock implements Box<int> {}
 // ---------------------------------------------------------------------------
 
 void main() {
+  setUpAll(() {
+    registerFallbackValue(RequestOptions(path: ''));
+  });
+
+  late MockDio mockDio;
   late MockBox mockBox;
 
   setUp(() {
+    mockDio = MockDio();
     mockBox = MockBox();
   });
 
-  group('BalanceFetcher', () {
+  group('fetchBalance', () {
     test('online: fetches from API, writes to Hive, returns value', () async {
       // Arrange: Mock Dio response — availableCredits = 150
-      final mockDio = MockDio();
-      when(() => mockDio.get(any())).thenAnswer(
+      when(() => mockDio.get('/api/v1/wallet/balance')).thenAnswer(
         (_) async => Response(
           data: {'availableCredits': 150},
           statusCode: 200,
@@ -37,7 +44,6 @@ void main() {
       );
       when(() => mockBox.put('availableCredits', 150))
           .thenAnswer((_) async {});
-      when(() => mockBox.get('availableCredits')).thenReturn(150);
 
       // Act
       final result = await fetchBalance(dio: mockDio, box: mockBox);
@@ -51,7 +57,6 @@ void main() {
         'offline with cached balance: returns cached value, does not throw',
         () async {
       // Arrange: Dio throws connectionError; Hive has cached value 75
-      final mockDio = MockDio();
       when(() => mockDio.get(any())).thenThrow(
         DioException(
           requestOptions: RequestOptions(path: ''),
@@ -69,7 +74,6 @@ void main() {
 
     test('offline with NO cache: rethrows DioException', () async {
       // Arrange: Dio throws; no cache
-      final mockDio = MockDio();
       when(() => mockDio.get(any())).thenThrow(
         DioException(
           requestOptions: RequestOptions(path: ''),
@@ -79,16 +83,10 @@ void main() {
       when(() => mockBox.get('availableCredits')).thenReturn(null);
 
       // Act + Assert: must throw because no cache
-      expect(
-        () async => fetchBalance(dio: mockDio, box: mockBox),
+      await expectLater(
+        () => fetchBalance(dio: mockDio, box: mockBox),
         throwsA(isA<DioException>()),
       );
     });
   });
 }
-
-// ---------------------------------------------------------------------------
-// Lightweight MockDio — only .get() is needed
-// ---------------------------------------------------------------------------
-
-class MockDio extends Mock implements Dio {}

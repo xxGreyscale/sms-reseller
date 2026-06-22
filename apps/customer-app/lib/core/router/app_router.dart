@@ -9,6 +9,7 @@ import 'package:customer_app/features/onboarding/onboarding_screen.dart';
 import 'package:customer_app/features/auth/register_screen.dart';
 import 'package:customer_app/features/auth/login_screen.dart';
 import 'package:customer_app/features/auth/nida_pending_screen.dart';
+import 'package:customer_app/features/dashboard/dashboard_screen.dart';
 import 'package:customer_app/shared/widgets/app_navigation_bar.dart';
 
 // ---------------------------------------------------------------------------
@@ -134,7 +135,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         routes: [
           GoRoute(
             path: kDashboardRoute,
-            builder: (_, __) => const _PlaceholderScreen('Dashboard'),
+            builder: (_, __) => const DashboardScreen(),
           ),
           GoRoute(
             path: kBundlesRoute,

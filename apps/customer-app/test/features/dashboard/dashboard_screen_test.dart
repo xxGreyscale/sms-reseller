@@ -1,4 +1,4 @@
-// dashboard_screen_test.dart — TDD RED
+// dashboard_screen_test.dart — TDD GREEN
 // Widget tests for DashboardScreen (MOBL-04).
 //
 // Tests:
@@ -6,32 +6,15 @@
 //   2. Offline with cached balance → cached value + StaleIndicator
 //   3. No campaigns → campaignsEmptyHeading
 //   4. Quick-send FAB navigates to /campaigns/new
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hive_ce/hive.dart';
-import 'package:hive_ce_flutter/hive_flutter.dart';
-import 'package:mocktail/mocktail.dart';
 
-import 'package:customer_app/core/auth/auth_notifier.dart';
-import 'package:customer_app/core/auth/auth_state.dart';
-import 'package:customer_app/core/dio/dio_client.dart';
 import 'package:customer_app/features/dashboard/balance_provider.dart';
 import 'package:customer_app/features/dashboard/recent_campaigns_provider.dart';
 import 'package:customer_app/features/dashboard/dashboard_screen.dart';
 import 'package:customer_app/l10n/app_localizations.dart';
-
-// ---------------------------------------------------------------------------
-// Mocks
-// ---------------------------------------------------------------------------
-
-class MockDio extends Mock implements Dio {}
-
-class MockBox extends Mock implements Box<int> {}
-
-class MockCampaignsBox extends Mock implements Box<Map> {}
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -39,10 +22,9 @@ class MockCampaignsBox extends Mock implements Box<Map> {}
 
 /// Build helper: wraps DashboardScreen in all required providers.
 Widget buildDashboard({
-  required Dio mockDio,
-  int? cachedBalance,
+  int credits = 0,
+  bool isStale = false,
   List<Map<String, dynamic>> campaigns = const [],
-  bool campaignError = false,
 }) {
   final router = GoRouter(
     initialLocation: '/dashboard',
@@ -61,24 +43,12 @@ Widget buildDashboard({
 
   return ProviderScope(
     overrides: [
-      dioClientProvider.overrideWithValue(mockDio),
-      balanceProvider.overrideWith((ref) async {
-        if (cachedBalance != null) {
-          // Simulate cached read first (stale path)
-          return cachedBalance;
-        }
-        final data = await mockDio.get('/api/v1/wallet/balance');
-        return (data.data as Map<String, dynamic>)['availableCredits'] as int;
-      }),
-      recentCampaignsProvider.overrideWith((ref) async {
-        if (campaignError) {
-          throw DioException(
-            requestOptions: RequestOptions(path: ''),
-            type: DioExceptionType.connectionError,
-          );
-        }
-        return campaigns;
-      }),
+      balanceProvider.overrideWith(
+        (ref) async => BalanceResult(credits: credits, isStale: isStale),
+      ),
+      recentCampaignsProvider.overrideWith(
+        (ref) async => campaigns,
+      ),
     ],
     child: MaterialApp.router(
       routerConfig: router,
@@ -93,23 +63,10 @@ Widget buildDashboard({
 // ---------------------------------------------------------------------------
 
 void main() {
-  setUpAll(() {
-    registerFallbackValue(RequestOptions(path: ''));
-  });
-
   group('DashboardScreen', () {
     testWidgets(
         'Test 1: shows balance 150 credits + 3 recent campaign tiles from API',
         (tester) async {
-      final mockDio = MockDio();
-      when(() => mockDio.get('/api/v1/wallet/balance')).thenAnswer(
-        (_) async => Response(
-          data: {'availableCredits': 150},
-          statusCode: 200,
-          requestOptions: RequestOptions(path: ''),
-        ),
-      );
-
       final campaigns = [
         {
           'id': '1',
@@ -135,7 +92,7 @@ void main() {
       ];
 
       await tester.pumpWidget(buildDashboard(
-        mockDio: mockDio,
+        credits: 150,
         campaigns: campaigns,
       ));
       await tester.pumpAndSettle();
@@ -152,44 +109,24 @@ void main() {
     testWidgets(
         'Test 2: offline with cached balance → shows cached value + StaleIndicator',
         (tester) async {
-      final mockDio = MockDio();
-      // Dio throws — offline
-      when(() => mockDio.get(any())).thenThrow(
-        DioException(
-          requestOptions: RequestOptions(path: ''),
-          type: DioExceptionType.connectionError,
-        ),
-      );
-
       await tester.pumpWidget(buildDashboard(
-        mockDio: mockDio,
-        cachedBalance: 75, // pre-seeded cache
+        credits: 75,
+        isStale: true,
+        campaigns: [],
       ));
       await tester.pumpAndSettle();
 
       // Cached balance shown
       expect(find.text('75 credits'), findsOneWidget);
 
-      // StaleIndicator present (contains 'saved data' partial text)
-      expect(
-        find.textContaining('saved data'),
-        findsOneWidget,
-      );
+      // StaleIndicator present (contains partial text 'saved data')
+      expect(find.textContaining('saved data'), findsOneWidget);
     });
 
     testWidgets('Test 3: no campaigns → campaignsEmptyHeading shown',
         (tester) async {
-      final mockDio = MockDio();
-      when(() => mockDio.get('/api/v1/wallet/balance')).thenAnswer(
-        (_) async => Response(
-          data: {'availableCredits': 100},
-          statusCode: 200,
-          requestOptions: RequestOptions(path: ''),
-        ),
-      );
-
       await tester.pumpWidget(buildDashboard(
-        mockDio: mockDio,
+        credits: 100,
         campaigns: [],
       ));
       await tester.pumpAndSettle();
@@ -200,26 +137,19 @@ void main() {
 
     testWidgets('Test 4: quick-send FAB navigates to /campaigns/new',
         (tester) async {
-      final mockDio = MockDio();
-      when(() => mockDio.get('/api/v1/wallet/balance')).thenAnswer(
-        (_) async => Response(
-          data: {'availableCredits': 50},
-          statusCode: 200,
-          requestOptions: RequestOptions(path: ''),
-        ),
-      );
-
       await tester.pumpWidget(buildDashboard(
-        mockDio: mockDio,
+        credits: 50,
         campaigns: [],
       ));
       await tester.pumpAndSettle();
 
-      // Tap the FAB
-      await tester.tap(find.text('Send SMS'));
+      // Find and tap the extended FAB
+      final fabFinder = find.byType(FloatingActionButton);
+      expect(fabFinder, findsOneWidget);
+      await tester.tap(fabFinder);
       await tester.pumpAndSettle();
 
-      // Should navigate to Campaign Composer placeholder
+      // Should navigate to Campaign Composer
       expect(find.text('Campaign Composer'), findsOneWidget);
     });
   });
