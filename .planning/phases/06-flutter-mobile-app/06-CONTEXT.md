@@ -57,7 +57,7 @@ existing backend stubs/live APIs as available).
 
 ### Locked stack (PROJECT.md / roadmap)
 - **D-07:** Flutter (single codebase), **Riverpod** state management, **Dio** HTTP client,
-  **Hive + shared_preferences** storage. JWT persisted in Hive (MOBL-03); session survives restart.
+  **Hive + shared_preferences** storage. JWT persisted in flutter_secure_storage (Keychain/Keystore, per D-10 — NOT plain Hive; MOBL-03); session survives restart. Hive is the read-cache only.
 - **D-08:** Flat contact list with manual add only (no groups/CSV — MOBL-06); immediate-send only
   (no scheduling — MOBL-07). STK push 2-minute countdown UI (MOBL-05).
 
@@ -130,7 +130,7 @@ each is in Phase 6 scope and the planner MUST create explicit backend tasks for 
 - **All backend APIs already exist** (Phases 2–5) — this phase is a pure client. No backend code
   except possibly a thin device-token endpoint IF FCM were built (it is NOT — D-01).
 - **Auth contract**: 15-min access JWT + 7-day rotating refresh (Phase 2) — the Dio interceptor
-  must rotate on 401 and persist the new refresh token to Hive.
+  must rotate on 401 (QueuedInterceptor) and persist the new refresh token to flutter_secure_storage (D-10).
 - **Azampay STK contract**: Phase 3 purchase initiation + EXPIRED-after-2-min state — the
   countdown UI mirrors that timer; balance refresh after PaymentConfirmed.
 
@@ -140,7 +140,7 @@ each is in Phase 6 scope and the planner MUST create explicit backend tasks for 
   integration_test; mock Dio for API tests). This is the project's first mobile app.
 
 ### Integration Points
-- REST (Dio) to all backend services via the gateway; JWT in Authorization header from Hive.
+- REST (Dio) to all backend services via the gateway; JWT in Authorization header, read from flutter_secure_storage (D-10).
 - Polling: NIDA status (PENDING screen), wallet balance (post-purchase + dashboard), notification
   feed. No websockets/push at MVP (D-01).
 
