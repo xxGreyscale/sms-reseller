@@ -152,7 +152,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] 06-04-PLAN.md — Wave 1: backend D-13 GET /auth/me + D-14 PATCH notifications/{id}/read (identity + notification services)
 - [x] 06-05-PLAN.md — Wave 2: splash + onboarding (MOBL-01) + register/NIDA + login session persistence (MOBL-03)
 - [x] 06-06-PLAN.md — Wave 2: NIDA PENDING walled state + 10s /auth/me auto-poll → VERIFIED (MOBL-02, D-09)
-- [ ] 06-07-PLAN.md — Wave 3: dashboard + balance cache-read/online-write + recent campaigns + shared widget kit + NavigationBar (MOBL-04)
+- [x] 06-07-PLAN.md — Wave 3: dashboard + balance cache-read/online-write + recent campaigns + shared widget kit + NavigationBar (MOBL-04)
 - [ ] 06-08-PLAN.md — Wave 4: bundle catalog + STK 2-min countdown + payment status polling (MOBL-05)
 - [ ] 06-09-PLAN.md — Wave 4: flat contact list (cache) + online-only add + delete (MOBL-06)
 - [ ] 06-11-PLAN.md — Wave 4: notification feed 30s polling + client-derived unread badge (D-01)
@@ -173,7 +173,7 @@ Phase 0 runs as a parallel background track. Coding phases execute: 1 → 2 → 
 | 3. Wallet & Payments | 6/6 | Complete   | 2026-06-20 |
 | 4. Contacts & Messaging | 8/8 | Complete   | 2026-06-21 |
 | 5. Notifications, Admin & Analytics | 9/9 | Complete   | 2026-06-21 |
-| 6. Flutter Mobile App | 6/12 | In Progress|  |
+| 6. Flutter Mobile App | 7/12 | In Progress|  |
 
 ---
 
