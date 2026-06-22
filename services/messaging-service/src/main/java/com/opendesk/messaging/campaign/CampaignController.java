@@ -43,15 +43,20 @@ public class CampaignController {
      * groupIds are stored; recipients are expanded at dispatch time (04-05).
      */
     @PostMapping
-    public ResponseEntity<CampaignResponse> create(
+    public ResponseEntity<?> create(
             JwtAuthenticationToken auth,
             @Valid @RequestBody CreateCampaignRequest request) {
         UUID userId = UUID.fromString(auth.getToken().getSubject());
-        Campaign campaign = campaignService.create(userId, request);
-        CampaignResponse response = CampaignResponse.from(campaign);
-        return ResponseEntity
-                .created(URI.create("/api/v1/campaigns/" + campaign.getId()))
-                .body(response);
+        try {
+            Campaign campaign = campaignService.create(userId, request);
+            CampaignResponse response = CampaignResponse.from(campaign);
+            return ResponseEntity
+                    .created(URI.create("/api/v1/campaigns/" + campaign.getId()))
+                    .body(response);
+        } catch (IllegalStateException e) {
+            // D-12 / T-06-03-03: both groupIds and contactIds empty — reject with 400
+            return ResponseEntity.badRequest().body(Map.of("error", "invalid_targeting", "message", e.getMessage()));
+        }
     }
 
     /**

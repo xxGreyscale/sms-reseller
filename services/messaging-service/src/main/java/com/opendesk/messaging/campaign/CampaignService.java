@@ -48,9 +48,19 @@ public class CampaignService {
     /**
      * Create a campaign in DRAFT state (MESG-01).
      * Recipients are NOT expanded here — expansion happens at dispatch time (04-05).
+     *
+     * <p>D-12: either groupIds OR contactIds must be provided (T-06-03-03).
+     * Targeting-empty campaigns are rejected before persisting to prevent 0-recipient dispatches.
      */
     @Transactional
     public Campaign create(UUID userId, CreateCampaignRequest request) {
+        // Guard: at least one targeting source must be present (T-06-03-03)
+        boolean hasGroups = request.groupIds() != null && !request.groupIds().isEmpty();
+        boolean hasContacts = request.contactIds() != null && !request.contactIds().isEmpty();
+        if (!hasGroups && !hasContacts) {
+            throw new IllegalStateException("At least one groupId or contactId is required");
+        }
+
         CampaignStatus initialStatus = request.scheduledAt() != null
                 ? CampaignStatus.SCHEDULED
                 : CampaignStatus.DRAFT;
@@ -62,7 +72,8 @@ public class CampaignService {
                 .body(request.body())
                 .senderId(request.senderId())
                 .status(initialStatus)
-                .groupIds(request.groupIds())
+                .groupIds(request.groupIds() != null ? request.groupIds() : new java.util.HashSet<>())
+                .contactIds(request.contactIds() != null ? request.contactIds() : new java.util.HashSet<>())
                 .scheduledAt(request.scheduledAt())
                 .build();
 
@@ -179,7 +190,13 @@ public class CampaignService {
         UUID userId = campaign.getUserId();
 
         // Step 1: expand recipients (contact-service already applies suppression filter — D-14, MESG-09)
-        List<String> recipients = contactRecipientClient.getRecipientsForGroups(campaign.getGroupIds(), userId);
+        // D-12: flat-contact path (contactIds non-empty) OR legacy group path (groupIds non-empty)
+        List<String> recipients;
+        if (campaign.getContactIds() != null && !campaign.getContactIds().isEmpty()) {
+            recipients = contactRecipientClient.getRecipientsByContactIds(campaign.getContactIds(), userId);
+        } else {
+            recipients = contactRecipientClient.getRecipientsForGroups(campaign.getGroupIds(), userId);
+        }
         int recipientCount = recipients.size();
         log.info("Campaign {} expanded to {} recipients after suppression filter", campaign.getId(), recipientCount);
 

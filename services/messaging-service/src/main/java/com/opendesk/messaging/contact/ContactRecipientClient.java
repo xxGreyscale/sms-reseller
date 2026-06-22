@@ -27,4 +27,17 @@ public interface ContactRecipientClient {
      * @return distinct unsuppressed phone numbers ready for dispatch
      */
     List<String> getRecipientsForGroups(Set<UUID> groupIds, UUID userId);
+
+    /**
+     * Returns distinct E.164 phone numbers for the given flat contactIds, scoped to the user.
+     * Suppressed numbers are excluded at the contact-service boundary (D-12, MOBL-07, MESG-09).
+     *
+     * <p>ContactIds belonging to other users are silently excluded by the contact-service
+     * (T-06-03-01 IDOR guard — userId is always from the JWT subject, not the request body).
+     *
+     * @param contactIds set of contact UUIDs (from Campaign.contactIds)
+     * @param userId     campaign owner
+     * @return distinct unsuppressed phone numbers ready for dispatch
+     */
+    List<String> getRecipientsByContactIds(Set<UUID> contactIds, UUID userId);
 }

@@ -63,4 +63,30 @@ public class RestContactRecipientClient implements ContactRecipientClient {
 
         return phones != null ? phones : List.of();
     }
+
+    @Override
+    public List<String> getRecipientsByContactIds(Set<UUID> contactIds, UUID userId) {
+        if (contactIds == null || contactIds.isEmpty()) {
+            return List.of();
+        }
+
+        String contactIdParams = contactIds.stream()
+                .map(UUID::toString)
+                .collect(Collectors.joining(","));
+
+        String uri = UriComponentsBuilder
+                .fromPath("/api/v1/internal/contacts/recipients-by-ids")
+                .queryParam("contactIds", contactIdParams)
+                .queryParam("userId", userId.toString())
+                .toUriString();
+
+        log.debug("Fetching recipients for {} contactIds userId={}", contactIds.size(), userId);
+
+        List<String> phones = restClient.get()
+                .uri(uri)
+                .retrieve()
+                .body(new ParameterizedTypeReference<List<String>>() {});
+
+        return phones != null ? phones : List.of();
+    }
 }

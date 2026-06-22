@@ -85,6 +85,17 @@ public class Campaign {
     @Builder.Default
     private Set<UUID> groupIds = new HashSet<>();
 
+    /**
+     * Flat contact IDs for campaigns targeting individual contacts (D-12, MOBL-07).
+     * Stored in {@code campaign_contact_ids} join table (created in V7 migration).
+     * Either groupIds OR contactIds is populated — never both, never both empty.
+     */
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "campaign_contact_ids", joinColumns = @JoinColumn(name = "campaign_id"))
+    @Column(name = "contact_id")
+    @Builder.Default
+    private Set<UUID> contactIds = new HashSet<>();
+
     @CreatedDate
     @Column(name = "created_at", updatable = false)
     private Instant createdAt;
