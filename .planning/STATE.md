@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: planning
+status: executing
 stopped_at: Phase 6 UI-SPEC approved
-last_updated: "2026-06-22T08:59:11.184Z"
-last_activity: 2026-06-21
+last_updated: "2026-06-22T12:10:20.093Z"
+last_activity: 2026-06-22
 progress:
   total_phases: 7
   completed_phases: 5
-  total_plans: 30
-  completed_plans: 30
+  total_plans: 42
+  completed_plans: 31
   percent: 71
 ---
 
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-06-18)
 
 **Core value:** Small organizations can send bulk SMS to their members in minutes — verified, trusted, and without needing any technical knowledge.
-**Current focus:** Phase 05 — notifications-admin-analytics
+**Current focus:** Phase 06 — flutter-mobile-app
 
 ## Current Position
 
-Phase: 05 (notifications-admin-analytics) — EXECUTING
-Plan: 9 of 9 (plan 01 complete)
-Status: planning
-Last activity: 2026-06-21
+Phase: 06 (flutter-mobile-app) — EXECUTING
+Plan: 2 of 12
+Status: Ready to execute
+Last activity: 2026-06-22
 
-Progress: [██████████] 100%
+Progress: [███████░░░] 74%
 
 ## Performance Metrics
 
@@ -67,6 +67,7 @@ Progress: [██████████] 100%
 | Phase 05 P02 | 35 | 3 tasks | 14 files |
 | Phase 05 P03 | 25m | 2 tasks | 14 files |
 | Phase 05 P07 | 30m | 2 tasks | 19 files |
+| Phase 06-flutter-mobile-app P01 | 45 | 3 tasks | 18 files |
 
 ## Accumulated Context
 
@@ -101,6 +102,8 @@ Recent decisions affecting current work:
 - [Phase ?]: 05-02: CampaignCompleted payload {eventId,campaignId,userId,totalCount,deliveredCount,failedCount} on messaging.events/messaging.CampaignCompleted — consumed by 05-06 notification-service
 - [Phase ?]: 05-02: Analytics endpoints JWT-subject-scoped, no ROLE_ADMIN — user-facing owner analytics not admin views
 - [Phase ?]: 05-07: Flyway enabled in admin-service test profile — ddl-auto=create-drop cannot create a PostgreSQL schema
+- [Phase ?]: Use _refreshFuture gate set synchronously before first await to ensure concurrent 401s await same in-flight refresh
+- [Phase ?]: GoRouterRefreshNotifier uses ref.listen (Riverpod 3.x removed .stream from AsyncNotifierProvider)
 
 ### Pending Todos
 
@@ -120,6 +123,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-06-22T08:11:43.253Z
+Last session: 2026-06-22T12:10:14.933Z
 Stopped at: Phase 6 UI-SPEC approved
-Resume file: .planning/phases/06-flutter-mobile-app/06-UI-SPEC.md
+Resume file: None

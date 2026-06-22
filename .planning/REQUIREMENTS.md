@@ -106,15 +106,15 @@
 
 ### Flutter Mobile App
 
-- [ ] **MOBL-01**: Flutter app has splash screen and onboarding flow
-- [ ] **MOBL-02**: Flutter app supports NIDA registration + PENDING verification state with clear status screen
-- [ ] **MOBL-03**: Flutter app supports login with JWT session persistence (Hive storage)
-- [ ] **MOBL-04**: Flutter app shows dashboard: SMS balance, recent campaigns, quick-send shortcut
-- [ ] **MOBL-05**: Flutter app supports bundle purchase with Azampay STK push and 2-minute countdown UI
-- [ ] **MOBL-06**: Flutter app supports flat contact list with manual add (no groups or CSV import at MVP)
-- [ ] **MOBL-07**: Flutter app supports campaign composer for immediate send (no scheduling at MVP)
-- [ ] **MOBL-08**: Flutter app shows campaign history list and campaign detail screen
-- [ ] **MOBL-09**: Flutter app is published to Google Play and Apple App Store with required metadata
+- [x] **MOBL-01**: Flutter app has splash screen and onboarding flow
+- [x] **MOBL-02**: Flutter app supports NIDA registration + PENDING verification state with clear status screen
+- [x] **MOBL-03**: Flutter app supports login with JWT session persistence (Hive storage)
+- [x] **MOBL-04**: Flutter app shows dashboard: SMS balance, recent campaigns, quick-send shortcut
+- [x] **MOBL-05**: Flutter app supports bundle purchase with Azampay STK push and 2-minute countdown UI
+- [x] **MOBL-06**: Flutter app supports flat contact list with manual add (no groups or CSV import at MVP)
+- [x] **MOBL-07**: Flutter app supports campaign composer for immediate send (no scheduling at MVP)
+- [x] **MOBL-08**: Flutter app shows campaign history list and campaign detail screen
+- [x] **MOBL-09**: Flutter app is published to Google Play and Apple App Store with required metadata
 
 ---
 
@@ -230,15 +230,15 @@ _Populated by roadmapper on 2026-06-18._
 | INFR-03 | Phase 1 | Pending |
 | INFR-04 | Phase 1 | Pending |
 | INFR-05 | Phase 1 | Pending |
-| MOBL-01 | Phase 6 | Pending |
-| MOBL-02 | Phase 6 | Pending |
-| MOBL-03 | Phase 6 | Pending |
-| MOBL-04 | Phase 6 | Pending |
-| MOBL-05 | Phase 6 | Pending |
-| MOBL-06 | Phase 6 | Pending |
-| MOBL-07 | Phase 6 | Pending |
-| MOBL-08 | Phase 6 | Pending |
-| MOBL-09 | Phase 6 | Pending |
+| MOBL-01 | Phase 6 | Complete |
+| MOBL-02 | Phase 6 | Complete |
+| MOBL-03 | Phase 6 | Complete |
+| MOBL-04 | Phase 6 | Complete |
+| MOBL-05 | Phase 6 | Complete |
+| MOBL-06 | Phase 6 | Complete |
+| MOBL-07 | Phase 6 | Complete |
+| MOBL-08 | Phase 6 | Complete |
+| MOBL-09 | Phase 6 | Complete |
 
 **Coverage:**
 - v1 requirements: 76 total (note: header previously stated 68 — actual count from traceability enumeration is 76)
