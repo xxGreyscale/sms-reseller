@@ -6,6 +6,7 @@ import com.opendesk.identity.token.RefreshTokenService;
 import com.opendesk.identity.user.User;
 import com.opendesk.identity.user.UserRepository;
 import com.opendesk.identity.web.dto.LoginRequest;
+import com.opendesk.identity.web.dto.MeResponse;
 import com.opendesk.identity.web.dto.RefreshRequest;
 import com.opendesk.identity.web.dto.TokenResponse;
 import jakarta.validation.Valid;
@@ -16,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,6 +53,28 @@ public class SessionController {
     private final RefreshTokenService refreshTokenService;
     private final JwtIssuer jwtIssuer;
     private final UserRepository userRepository;
+
+    /**
+     * Lightweight status read endpoint (D-13, MOBL-02).
+     *
+     * <p>Returns the caller's userId and current verification_status re-read from the database
+     * WITHOUT issuing or rotating any tokens. Used by the Flutter PENDING screen to poll
+     * verification state cheaply on a 10-second timer, replacing the costly /auth/refresh call
+     * which rotates the 7-day refresh token on every invocation.
+     *
+     * <p>Security: falls under {@code anyRequest().authenticated()} — no SecurityConfig change needed.
+     * userId is always derived from the JWT subject; never from a request parameter (T-06-04-01).
+     *
+     * @param jwt the validated JWT injected by Spring Security
+     * @return 200 {userId, status}; 401 if user not found in DB (should not occur in practice)
+     */
+    @GetMapping("/me")
+    public ResponseEntity<MeResponse> me(@AuthenticationPrincipal Jwt jwt) {
+        UUID userId = UUID.fromString(jwt.getSubject());
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not found"));
+        return ResponseEntity.ok(new MeResponse(userId, user.getStatus().name()));
+    }
 
     /**
      * Login endpoint (IDEN-04).
