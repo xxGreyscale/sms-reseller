@@ -72,37 +72,24 @@ class AuthNotifier extends AsyncNotifier<AuthState> {
     return bytes;
   }
 
-  /// Calls POST /auth/refresh and updates state based on the returned status.
-  /// Used by the PENDING screen poller (D-09, Pattern 4).
+  /// Calls GET /auth/me (non-rotating, D-13) and updates state based on returned status.
+  /// Used by PendingPollerNotifier (D-09, Pattern 4).
   Future<void> refreshAndCheckStatus() async {
-    final storage = ref.read(secureStorageProvider);
-    final refreshToken = await storage.read(key: kRefreshTokenKey);
-    if (refreshToken == null) {
-      state = const AsyncData(AuthState.unauthenticated());
-      return;
-    }
-
     try {
-      final tokenDio = ref.read(tokenDioProvider);
-      final resp = await tokenDio.post(
-        '/auth/refresh',
-        data: {'refreshToken': refreshToken},
-      );
-      final newAccess = resp.data['accessToken'] as String;
-      final newRefresh = resp.data['refreshToken'] as String;
+      final dio = ref.read(dioProvider);
+      final resp = await dio.get('/auth/me');
       final status = resp.data['status'] as String?;
 
-      await storage.write(key: kAccessTokenKey, value: newAccess);
-      await storage.write(key: kRefreshTokenKey, value: newRefresh);
-
       if (status == 'VERIFIED') {
+        final storage = ref.read(secureStorageProvider);
+        final accessToken = await storage.read(key: kAccessTokenKey) ?? '';
+        final refreshToken = await storage.read(key: kRefreshTokenKey) ?? '';
         state = AsyncData(AuthState.verified(
-          accessToken: newAccess,
-          refreshToken: newRefresh,
+          accessToken: accessToken,
+          refreshToken: refreshToken,
         ));
-      } else {
-        state = AsyncData(AuthState.pending(accessToken: newAccess));
       }
+      // PENDING_VERIFICATION or REJECTED: no state change — remain pending
     } catch (_) {
       // Swallow transient errors — the poller will retry on next tick
     }

@@ -12,7 +12,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:go_router/go_router.dart';
 import 'package:mocktail/mocktail.dart';
 
 import 'package:customer_app/core/auth/auth_notifier.dart';
@@ -33,6 +32,16 @@ class MockDio extends Mock implements Dio {}
 class MockFlutterSecureStorage extends Mock implements FlutterSecureStorage {}
 
 class FakeRequestOptions extends Fake implements RequestOptions {}
+
+// ---------------------------------------------------------------------------
+// Constants
+// ---------------------------------------------------------------------------
+
+/// Fake JWT with verification_status=PENDING_VERIFICATION (not a real JWT).
+const _kFakePendingJwt =
+    'eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9'
+    '.eyJzdWIiOiAidXNlci0xIiwgInZlcmlmaWNhdGlvbl9zdGF0dXMiOiAiUEVORElOR19WRVJJRklDQVRJT04ifQ'
+    '.fakesig';
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -79,18 +88,18 @@ void main() {
   // -------------------------------------------------------------------------
   testWidgets('Test 1: NidaPendingScreen renders title + indicator + logout',
       (tester) async {
+    // Pre-seed storage so AuthNotifier.build() returns Pending
+    when(() => mockStorage.read(key: kAccessTokenKey))
+        .thenAnswer((_) async => _kFakePendingJwt);
+    when(() => mockStorage.read(key: kRefreshTokenKey))
+        .thenAnswer((_) async => null);
+
     final container = ProviderContainer(overrides: [
       authNotifierProvider.overrideWith(() => AuthNotifier()),
       secureStorageProvider.overrideWithValue(mockStorage),
       tokenDioProvider.overrideWithValue(mockDio),
       dioProvider.overrideWithValue(mockDio),
     ]);
-    addTearDown(container.dispose);
-
-    // Pre-seed a pending auth state
-    container.read(authNotifierProvider.notifier).setPending(
-          accessToken: 'pending-token',
-        );
 
     await tester.pumpWidget(_wrap(const NidaPendingScreen(), container: container));
     await tester.pump(); // settle
@@ -112,6 +121,9 @@ void main() {
     await tester.pumpWidget(_wrap(const NidaPendingScreen(), container: container));
     await tester.pump();
     expect(find.textContaining('Tunathibitisha'), findsOneWidget);
+
+    // Dispose container to cancel timers
+    container.dispose();
   });
 
   // -------------------------------------------------------------------------
@@ -187,17 +199,18 @@ void main() {
           statusCode: 200,
         ));
 
+    // Pre-seed storage so build() returns Pending state
+    when(() => mockStorage.read(key: kAccessTokenKey))
+        .thenAnswer((_) async => 'pending-tok');
+    when(() => mockStorage.read(key: kRefreshTokenKey))
+        .thenAnswer((_) async => null);
+
     final container = ProviderContainer(overrides: [
       authNotifierProvider.overrideWith(() => AuthNotifier()),
       secureStorageProvider.overrideWithValue(mockStorage),
       tokenDioProvider.overrideWithValue(mockDio),
       dioProvider.overrideWithValue(mockDio),
     ]);
-    addTearDown(container.dispose);
-
-    await container.read(authNotifierProvider.notifier).setPending(
-          accessToken: 'tok',
-        );
 
     await tester.pumpWidget(_wrap(const NidaPendingScreen(), container: container));
     await tester.pump();
@@ -213,6 +226,9 @@ void main() {
     // Pump to render snackbar
     await tester.pump();
     expect(find.textContaining('verified'), findsWidgets);
+
+    // Dispose container — cancels timers
+    container.dispose();
   });
 
   // -------------------------------------------------------------------------
@@ -237,17 +253,18 @@ void main() {
       );
     });
 
+    // Pre-seed storage so AuthNotifier.build() returns Pending
+    when(() => mockStorage.read(key: kAccessTokenKey))
+        .thenAnswer((_) async => _kFakePendingJwt);
+    when(() => mockStorage.read(key: kRefreshTokenKey))
+        .thenAnswer((_) async => null);
+
     final container = ProviderContainer(overrides: [
       authNotifierProvider.overrideWith(() => AuthNotifier()),
       secureStorageProvider.overrideWithValue(mockStorage),
       tokenDioProvider.overrideWithValue(mockDio),
       dioProvider.overrideWithValue(mockDio),
     ]);
-    addTearDown(container.dispose);
-
-    await container.read(authNotifierProvider.notifier).setPending(
-          accessToken: 'tok',
-        );
 
     await tester.pumpWidget(_wrap(const NidaPendingScreen(), container: container));
     await tester.pump();
@@ -259,12 +276,15 @@ void main() {
 
     // No error message / SnackBar should appear
     expect(find.byType(SnackBar), findsNothing);
-    // Auth state still pending
+    // Auth state still pending (not unauthenticated)
     expect(container.read(authNotifierProvider).value, isA<Pending>());
 
     // Second poll — still callable (timer still running)
     await poller.pollNow();
     expect(callCount, equals(2));
+
+    // Dispose container — cancels timers
+    container.dispose();
   });
 
   // -------------------------------------------------------------------------

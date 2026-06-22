@@ -8,6 +8,7 @@ import 'package:customer_app/features/onboarding/splash_screen.dart';
 import 'package:customer_app/features/onboarding/onboarding_screen.dart';
 import 'package:customer_app/features/auth/register_screen.dart';
 import 'package:customer_app/features/auth/login_screen.dart';
+import 'package:customer_app/features/auth/nida_pending_screen.dart';
 
 // ---------------------------------------------------------------------------
 // Placeholder screens (to be replaced in later waves)
@@ -107,7 +108,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: kPendingRoute,
-        builder: (_, __) => const _PlaceholderScreen('Pending'),
+        builder: (_, __) => const NidaPendingScreen(),
       ),
       GoRoute(
         path: kDashboardRoute,

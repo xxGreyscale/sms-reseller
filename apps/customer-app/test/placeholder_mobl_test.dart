@@ -4,7 +4,7 @@
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-test('MOBL-02 placeholder', () => fail('not implemented'));
+  // MOBL-02 removed — implemented in 06-06 (nida_pending_test.dart)
   test('MOBL-04 placeholder', () => fail('not implemented'));
   test('MOBL-05 placeholder', () => fail('not implemented'));
   test('MOBL-06 placeholder', () => fail('not implemented'));
