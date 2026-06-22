@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -26,6 +28,28 @@ public interface ContactRepository extends JpaRepository<Contact, UUID> {
 
     /** Uniqueness check (also used by CSV import in 04-03). */
     boolean existsByUserIdAndPhoneE164(UUID userId, String phoneE164);
+
+    /**
+     * Returns distinct E.164 phones for the requested contact IDs, scoped to userId,
+     * excluding numbers present in the user's suppression list (MESG-09, T-06-03-01/02).
+     *
+     * <p>Used by InternalContactController.recipientsByIds (06-03) to expand flat contactIds
+     * for the Flutter campaign composer (D-12, MOBL-07).
+     */
+    @Query(value = """
+            SELECT DISTINCT c.phone_e164
+              FROM contacts c
+             WHERE c.id IN (:contactIds)
+               AND c.user_id = :userId
+               AND c.phone_e164 NOT IN (
+                     SELECT s.phone_e164
+                       FROM suppressed_numbers s
+                      WHERE s.user_id = :userId
+               )
+            """, nativeQuery = true)
+    List<String> findPhonesByContactIdsAndUserId(
+            @Param("contactIds") Collection<UUID> contactIds,
+            @Param("userId") UUID userId);
 
     /**
      * Idempotent insert used by CSV import (04-03).

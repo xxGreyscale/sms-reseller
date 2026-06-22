@@ -6,6 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -55,5 +57,24 @@ public class ContactService {
     public void delete(UUID userId, UUID contactId) {
         Contact contact = get(userId, contactId);
         contactRepository.delete(contact);
+    }
+
+    /**
+     * Returns distinct E.164 phones for the given contactIds, scoped to userId.
+     * Suppressed numbers are excluded (MESG-09, T-06-03-02).
+     *
+     * <p>Used by InternalContactController to serve the messaging-service's
+     * flat-contact campaign recipient expansion (D-12, MOBL-07).
+     *
+     * @param contactIds set of contact UUIDs to expand
+     * @param userId     owner — contactIds belonging to other users are silently excluded (T-06-03-01)
+     * @return unsuppressed phone numbers for the matching contacts
+     */
+    @Transactional(readOnly = true)
+    public List<String> recipientsByContactIds(Set<UUID> contactIds, UUID userId) {
+        if (contactIds == null || contactIds.isEmpty()) {
+            return List.of();
+        }
+        return contactRepository.findPhonesByContactIdsAndUserId(contactIds, userId);
     }
 }

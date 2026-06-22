@@ -33,7 +33,11 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/actuator/health/**",
-                                "/error"
+                                "/error",
+                                // Internal service-to-service endpoints (messaging-service →
+                                // contact-service). Not exposed externally — Traefik network
+                                // policy restricts at the infrastructure layer.
+                                "/api/v1/internal/**"
                         ).permitAll()
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()));
