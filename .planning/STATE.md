@@ -4,13 +4,13 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: Phase 6 UI-SPEC approved
-last_updated: "2026-06-22T12:32:29.701Z"
+last_updated: "2026-06-22T13:00:17.298Z"
 last_activity: 2026-06-22
 progress:
   total_phases: 7
   completed_phases: 5
   total_plans: 42
-  completed_plans: 34
+  completed_plans: 35
   percent: 71
 ---
 
@@ -26,11 +26,11 @@ See: .planning/PROJECT.md (updated 2026-06-18)
 ## Current Position
 
 Phase: 06 (flutter-mobile-app) — EXECUTING
-Plan: 5 of 12
+Plan: 6 of 12
 Status: Ready to execute
 Last activity: 2026-06-22
 
-Progress: [████████░░] 81%
+Progress: [████████░░] 83%
 
 ## Performance Metrics
 
@@ -71,6 +71,7 @@ Progress: [████████░░] 81%
 | Phase 06 P02 | 18 | 1 tasks | 4 files |
 | Phase 06-flutter-mobile-app P03 | 25m | 2 tasks | 13 files |
 | Phase 06 P04 | 12m | 2 tasks | 9 files |
+| Phase 06-flutter-mobile-app P05 | 35 | 2 tasks | 11 files |
 
 ## Accumulated Context
 
@@ -108,6 +109,7 @@ Recent decisions affecting current work:
 - [Phase ?]: Use _refreshFuture gate set synchronously before first await to ensure concurrent 401s await same in-flight refresh
 - [Phase ?]: GoRouterRefreshNotifier uses ref.listen (Riverpod 3.x removed .stream from AsyncNotifierProvider)
 - [Phase ?]: 06-02: findByIdAndUserId compound JPA derived query enforces owner scope; userId from JWT subject only (T-06-02-02)
+- [Phase ?]: avoids uninitialized notifier error outside ProviderScope
 
 ### Pending Todos
 
@@ -127,6 +129,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-06-22T12:32:24.769Z
+Last session: 2026-06-22T13:00:13.515Z
 Stopped at: Phase 6 UI-SPEC approved
 Resume file: None
