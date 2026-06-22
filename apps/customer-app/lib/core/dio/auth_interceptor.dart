@@ -1,12 +1,20 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:customer_app/core/storage/secure_storage.dart';
 
 /// QueuedInterceptor that attaches Bearer token and handles refresh-on-401.
 /// Uses a separate [_tokenDio] instance to avoid infinite recursion (Pitfall 2).
+///
+/// An [_refreshFuture] ensures concurrent 401s trigger only ONE refresh call:
+/// the first 401 sets a pending Future before any await; subsequent 401s
+/// await that same Future and re-use the refreshed token.
 class AuthInterceptor extends QueuedInterceptor {
   final FlutterSecureStorage _storage;
   final Dio _tokenDio;
+
+  Future<String>? _refreshFuture;
 
   AuthInterceptor({
     required FlutterSecureStorage storage,
@@ -30,10 +38,38 @@ class AuthInterceptor extends QueuedInterceptor {
       return handler.next(err);
     }
 
+    // If a refresh is already in flight, wait for it and retry.
+    if (_refreshFuture != null) {
+      try {
+        final newAccess = await _refreshFuture!;
+        err.requestOptions.headers['Authorization'] = 'Bearer $newAccess';
+        final retryResp = await _tokenDio.fetch(err.requestOptions);
+        return handler.resolve(retryResp);
+      } catch (_) {
+        return handler.reject(err);
+      }
+    }
+
+    // Gate subsequent 401s BEFORE any await.
+    _refreshFuture = _doRefresh();
+
+    try {
+      final newAccess = await _refreshFuture!;
+      err.requestOptions.headers['Authorization'] = 'Bearer $newAccess';
+      final retryResp = await _tokenDio.fetch(err.requestOptions);
+      return handler.resolve(retryResp);
+    } catch (_) {
+      return handler.reject(err);
+    } finally {
+      _refreshFuture = null;
+    }
+  }
+
+  Future<String> _doRefresh() async {
     final refreshToken = await _storage.read(key: kRefreshTokenKey);
     if (refreshToken == null) {
       await _storage.deleteAll();
-      return handler.reject(err);
+      throw Exception('No refresh token');
     }
 
     try {
@@ -45,14 +81,10 @@ class AuthInterceptor extends QueuedInterceptor {
       final newRefresh = resp.data['refreshToken'] as String;
       await _storage.write(key: kAccessTokenKey, value: newAccess);
       await _storage.write(key: kRefreshTokenKey, value: newRefresh);
-
-      // Retry original request with new token
-      err.requestOptions.headers['Authorization'] = 'Bearer $newAccess';
-      final retryResp = await _tokenDio.fetch(err.requestOptions);
-      return handler.resolve(retryResp);
-    } catch (_) {
+      return newAccess;
+    } catch (e) {
       await _storage.deleteAll();
-      return handler.reject(err);
+      rethrow;
     }
   }
 }
