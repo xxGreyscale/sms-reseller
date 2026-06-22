@@ -45,7 +45,7 @@ async function SenderIdContent({ status }: { status: string }) {
     )
   }
 
-  const pendingCount = data.content.filter((r) => r.status === 'PENDING').length
+  const pendingCount = data.content.filter((r) => r.status === 'REQUESTED').length
 
   return (
     <>
@@ -53,7 +53,7 @@ async function SenderIdContent({ status }: { status: string }) {
         <Card className="inline-block">
           <CardContent className="px-6 py-3">
             <span className="text-[24px] font-semibold text-zinc-900">
-              Pending Review: {status === 'PENDING' || status === 'ALL' ? pendingCount : data.content.filter(r => r.status === 'PENDING').length}
+              Pending Review: {status === 'REQUESTED' || status === 'ALL' ? pendingCount : data.content.filter(r => r.status === 'REQUESTED').length}
             </span>
           </CardContent>
         </Card>
@@ -64,7 +64,7 @@ async function SenderIdContent({ status }: { status: string }) {
 }
 
 export default async function SenderIdsPage({ searchParams }: PageProps) {
-  const status = searchParams.status ?? 'PENDING'
+  const status = searchParams.status ?? 'REQUESTED'
 
   return (
     <div>

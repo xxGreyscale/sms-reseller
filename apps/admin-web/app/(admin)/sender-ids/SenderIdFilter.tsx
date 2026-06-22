@@ -25,7 +25,7 @@ export function SenderIdFilter({ defaultValue }: { defaultValue: string }) {
         <SelectValue placeholder="Filter by status" />
       </SelectTrigger>
       <SelectContent>
-        <SelectItem value="PENDING">Pending</SelectItem>
+        <SelectItem value="REQUESTED">Pending</SelectItem>
         <SelectItem value="APPROVED">Approved</SelectItem>
         <SelectItem value="REJECTED">Rejected</SelectItem>
         <SelectItem value="ALL">All</SelectItem>

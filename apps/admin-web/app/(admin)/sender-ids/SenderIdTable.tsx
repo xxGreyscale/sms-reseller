@@ -32,7 +32,7 @@ interface SenderIdTableProps {
 
 function StatusBadge({ status }: { status: string }) {
   const map: Record<string, { label: string; className: string }> = {
-    PENDING: { label: 'Pending', className: 'bg-amber-100 text-amber-700 border-amber-200' },
+    REQUESTED: { label: 'Pending', className: 'bg-amber-100 text-amber-700 border-amber-200' },
     APPROVED: { label: 'Approved', className: 'bg-green-100 text-green-700 border-green-200' },
     REJECTED: { label: 'Rejected', className: 'bg-red-100 text-red-700 border-red-200' },
   }
@@ -51,7 +51,7 @@ export function SenderIdTable({ requests, statusFilter }: SenderIdTableProps) {
 
   const pending = requests.filter((r) => statusFilter === 'ALL' || r.status === statusFilter)
 
-  if (pending.length === 0 && statusFilter === 'PENDING') {
+  if (pending.length === 0 && statusFilter === 'REQUESTED') {
     return (
       <div className="flex flex-col items-center justify-center py-16 text-center">
         <CheckCircle className="h-10 w-10 text-green-600 mb-3" />
@@ -107,7 +107,7 @@ export function SenderIdTable({ requests, statusFilter }: SenderIdTableProps) {
                 <StatusBadge status={req.status} />
               </TableCell>
               <TableCell>
-                {req.status === 'PENDING' && (
+                {req.status === 'REQUESTED' && (
                   <div className="flex gap-2">
                     <Button
                       size="sm"

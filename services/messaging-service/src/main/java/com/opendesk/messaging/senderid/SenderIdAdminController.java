@@ -1,11 +1,15 @@
 package com.opendesk.messaging.senderid;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
@@ -23,6 +27,24 @@ import java.util.UUID;
 public class SenderIdAdminController {
 
     private final SenderIdService senderIdService;
+    private final SenderIdRepository senderIdRepository;
+
+    /**
+     * List the sender-ID approval queue (ADMN-04).
+     * GET /api/v1/internal/sender-ids?status=REQUESTED&page=0&size=50 → Spring Page of requests,
+     * newest-first. Omitting status returns all statuses. Returns {content, totalElements, ...}.
+     */
+    @GetMapping
+    public ResponseEntity<Page<SenderIdDto.SenderIdResponse>> list(
+            @RequestParam(name = "status", required = false) SenderIdStatus status,
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "50") int size) {
+        var pageable = PageRequest.of(page, size);
+        Page<SenderIdRequest> result = (status == null)
+                ? senderIdRepository.findAllByOrderByCreatedAtDesc(pageable)
+                : senderIdRepository.findByStatusOrderByCreatedAtDesc(status, pageable);
+        return ResponseEntity.ok(result.map(SenderIdDto.SenderIdResponse::from));
+    }
 
     /**
      * Approve a sender-ID request (SNDR-03).
