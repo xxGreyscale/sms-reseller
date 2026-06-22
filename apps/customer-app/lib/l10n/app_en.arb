@@ -1,0 +1,228 @@
+{
+  "@@locale": "en",
+
+  "onboardingGetStarted": "Get Started",
+  "@onboardingGetStarted": {"description": "Onboarding last slide CTA"},
+
+  "onboardingSkip": "Skip",
+  "@onboardingSkip": {"description": "Onboarding skip button"},
+
+  "onboardingNext": "Next",
+  "@onboardingNext": {"description": "Onboarding next button"},
+
+  "onboardingSlide1Title": "Send SMS to everyone",
+  "@onboardingSlide1Title": {"description": "Onboarding slide 1 heading"},
+
+  "onboardingSlide1Body": "Reach all your members and customers with bulk SMS in minutes.",
+  "@onboardingSlide1Body": {"description": "Onboarding slide 1 body"},
+
+  "onboardingSlide2Title": "Buy credits in minutes",
+  "@onboardingSlide2Title": {"description": "Onboarding slide 2 heading"},
+
+  "onboardingSlide2Body": "Purchase SMS bundles instantly using mobile money — M-Pesa, Tigo, Airtel and more.",
+  "@onboardingSlide2Body": {"description": "Onboarding slide 2 body"},
+
+  "onboardingSlide3Title": "Verified and trusted",
+  "@onboardingSlide3Title": {"description": "Onboarding slide 3 heading"},
+
+  "onboardingSlide3Body": "Register with your National ID for a verified, trusted sending identity.",
+  "@onboardingSlide3Body": {"description": "Onboarding slide 3 body"},
+
+  "registerSubmitButton": "Create Account",
+  "@registerSubmitButton": {"description": "Registration form submit CTA"},
+
+  "registerTitle": "Create Account",
+  "@registerTitle": {"description": "Registration screen title"},
+
+  "registerAlreadyHaveAccount": "Already have an account? Log in",
+  "@registerAlreadyHaveAccount": {"description": "Registration link to login"},
+
+  "loginSubmitButton": "Log In",
+  "@loginSubmitButton": {"description": "Login form submit CTA"},
+
+  "loginTitle": "Log In",
+  "@loginTitle": {"description": "Login screen title"},
+
+  "loginForgotPassword": "Forgot password?",
+  "@loginForgotPassword": {"description": "Login forgot password link"},
+
+  "loginNoAccount": "Don't have an account? Register",
+  "@loginNoAccount": {"description": "Login link to registration"},
+
+  "dashboardQuickSendFab": "Send SMS",
+  "@dashboardQuickSendFab": {"description": "Dashboard FAB label"},
+
+  "dashboardRecentCampaigns": "Recent Campaigns",
+  "@dashboardRecentCampaigns": {"description": "Dashboard section header for recent campaigns"},
+
+  "dashboardViewAll": "View all campaigns",
+  "@dashboardViewAll": {"description": "Dashboard link to campaign history"},
+
+  "dashboardBalanceLabel": "SMS Credits",
+  "@dashboardBalanceLabel": {"description": "Dashboard balance card label"},
+
+  "bundleBuyButton": "Buy Bundle",
+  "@bundleBuyButton": {"description": "Bundle catalog buy CTA"},
+
+  "bundleCatalogTitle": "Buy SMS Credits",
+  "@bundleCatalogTitle": {"description": "Bundle catalog screen title"},
+
+  "purchaseConfirmButton": "Confirm Purchase",
+  "@purchaseConfirmButton": {"description": "STK purchase confirm CTA"},
+
+  "addContactSaveButton": "Save Contact",
+  "@addContactSaveButton": {"description": "Add contact save CTA"},
+
+  "addContactTitle": "Add Contact",
+  "@addContactTitle": {"description": "Add contact screen title"},
+
+  "composerSendButton": "Send Now",
+  "@composerSendButton": {"description": "Campaign composer send CTA"},
+
+  "composerTitle": "New Campaign",
+  "@composerTitle": {"description": "Campaign composer screen title"},
+
+  "contactsEmptyHeading": "No contacts yet",
+  "@contactsEmptyHeading": {"description": "Contact list empty state heading"},
+
+  "contactsEmptyBody": "Add your first contact to start sending SMS.",
+  "@contactsEmptyBody": {"description": "Contact list empty state body"},
+
+  "campaignsEmptyHeading": "No campaigns yet",
+  "@campaignsEmptyHeading": {"description": "Campaign history empty state heading"},
+
+  "campaignsEmptyBody": "Send your first SMS campaign from the dashboard.",
+  "@campaignsEmptyBody": {"description": "Campaign history empty state body"},
+
+  "notificationsEmptyHeading": "All caught up",
+  "@notificationsEmptyHeading": {"description": "Notification feed empty state heading"},
+
+  "notificationsEmptyBody": "No new notifications.",
+  "@notificationsEmptyBody": {"description": "Notification feed empty state body"},
+
+  "bundlesEmptyHeading": "No bundles available",
+  "@bundlesEmptyHeading": {"description": "Bundle catalog empty state heading"},
+
+  "bundlesEmptyBody": "Please check back later or contact support.",
+  "@bundlesEmptyBody": {"description": "Bundle catalog empty state body"},
+
+  "errorNetworkWrite": "No connection. Please check your internet and try again.",
+  "@errorNetworkWrite": {"description": "Network error on write operation"},
+
+  "errorNetworkLoad": "Could not load data. Pull down to refresh.",
+  "@errorNetworkLoad": {"description": "Network error on initial load with no cache"},
+
+  "staleDataIndicator": "Showing saved data · Last updated {time}",
+  "@staleDataIndicator": {
+    "description": "Stale cache indicator",
+    "placeholders": {
+      "time": {"type": "String"}
+    }
+  },
+
+  "errorRetryButton": "Try Again",
+  "@errorRetryButton": {"description": "Retry button label"},
+
+  "errorLoginFailed": "Incorrect email or password.",
+  "@errorLoginFailed": {"description": "Login failure inline error"},
+
+  "errorNinTaken": "This National ID is already registered. Contact support if this is an error.",
+  "@errorNinTaken": {"description": "NIN already registered error"},
+
+  "paymentExpiredTitle": "Payment timed out",
+  "@paymentExpiredTitle": {"description": "Payment expired state title"},
+
+  "errorInsufficientCredits": "Not enough SMS credits. Top up your balance to send this campaign.",
+  "@errorInsufficientCredits": {"description": "Insufficient credits error"},
+
+  "nidaUnavailableMessage": "Identity verification is taking longer than expected. We'll keep trying automatically.",
+  "@nidaUnavailableMessage": {"description": "NIDA unavailable message"},
+
+  "composerUcs2Warning": "Non-standard characters detected. Each SMS part fits 70 characters instead of 160.",
+  "@composerUcs2Warning": {"description": "UCS-2 encoding warning in composer"},
+
+  "pendingScreenTitle": "Verifying your identity",
+  "@pendingScreenTitle": {"description": "NIDA pending screen title"},
+
+  "pendingScreenBody": "We are confirming your National ID with NIDA. This usually takes a few minutes. You cannot send SMS until your identity is verified.",
+  "@pendingScreenBody": {"description": "NIDA pending screen body"},
+
+  "pendingStatusLabel": "Verification in progress…",
+  "@pendingStatusLabel": {"description": "NIDA pending status indicator label"},
+
+  "verifiedSuccessMessage": "Identity verified! You have received 50 free SMS credits.",
+  "@verifiedSuccessMessage": {"description": "Post-verification success snackbar"},
+
+  "pendingLogoutLink": "Log out and verify later",
+  "@pendingLogoutLink": {"description": "NIDA pending logout link"},
+
+  "stkInstruction": "Check your phone for a payment prompt from your mobile money provider. Enter your PIN to confirm.",
+  "@stkInstruction": {"description": "STK purchase instruction"},
+
+  "stkCountdownLabel": "Time remaining",
+  "@stkCountdownLabel": {"description": "STK countdown label"},
+
+  "stkWaitingBody": "Waiting for payment confirmation…",
+  "@stkWaitingBody": {"description": "STK waiting body"},
+
+  "stkExpiredTitle": "Payment timed out",
+  "@stkExpiredTitle": {"description": "STK expired state title"},
+
+  "stkExpiredBody": "The payment request expired before you confirmed. No money was deducted.",
+  "@stkExpiredBody": {"description": "STK expired state body"},
+
+  "stkTryAgainButton": "Try Again",
+  "@stkTryAgainButton": {"description": "STK expired try again CTA"},
+
+  "stkSuccessTitle": "Payment confirmed!",
+  "@stkSuccessTitle": {"description": "STK success state title"},
+
+  "stkSuccessBody": "{smsCount} SMS credits have been added to your balance.",
+  "@stkSuccessBody": {
+    "description": "STK success state body",
+    "placeholders": {
+      "smsCount": {"type": "int"}
+    }
+  },
+
+  "deleteContactTitle": "Delete {name}? This cannot be undone.",
+  "@deleteContactTitle": {
+    "description": "Delete contact confirmation dialog title",
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+
+  "deleteButton": "Delete",
+  "@deleteButton": {"description": "Destructive delete button"},
+
+  "cancelButton": "Cancel",
+  "@cancelButton": {"description": "Cancel button"},
+
+  "logoutTitle": "Log out?",
+  "@logoutTitle": {"description": "Logout confirmation dialog title"},
+
+  "logoutConfirmButton": "Log Out",
+  "@logoutConfirmButton": {"description": "Logout confirmation button"},
+
+  "notificationsTitle": "Notifications",
+  "@notificationsTitle": {"description": "Notification feed screen title"},
+
+  "campaignsTitle": "Campaigns",
+  "@campaignsTitle": {"description": "Campaign history screen title"},
+
+  "contactsTitle": "Contacts",
+  "@contactsTitle": {"description": "Contact list screen title"},
+
+  "settingsTitle": "Settings",
+  "@settingsTitle": {"description": "Settings screen title"},
+
+  "languageLabel": "Language",
+  "@languageLabel": {"description": "Language toggle label"},
+
+  "languageEnglish": "EN",
+  "@languageEnglish": {"description": "English language option"},
+
+  "languageSwahili": "SW",
+  "@languageSwahili": {"description": "Swahili language option"}
+}

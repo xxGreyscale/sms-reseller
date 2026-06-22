@@ -1,0 +1,147 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:customer_app/core/auth/auth_notifier.dart';
+import 'package:customer_app/core/auth/auth_state.dart';
+import 'package:customer_app/core/router/go_router_refresh_stream.dart';
+
+// ---------------------------------------------------------------------------
+// Placeholder screens (to be replaced in later waves)
+// ---------------------------------------------------------------------------
+
+class _PlaceholderScreen extends StatelessWidget {
+  final String name;
+  const _PlaceholderScreen(this.name);
+
+  @override
+  Widget build(BuildContext context) =>
+      Scaffold(body: Center(child: Text(name)));
+}
+
+// ---------------------------------------------------------------------------
+// Route constants
+// ---------------------------------------------------------------------------
+
+const kSplashRoute = '/splash';
+const kOnboardingRoute = '/onboarding';
+const kLoginRoute = '/login';
+const kRegisterRoute = '/register';
+const kPendingRoute = '/pending';
+const kDashboardRoute = '/dashboard';
+const kBundlesRoute = '/bundles';
+const kBundlesPurchaseRoute = '/bundles/purchase';
+const kContactsRoute = '/contacts';
+const kContactsAddRoute = '/contacts/add';
+const kCampaignsNewRoute = '/campaigns/new';
+const kCampaignsRoute = '/campaigns';
+const kNotificationsRoute = '/notifications';
+
+// ---------------------------------------------------------------------------
+// Public routes (accessible without authentication)
+// ---------------------------------------------------------------------------
+
+const _publicRoutes = [
+  kSplashRoute,
+  kOnboardingRoute,
+  kLoginRoute,
+  kRegisterRoute,
+];
+
+// ---------------------------------------------------------------------------
+// Router provider
+// ---------------------------------------------------------------------------
+
+final appRouterProvider = Provider<GoRouter>((ref) {
+  return GoRouter(
+    initialLocation: kSplashRoute,
+    refreshListenable: GoRouterRefreshNotifier(ref),
+    redirect: (BuildContext context, GoRouterState state) {
+      final authAsync = ref.read(authNotifierProvider);
+      final auth = authAsync.value;
+
+      // Still loading auth state — stay put
+      if (auth == null) return null;
+
+      final location = state.matchedLocation;
+
+      // Rule 1: unauthenticated + not on a public route → /login
+      if (auth is Unauthenticated && !_publicRoutes.contains(location)) {
+        return kLoginRoute;
+      }
+
+      // Rule 2: pending + not on /pending → /pending
+      if (auth is Pending && location != kPendingRoute) {
+        return kPendingRoute;
+      }
+
+      // Rule 3: verified + on an auth-only route → /dashboard
+      if (auth is Verified &&
+          (location == kLoginRoute ||
+              location == kRegisterRoute ||
+              location == kOnboardingRoute)) {
+        return kDashboardRoute;
+      }
+
+      return null;
+    },
+    routes: [
+      GoRoute(
+        path: kSplashRoute,
+        builder: (_, __) => const _PlaceholderScreen('Splash'),
+      ),
+      GoRoute(
+        path: kOnboardingRoute,
+        builder: (_, __) => const _PlaceholderScreen('Onboarding'),
+      ),
+      GoRoute(
+        path: kLoginRoute,
+        builder: (_, __) => const _PlaceholderScreen('Login'),
+      ),
+      GoRoute(
+        path: kRegisterRoute,
+        builder: (_, __) => const _PlaceholderScreen('Register'),
+      ),
+      GoRoute(
+        path: kPendingRoute,
+        builder: (_, __) => const _PlaceholderScreen('Pending'),
+      ),
+      GoRoute(
+        path: kDashboardRoute,
+        builder: (_, __) => const _PlaceholderScreen('Dashboard'),
+      ),
+      GoRoute(
+        path: kBundlesRoute,
+        builder: (_, __) => const _PlaceholderScreen('Bundles'),
+      ),
+      GoRoute(
+        path: kBundlesPurchaseRoute,
+        builder: (_, __) => const _PlaceholderScreen('Purchase'),
+      ),
+      GoRoute(
+        path: kContactsRoute,
+        builder: (_, __) => const _PlaceholderScreen('Contacts'),
+      ),
+      GoRoute(
+        path: kContactsAddRoute,
+        builder: (_, __) => const _PlaceholderScreen('Add Contact'),
+      ),
+      GoRoute(
+        path: kCampaignsNewRoute,
+        builder: (_, __) => const _PlaceholderScreen('Campaign Composer'),
+      ),
+      GoRoute(
+        path: kCampaignsRoute,
+        builder: (_, __) => const _PlaceholderScreen('Campaigns'),
+      ),
+      GoRoute(
+        path: '/campaigns/:id',
+        builder: (_, state) =>
+            _PlaceholderScreen('Campaign ${state.pathParameters['id']}'),
+      ),
+      GoRoute(
+        path: kNotificationsRoute,
+        builder: (_, __) => const _PlaceholderScreen('Notifications'),
+      ),
+    ],
+  );
+});
