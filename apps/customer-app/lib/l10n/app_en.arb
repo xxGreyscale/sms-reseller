@@ -49,6 +49,9 @@
   "loginNoAccount": "Don't have an account? Register",
   "@loginNoAccount": {"description": "Login link to registration"},
 
+  "dashboardTitle": "Dashboard",
+  "@dashboardTitle": {"description": "Dashboard screen title / navigation bar label"},
+
   "dashboardQuickSendFab": "Send SMS",
   "@dashboardQuickSendFab": {"description": "Dashboard FAB label"},
 

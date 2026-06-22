@@ -9,6 +9,7 @@ import 'package:customer_app/features/onboarding/onboarding_screen.dart';
 import 'package:customer_app/features/auth/register_screen.dart';
 import 'package:customer_app/features/auth/login_screen.dart';
 import 'package:customer_app/features/auth/nida_pending_screen.dart';
+import 'package:customer_app/shared/widgets/app_navigation_bar.dart';
 
 // ---------------------------------------------------------------------------
 // Placeholder screens (to be replaced in later waves)
@@ -51,6 +52,23 @@ const _publicRoutes = [
   kLoginRoute,
   kRegisterRoute,
 ];
+
+// ---------------------------------------------------------------------------
+// NavigationBar shell — wraps authenticated routes
+// ---------------------------------------------------------------------------
+
+class _ShellPage extends StatelessWidget {
+  final Widget child;
+  const _ShellPage({required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: child,
+      bottomNavigationBar: const AppNavigationBar(),
+    );
+  }
+}
 
 // ---------------------------------------------------------------------------
 // Router provider
@@ -110,21 +128,41 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: kPendingRoute,
         builder: (_, __) => const NidaPendingScreen(),
       ),
-      GoRoute(
-        path: kDashboardRoute,
-        builder: (_, __) => const _PlaceholderScreen('Dashboard'),
+      // Shell routes — NavigationBar visible for Verified users
+      ShellRoute(
+        builder: (_, __, child) => _ShellPage(child: child),
+        routes: [
+          GoRoute(
+            path: kDashboardRoute,
+            builder: (_, __) => const _PlaceholderScreen('Dashboard'),
+          ),
+          GoRoute(
+            path: kBundlesRoute,
+            builder: (_, __) => const _PlaceholderScreen('Bundles'),
+          ),
+          GoRoute(
+            path: kContactsRoute,
+            builder: (_, __) => const _PlaceholderScreen('Contacts'),
+          ),
+          GoRoute(
+            path: kCampaignsRoute,
+            builder: (_, __) => const _PlaceholderScreen('Campaigns'),
+          ),
+          GoRoute(
+            path: '/campaigns/:id',
+            builder: (_, state) =>
+                _PlaceholderScreen('Campaign ${state.pathParameters['id']}'),
+          ),
+          GoRoute(
+            path: kNotificationsRoute,
+            builder: (_, __) => const _PlaceholderScreen('Notifications'),
+          ),
+        ],
       ),
-      GoRoute(
-        path: kBundlesRoute,
-        builder: (_, __) => const _PlaceholderScreen('Bundles'),
-      ),
+      // Routes that explicitly hide the NavigationBar (no shell)
       GoRoute(
         path: kBundlesPurchaseRoute,
         builder: (_, __) => const _PlaceholderScreen('Purchase'),
-      ),
-      GoRoute(
-        path: kContactsRoute,
-        builder: (_, __) => const _PlaceholderScreen('Contacts'),
       ),
       GoRoute(
         path: kContactsAddRoute,
@@ -133,19 +171,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: kCampaignsNewRoute,
         builder: (_, __) => const _PlaceholderScreen('Campaign Composer'),
-      ),
-      GoRoute(
-        path: kCampaignsRoute,
-        builder: (_, __) => const _PlaceholderScreen('Campaigns'),
-      ),
-      GoRoute(
-        path: '/campaigns/:id',
-        builder: (_, state) =>
-            _PlaceholderScreen('Campaign ${state.pathParameters['id']}'),
-      ),
-      GoRoute(
-        path: kNotificationsRoute,
-        builder: (_, __) => const _PlaceholderScreen('Notifications'),
       ),
     ],
   );

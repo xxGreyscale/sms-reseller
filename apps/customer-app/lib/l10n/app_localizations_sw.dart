@@ -60,6 +60,9 @@ class AppLocalizationsSw extends AppLocalizations {
   String get loginNoAccount => 'Huna akaunti? Jiandikishe';
 
   @override
+  String get dashboardTitle => 'Dashibodi';
+
+  @override
   String get dashboardQuickSendFab => 'Tuma SMS';
 
   @override

@@ -194,6 +194,12 @@ abstract class AppLocalizations {
   /// **'Don\'t have an account? Register'**
   String get loginNoAccount;
 
+  /// Dashboard screen title / navigation bar label
+  ///
+  /// In en, this message translates to:
+  /// **'Dashboard'**
+  String get dashboardTitle;
+
   /// Dashboard FAB label
   ///
   /// In en, this message translates to:

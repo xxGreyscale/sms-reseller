@@ -60,6 +60,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loginNoAccount => 'Don\'t have an account? Register';
 
   @override
+  String get dashboardTitle => 'Dashboard';
+
+  @override
   String get dashboardQuickSendFab => 'Send SMS';
 
   @override
