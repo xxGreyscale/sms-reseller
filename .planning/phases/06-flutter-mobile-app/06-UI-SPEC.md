@@ -1,10 +1,11 @@
 ---
 phase: 6
 slug: flutter-mobile-app
-status: draft
+status: approved
 shadcn_initialized: false
 preset: none
 created: 2026-06-22
+reviewed_at: 2026-06-22
 ---
 
 # Phase 6 — UI Design Contract: Flutter Customer Mobile App
