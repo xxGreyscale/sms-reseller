@@ -60,4 +60,15 @@ public class Notification {
         this.body = body;
         this.payload = payload;
     }
+
+    /**
+     * Marks this notification as read (D-14).
+     *
+     * <p>Called by {@code NotificationService.markAsRead} after a compound (id, userId)
+     * lookup that enforces IDOR protection. The explicit mutator is needed because the
+     * class uses {@code @Getter}-only Lombok annotation; there is no generated setter.
+     */
+    public void markRead() {
+        this.read = true;
+    }
 }
