@@ -13,6 +13,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:customer_app/features/payments/payment_api.dart' show StkPurchaseArgs;
 import 'package:customer_app/features/payments/payment_provider.dart';
 import 'package:customer_app/features/payments/stk_purchase_screen.dart';
 import 'package:customer_app/features/dashboard/balance_provider.dart';
@@ -55,7 +56,7 @@ Widget buildStkScreen({
 
   return ProviderScope(
     overrides: [
-      paymentNotifierProvider.overrideWith((_) => notifier),
+      paymentNotifierProvider.overrideWith(() => notifier),
       balanceProvider.overrideWith((ref) async {
         refreshCount++;
         return const BalanceResult(credits: 200, isStale: false);
