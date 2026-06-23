@@ -14,6 +14,11 @@ import 'package:customer_app/features/notifications/notification_feed_screen.dar
 import 'package:customer_app/features/payments/bundle_catalog_screen.dart';
 import 'package:customer_app/features/payments/payment_api.dart';
 import 'package:customer_app/features/payments/stk_purchase_screen.dart';
+import 'package:customer_app/features/campaigns/composer_screen.dart';
+import 'package:customer_app/features/campaigns/history_screen.dart';
+import 'package:customer_app/features/campaigns/detail_screen.dart';
+import 'package:customer_app/features/contacts/contact_list_screen.dart';
+import 'package:customer_app/features/contacts/add_contact_screen.dart';
 import 'package:customer_app/shared/widgets/app_navigation_bar.dart';
 
 // ---------------------------------------------------------------------------
@@ -147,16 +152,16 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: kContactsRoute,
-            builder: (_, __) => const _PlaceholderScreen('Contacts'),
+            builder: (_, __) => const ContactListScreen(),
           ),
           GoRoute(
             path: kCampaignsRoute,
-            builder: (_, __) => const _PlaceholderScreen('Campaigns'),
+            builder: (_, __) => const CampaignHistoryScreen(),
           ),
           GoRoute(
             path: '/campaigns/:id',
             builder: (_, state) =>
-                _PlaceholderScreen('Campaign ${state.pathParameters['id']}'),
+                DetailScreen(campaignId: state.pathParameters['id']!),
           ),
           GoRoute(
             path: kNotificationsRoute,
@@ -183,11 +188,11 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: kContactsAddRoute,
-        builder: (_, __) => const _PlaceholderScreen('Add Contact'),
+        builder: (_, __) => const AddContactScreen(),
       ),
       GoRoute(
         path: kCampaignsNewRoute,
-        builder: (_, __) => const _PlaceholderScreen('Campaign Composer'),
+        builder: (_, __) => const ComposerScreen(),
       ),
     ],
   );
