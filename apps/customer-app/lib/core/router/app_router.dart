@@ -10,6 +10,7 @@ import 'package:customer_app/features/auth/register_screen.dart';
 import 'package:customer_app/features/auth/login_screen.dart';
 import 'package:customer_app/features/auth/nida_pending_screen.dart';
 import 'package:customer_app/features/dashboard/dashboard_screen.dart';
+import 'package:customer_app/features/payments/bundle_catalog_screen.dart';
 import 'package:customer_app/shared/widgets/app_navigation_bar.dart';
 
 // ---------------------------------------------------------------------------
@@ -139,7 +140,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: kBundlesRoute,
-            builder: (_, __) => const _PlaceholderScreen('Bundles'),
+            builder: (_, __) => const BundleCatalogScreen(),
           ),
           GoRoute(
             path: kContactsRoute,
