@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Wave 4 complete (06-08/09/11) — Phase 6 at 10/12 plans; Wave 5 (06-10) next
+stopped_at: Wave 5 complete (06-10) — Phase 6 at 11/12 plans; Wave 6 (06-12 store submission, manual checkpoint) next
 last_updated: "2026-06-23T08:20:30.150Z"
-last_activity: 2026-06-23 -- Phase 06 Wave 4 merged (STK purchase, contacts, notifications)
+last_activity: 2026-06-23 -- Phase 06 Wave 5 merged (campaign composer + history/detail)
 progress:
   total_phases: 7
   completed_phases: 5
   total_plans: 42
-  completed_plans: 40
-  percent: 76
+  completed_plans: 41
+  percent: 78
 ---
 
 # Project State
@@ -26,11 +26,11 @@ See: .planning/PROJECT.md (updated 2026-06-18)
 ## Current Position
 
 Phase: 06 (flutter-mobile-app) — EXECUTING
-Plan: 10 of 12 (Waves 0–4 complete)
-Status: Executing Phase 06 — Wave 5 (06-10) next, then Wave 6 (06-12 store submission, manual checkpoint)
-Last activity: 2026-06-23 -- Phase 06 Wave 4 merged (STK purchase, contacts, notifications)
+Plan: 11 of 12 (Waves 0–5 complete)
+Status: Executing Phase 06 — Wave 6 (06-12 store submission, manual checkpoint) is the final plan; then phase verification + milestone completion
+Last activity: 2026-06-23 -- Phase 06 Wave 5 merged (campaign composer + history/detail)
 
-Progress: [█████████░] 91%
+Progress: [██████████] 96%
 
 ## Performance Metrics
 
