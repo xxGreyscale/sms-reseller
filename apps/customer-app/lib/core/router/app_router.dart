@@ -14,6 +14,7 @@ import 'package:customer_app/features/notifications/notification_feed_screen.dar
 import 'package:customer_app/features/payments/bundle_catalog_screen.dart';
 import 'package:customer_app/features/payments/payment_api.dart';
 import 'package:customer_app/features/payments/stk_purchase_screen.dart';
+import 'package:customer_app/features/campaigns/composer_screen.dart';
 import 'package:customer_app/shared/widgets/app_navigation_bar.dart';
 
 // ---------------------------------------------------------------------------
@@ -187,7 +188,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: kCampaignsNewRoute,
-        builder: (_, __) => const _PlaceholderScreen('Campaign Composer'),
+        builder: (_, __) => const ComposerScreen(),
       ),
     ],
   );
