@@ -84,6 +84,28 @@ final bundlesProvider =
 });
 
 // ---------------------------------------------------------------------------
+// StkPurchaseArgs — passed from catalog bottom sheet to purchase screen
+// ---------------------------------------------------------------------------
+
+class StkPurchaseArgs {
+  final String bundleId;
+  final String bundleName;
+  final int smsCount;
+  final int priceTzs;
+  final String msisdn;
+  final String provider;
+
+  const StkPurchaseArgs({
+    required this.bundleId,
+    required this.bundleName,
+    required this.smsCount,
+    required this.priceTzs,
+    required this.msisdn,
+    required this.provider,
+  });
+}
+
+// ---------------------------------------------------------------------------
 // API functions (not Riverpod providers — called imperatively from providers)
 // ---------------------------------------------------------------------------
 
