@@ -32,32 +32,32 @@ key_files:
   created:
     - services/wallet-service/build.gradle.kts (full Phase 3 dep set)
     - services/payment-service/build.gradle.kts (full Phase 3 dep set)
-    - services/wallet-service/src/main/java/com/opendesk/wallet/WalletServiceApplication.java
-    - services/payment-service/src/main/java/com/opendesk/payment/PaymentServiceApplication.java
+    - services/wallet-service/src/main/java/com/smsreseller/wallet/WalletServiceApplication.java
+    - services/payment-service/src/main/java/com/smsreseller/payment/PaymentServiceApplication.java
     - services/wallet-service/src/main/resources/application.yml
     - services/payment-service/src/main/resources/application.yml
     - services/wallet-service/src/test/resources/application-test.yml
     - services/payment-service/src/test/resources/application-test.yml
-    - services/wallet-service/src/test/java/com/opendesk/wallet/AbstractWalletIntegrationTest.java
-    - services/payment-service/src/test/java/com/opendesk/payment/AbstractPaymentIntegrationTest.java
+    - services/wallet-service/src/test/java/com/smsreseller/wallet/AbstractWalletIntegrationTest.java
+    - services/payment-service/src/test/java/com/smsreseller/payment/AbstractPaymentIntegrationTest.java
     - services/wallet-service/src/test/resources/test-keys/jwt-private.pem
     - services/wallet-service/src/test/resources/test-keys/jwt-public.pem
     - services/payment-service/src/test/resources/test-keys/jwt-private.pem
     - services/payment-service/src/test/resources/test-keys/jwt-public.pem
-    - services/wallet-service/src/test/java/com/opendesk/wallet/BalanceIT.java
-    - services/wallet-service/src/test/java/com/opendesk/wallet/TransactionHistoryIT.java
-    - services/wallet-service/src/test/java/com/opendesk/wallet/CreditReservationIT.java
-    - services/wallet-service/src/test/java/com/opendesk/wallet/LowCreditAlertIT.java
-    - services/wallet-service/src/test/java/com/opendesk/wallet/ExpiryWarningIT.java
-    - services/wallet-service/src/test/java/com/opendesk/wallet/CreditLotExpiryTest.java
-    - services/wallet-service/src/test/java/com/opendesk/wallet/UserVerifiedConsumerIT.java
-    - services/payment-service/src/test/java/com/opendesk/payment/BundleCatalogIT.java
-    - services/payment-service/src/test/java/com/opendesk/payment/PaymentInitiationIT.java
-    - services/payment-service/src/test/java/com/opendesk/payment/PaymentTimeoutIT.java
-    - services/payment-service/src/test/java/com/opendesk/payment/CallbackProcessingIT.java
-    - services/payment-service/src/test/java/com/opendesk/payment/PaymentHistoryIT.java
-    - services/payment-service/src/test/java/com/opendesk/payment/RefundIT.java
-    - services/payment-service/src/test/java/com/opendesk/payment/ReconciliationIT.java
+    - services/wallet-service/src/test/java/com/smsreseller/wallet/BalanceIT.java
+    - services/wallet-service/src/test/java/com/smsreseller/wallet/TransactionHistoryIT.java
+    - services/wallet-service/src/test/java/com/smsreseller/wallet/CreditReservationIT.java
+    - services/wallet-service/src/test/java/com/smsreseller/wallet/LowCreditAlertIT.java
+    - services/wallet-service/src/test/java/com/smsreseller/wallet/ExpiryWarningIT.java
+    - services/wallet-service/src/test/java/com/smsreseller/wallet/CreditLotExpiryTest.java
+    - services/wallet-service/src/test/java/com/smsreseller/wallet/UserVerifiedConsumerIT.java
+    - services/payment-service/src/test/java/com/smsreseller/payment/BundleCatalogIT.java
+    - services/payment-service/src/test/java/com/smsreseller/payment/PaymentInitiationIT.java
+    - services/payment-service/src/test/java/com/smsreseller/payment/PaymentTimeoutIT.java
+    - services/payment-service/src/test/java/com/smsreseller/payment/CallbackProcessingIT.java
+    - services/payment-service/src/test/java/com/smsreseller/payment/PaymentHistoryIT.java
+    - services/payment-service/src/test/java/com/smsreseller/payment/RefundIT.java
+    - services/payment-service/src/test/java/com/smsreseller/payment/ReconciliationIT.java
   modified:
     - .planning/phases/03-wallet-payments/03-VALIDATION.md (verification map populated, nyquist_compliant=true)
 decisions:

@@ -224,7 +224,7 @@ Analytics read APIs (built now, consumed by Flutter in Phase 6)
 **notification-service** (new Spring Boot module):
 ```
 services/notification-service/
-├── src/main/java/com/opendesk/notification/
+├── src/main/java/com/smsreseller/notification/
 │   ├── config/
 │   │   ├── RabbitMqConfig.java          # passive bindings on all 4 exchanges
 │   │   └── SecurityConfig.java

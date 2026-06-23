@@ -19,23 +19,23 @@ tech_stack:
     - StringRedisTemplate + RedisTemplate<String,String> with StringRedisSerializer
 key_files:
   created:
-    - services/identity-service/src/main/java/com/opendesk/identity/user/VerificationStatus.java
-    - services/identity-service/src/main/java/com/opendesk/identity/user/User.java
-    - services/identity-service/src/main/java/com/opendesk/identity/user/UserRepository.java
-    - services/identity-service/src/main/java/com/opendesk/identity/user/IdentityUserDetailsService.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/user/VerificationStatus.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/user/User.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/user/UserRepository.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/user/IdentityUserDetailsService.java
     - services/identity-service/src/main/resources/db/migration/V1__create_users.sql
-    - services/identity-service/src/main/java/com/opendesk/identity/config/JwtConfig.java
-    - services/identity-service/src/main/java/com/opendesk/identity/token/JwtIssuer.java
-    - services/identity-service/src/main/java/com/opendesk/identity/config/SecurityConfig.java
-    - services/identity-service/src/main/java/com/opendesk/identity/config/RedisConfig.java
-    - services/identity-service/src/main/java/com/opendesk/identity/config/AsyncConfig.java
-    - libs/shared-security/src/main/java/com/opendesk/shared/security/JwtConfig.java
-    - libs/shared-security/src/main/java/com/opendesk/shared/security/VerificationStatus.java
-    - libs/shared-security/src/main/java/com/opendesk/shared/security/AuthClaims.java
-    - services/identity-service/src/test/java/com/opendesk/identity/UserPersistenceTest.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/config/JwtConfig.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/token/JwtIssuer.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/config/SecurityConfig.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/config/RedisConfig.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/config/AsyncConfig.java
+    - libs/shared-security/src/main/java/com/smsreseller/shared/security/JwtConfig.java
+    - libs/shared-security/src/main/java/com/smsreseller/shared/security/VerificationStatus.java
+    - libs/shared-security/src/main/java/com/smsreseller/shared/security/AuthClaims.java
+    - services/identity-service/src/test/java/com/smsreseller/identity/UserPersistenceTest.java
   modified:
-    - services/identity-service/src/test/java/com/opendesk/identity/JwtIssuerUnitTest.java (rewritten from stub)
-    - libs/shared-security/src/test/java/com/opendesk/shared/security/JwtValidationUnitTest.java (forgery test added)
+    - services/identity-service/src/test/java/com/smsreseller/identity/JwtIssuerUnitTest.java (rewritten from stub)
+    - libs/shared-security/src/test/java/com/smsreseller/shared/security/JwtValidationUnitTest.java (forgery test added)
     - services/identity-service/src/test/resources/application-test.yml (removed invalid spring.profiles.active)
     - services/identity-service/build.gradle.kts (added postgresql-driver runtimeOnly)
     - gradle/libs.versions.toml (added postgresql-driver catalog entry)
@@ -72,7 +72,7 @@ Wave 1 production code for the identity-service JWT core and User aggregate:
 
 2. **Task 2 — JWT issuance + shared-security validation contract:**
    - Identity `JwtConfig`: loads RSA keys from `app.jwt.*-key-location` (Spring Resource PEM), exposes `JwtEncoder` (NimbusJwtEncoder + ImmutableJWKSet, keyID=`identity-1`) and `JwtDecoder` beans. Private key never logged (T-02-V6).
-   - `JwtIssuer`: `issueAccessToken(UUID, VerificationStatus)` → RS256 signed JWT, 15-min TTL, issuer=`https://identity.open-desk`, `verification_status` claim (D-02), `roles=[ROLE_USER]`. `withKeys()` static factory for unit testing.
+   - `JwtIssuer`: `issueAccessToken(UUID, VerificationStatus)` → RS256 signed JWT, 15-min TTL, issuer=`https://identity.sms-reseller`, `verification_status` claim (D-02), `roles=[ROLE_USER]`. `withKeys()` static factory for unit testing.
    - `shared-security/JwtConfig`: `@Bean JwtDecoder = NimbusJwtDecoder.withPublicKey(...)` — the bean all 8 downstream modules import.
    - `shared-security/VerificationStatus`: cross-module enum with explicit contract sync documentation.
    - `shared-security/AuthClaims`: `isVerified(Jwt)`, `getVerificationStatus(Jwt)` static helpers — D-02 feature gating API for downstream modules.
@@ -110,7 +110,7 @@ Wave 1 production code for the identity-service JWT core and User aggregate:
 **3. [Rule 1 - Bug] Type erasure on `List<?>` getClaim assertion**
 - **Found during:** Task 2 — `assertThat(roles).contains("ROLE_USER")` failed to compile due to ambiguous overload on `List<?>` (wildcard captures prevent `String` argument); both `contains(T)` and `containsAnyOf(T...)` triggered the same error
 - **Fix:** Cast `decoded.getClaim("roles")` to `(List<String>)` with `@SuppressWarnings("unchecked")`
-- **Files modified:** `services/identity-service/src/test/java/com/opendesk/identity/JwtIssuerUnitTest.java`
+- **Files modified:** `services/identity-service/src/test/java/com/smsreseller/identity/JwtIssuerUnitTest.java`
 - **Commit:** `93b21a0`
 
 ## Threat Model Coverage

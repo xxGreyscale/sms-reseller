@@ -18,17 +18,17 @@ tech_stack:
 key_files:
   created:
     - services/messaging-service/src/main/resources/db/migration/V6__add_operator_to_outbound_messages.sql
-    - services/messaging-service/src/main/java/com/opendesk/messaging/message/CarrierResolver.java
-    - services/messaging-service/src/main/java/com/opendesk/messaging/analytics/CampaignAnalyticsController.java
-    - services/messaging-service/src/main/java/com/opendesk/messaging/analytics/CampaignAnalyticsService.java
-    - services/messaging-service/src/main/java/com/opendesk/messaging/analytics/CampaignStatsDto.java
-    - services/messaging-service/src/main/java/com/opendesk/messaging/analytics/OperatorRateDto.java
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/message/CarrierResolver.java
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/analytics/CampaignAnalyticsController.java
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/analytics/CampaignAnalyticsService.java
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/analytics/CampaignStatsDto.java
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/analytics/OperatorRateDto.java
   modified:
     - services/messaging-service/build.gradle.kts (added libphonenumber)
-    - services/messaging-service/src/main/java/com/opendesk/messaging/message/OutboundMessage.java (operator field)
-    - services/messaging-service/src/main/java/com/opendesk/messaging/message/OutboundMessageRepository.java (ANLX-01/03 queries)
-    - services/messaging-service/src/main/java/com/opendesk/messaging/message/DeliveryReceiptService.java (D-12 outbox emit)
-    - services/messaging-service/src/main/java/com/opendesk/messaging/campaign/CampaignService.java (CarrierResolver wire-in)
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/message/OutboundMessage.java (operator field)
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/message/OutboundMessageRepository.java (ANLX-01/03 queries)
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/message/DeliveryReceiptService.java (D-12 outbox emit)
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/campaign/CampaignService.java (CarrierResolver wire-in)
 decisions:
   - "CampaignCompleted payload built via String.format to avoid ObjectMapper dependency in DeliveryReceiptService; consistent with existing OutboxRelay serialization pattern"
   - "JPQL constructor expression for OperatorRateDto: avoids Object[] projection boilerplate and provides type-safe results directly"
@@ -149,7 +149,7 @@ None — all production paths implemented and tested.
 
 - V6 migration contains ALTER TABLE: FOUND (`ALTER TABLE outbound_messages ADD COLUMN IF NOT EXISTS operator`)
 - V6 migration contains UPDATE (backfill): FOUND (1 UPDATE statement with CASE)
-- CarrierResolver.java: FOUND at services/messaging-service/src/main/java/com/opendesk/messaging/message/CarrierResolver.java
+- CarrierResolver.java: FOUND at services/messaging-service/src/main/java/com/smsreseller/messaging/message/CarrierResolver.java
 - DeliveryReceiptService contains "CampaignCompleted" within status guard: FOUND (`eventType="CampaignCompleted"` inside `if (campaign.getStatus() != CampaignStatus.COMPLETED)` block)
 - CampaignAnalyticsController contains `getSubject()`: FOUND (`auth.getToken().getSubject()`)
 - SecurityConfig analytics path: covered by `.anyRequest().authenticated()` — no special admin role

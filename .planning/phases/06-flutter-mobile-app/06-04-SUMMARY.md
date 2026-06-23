@@ -18,15 +18,15 @@ tech_stack:
     - "NotificationRepository.findByIdAndUserId compound derived query → IDOR ownership enforcement → 404 on not-owned"
 key_files:
   created:
-    - services/identity-service/src/main/java/com/opendesk/identity/web/dto/MeResponse.java
-    - services/identity-service/src/test/java/com/opendesk/identity/auth/AuthMeIT.java
-    - services/notification-service/src/test/java/com/opendesk/notification/notification/MarkReadIT.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/web/dto/MeResponse.java
+    - services/identity-service/src/test/java/com/smsreseller/identity/auth/AuthMeIT.java
+    - services/notification-service/src/test/java/com/smsreseller/notification/notification/MarkReadIT.java
   modified:
-    - services/identity-service/src/main/java/com/opendesk/identity/auth/SessionController.java
-    - services/notification-service/src/main/java/com/opendesk/notification/notification/Notification.java
-    - services/notification-service/src/main/java/com/opendesk/notification/notification/NotificationRepository.java
-    - services/notification-service/src/main/java/com/opendesk/notification/notification/NotificationService.java
-    - services/notification-service/src/main/java/com/opendesk/notification/notification/NotificationController.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/auth/SessionController.java
+    - services/notification-service/src/main/java/com/smsreseller/notification/notification/Notification.java
+    - services/notification-service/src/main/java/com/smsreseller/notification/notification/NotificationRepository.java
+    - services/notification-service/src/main/java/com/smsreseller/notification/notification/NotificationService.java
+    - services/notification-service/src/main/java/com/smsreseller/notification/notification/NotificationController.java
 decisions:
   - "GET /auth/me uses @AuthenticationPrincipal Jwt (not JwtAuthenticationToken) — mirrors existing logout pattern in same file"
   - "GET /auth/me re-reads user from DB (not from JWT claims) so a freshly-VERIFIED user sees correct status without token rotation"
@@ -134,7 +134,7 @@ No new threat surface beyond what the plan's threat model already covers (T-06-0
 ## Self-Check: PASSED
 
 Files exist and commits verified:
-- `/Users/somar/Desktop/private/open-desk/services/identity-service/src/main/java/com/opendesk/identity/web/dto/MeResponse.java` — exists
-- `/Users/somar/Desktop/private/open-desk/services/identity-service/src/test/java/com/opendesk/identity/auth/AuthMeIT.java` — exists
-- `/Users/somar/Desktop/private/open-desk/services/notification-service/src/test/java/com/opendesk/notification/notification/MarkReadIT.java` — exists
+- `/Users/somar/Desktop/private/sms-reseller/services/identity-service/src/main/java/com/smsreseller/identity/web/dto/MeResponse.java` — exists
+- `/Users/somar/Desktop/private/sms-reseller/services/identity-service/src/test/java/com/smsreseller/identity/auth/AuthMeIT.java` — exists
+- `/Users/somar/Desktop/private/sms-reseller/services/notification-service/src/test/java/com/smsreseller/notification/notification/MarkReadIT.java` — exists
 - Commits 167242d, a2afee3, 9e96fc4 — verified in git log

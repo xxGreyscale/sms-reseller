@@ -17,20 +17,20 @@ tech_stack:
     - "Campaign.contactIds: @ElementCollection in campaign_contact_ids table (V7 migration)"
 key_files:
   created:
-    - services/contact-service/src/main/java/com/opendesk/contact/contact/InternalContactController.java
+    - services/contact-service/src/main/java/com/smsreseller/contact/contact/InternalContactController.java
     - services/messaging-service/src/main/resources/db/migration/V7__campaign_contact_ids.sql
-    - services/contact-service/src/test/java/com/opendesk/contact/contact/RecipientsByContactIdsIT.java
-    - services/messaging-service/src/test/java/com/opendesk/messaging/campaign/FlatContactCampaignIT.java
+    - services/contact-service/src/test/java/com/smsreseller/contact/contact/RecipientsByContactIdsIT.java
+    - services/messaging-service/src/test/java/com/smsreseller/messaging/campaign/FlatContactCampaignIT.java
   modified:
-    - services/contact-service/src/main/java/com/opendesk/contact/contact/ContactRepository.java (added findPhonesByContactIdsAndUserId)
-    - services/contact-service/src/main/java/com/opendesk/contact/contact/ContactService.java (added recipientsByContactIds)
-    - services/contact-service/src/main/java/com/opendesk/contact/config/SecurityConfig.java (permit /api/v1/internal/**)
-    - services/messaging-service/src/main/java/com/opendesk/messaging/campaign/CreateCampaignRequest.java (relax groupIds, add contactIds)
-    - services/messaging-service/src/main/java/com/opendesk/messaging/campaign/Campaign.java (add contactIds @ElementCollection)
-    - services/messaging-service/src/main/java/com/opendesk/messaging/campaign/CampaignService.java (create guard + executeSend branch)
-    - services/messaging-service/src/main/java/com/opendesk/messaging/campaign/CampaignController.java (catch IllegalStateException on create)
-    - services/messaging-service/src/main/java/com/opendesk/messaging/contact/ContactRecipientClient.java (add getRecipientsByContactIds)
-    - services/messaging-service/src/main/java/com/opendesk/messaging/contact/RestContactRecipientClient.java (implement getRecipientsByContactIds)
+    - services/contact-service/src/main/java/com/smsreseller/contact/contact/ContactRepository.java (added findPhonesByContactIdsAndUserId)
+    - services/contact-service/src/main/java/com/smsreseller/contact/contact/ContactService.java (added recipientsByContactIds)
+    - services/contact-service/src/main/java/com/smsreseller/contact/config/SecurityConfig.java (permit /api/v1/internal/**)
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/campaign/CreateCampaignRequest.java (relax groupIds, add contactIds)
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/campaign/Campaign.java (add contactIds @ElementCollection)
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/campaign/CampaignService.java (create guard + executeSend branch)
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/campaign/CampaignController.java (catch IllegalStateException on create)
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/contact/ContactRecipientClient.java (add getRecipientsByContactIds)
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/contact/RestContactRecipientClient.java (implement getRecipientsByContactIds)
 decisions:
   - "Flyway V7 (not V6) for campaign_contact_ids: V6__add_operator_to_outbound_messages.sql already existed; plan named V6 but V7 is the correct next version"
   - "InternalContactController /api/v1/internal/** is permitAll: mirrors the established internal-call posture — no JWT passed between services at this layer; Traefik network policy restricts external exposure"
@@ -94,7 +94,7 @@ POST /api/v1/campaigns
 {
   "name": "Member Blast",
   "body": "Hello members!",
-  "senderId": "OPENDESK",
+  "senderId": "SMSRESELLER",
   "contactIds": ["<uuid1>", "<uuid2>"]   // flat contacts — no groupIds needed
 }
 ```
@@ -140,8 +140,8 @@ Note: the existing group-path `RestContactRecipientClient.getRecipientsForGroups
 
 ## Self-Check: PASSED
 
-- `services/contact-service/src/main/java/com/opendesk/contact/contact/InternalContactController.java`: EXISTS
+- `services/contact-service/src/main/java/com/smsreseller/contact/contact/InternalContactController.java`: EXISTS
 - `services/messaging-service/src/main/resources/db/migration/V7__campaign_contact_ids.sql`: EXISTS
-- `services/messaging-service/src/main/java/com/opendesk/messaging/campaign/CreateCampaignRequest.java`: contains `contactIds`
+- `services/messaging-service/src/main/java/com/smsreseller/messaging/campaign/CreateCampaignRequest.java`: contains `contactIds`
 - Commits 970d949, e2aedc2, 694c1a2, 0c0fa06: all present in git log
 - Full test suite `./gradlew :services:contact-service:test :services:messaging-service:test`: BUILD SUCCESSFUL

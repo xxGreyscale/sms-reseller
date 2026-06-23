@@ -21,7 +21,7 @@ if (hasReleaseKeystore) {
 }
 
 android {
-    namespace = "com.opendesk.customer_app"
+    namespace = "com.smsreseller.customer_app"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -35,7 +35,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.opendesk.customer_app"
+        applicationId = "com.smsreseller.customer_app"
         minSdk = flutter.minSdkVersion
         // Google Play requires apps to target a recent API level.
         targetSdk = maxOf(flutter.targetSdkVersion, 34)

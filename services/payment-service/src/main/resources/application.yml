@@ -44,7 +44,7 @@ app:
   # Azampay prod credentials — injected via K8s Secrets in prod (D-10, CLAUDE.md)
   azampay:
     base-url: ${AZAMPAY_BASE_URL:https://sandbox.azampay.co.tz}
-    app-name: ${AZAMPAY_APP_NAME:open-desk}
+    app-name: ${AZAMPAY_APP_NAME:sms-reseller}
     client-id: ${AZAMPAY_CLIENT_ID:placeholder}
     client-secret: ${AZAMPAY_CLIENT_SECRET:placeholder}
 

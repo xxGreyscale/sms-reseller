@@ -26,36 +26,36 @@ tech_stack:
     - JwtAuthenticationToken method injection in controller (no SecurityContextHolder thread-local)
 key_files:
   created:
-    - services/notification-service/src/main/java/com/opendesk/notification/config/RabbitMqConfig.java
-    - services/notification-service/src/main/java/com/opendesk/notification/config/SecurityConfig.java
-    - services/notification-service/src/main/java/com/opendesk/notification/idempotency/ProcessedEvent.java
-    - services/notification-service/src/main/java/com/opendesk/notification/idempotency/ProcessedEventRepository.java
-    - services/notification-service/src/main/java/com/opendesk/notification/notification/Notification.java
-    - services/notification-service/src/main/java/com/opendesk/notification/notification/NotificationType.java
-    - services/notification-service/src/main/java/com/opendesk/notification/notification/NotificationRepository.java
-    - services/notification-service/src/main/java/com/opendesk/notification/notification/NotificationService.java
-    - services/notification-service/src/main/java/com/opendesk/notification/notification/NotificationController.java
-    - services/notification-service/src/main/java/com/opendesk/notification/notification/NotificationDto.java
-    - services/notification-service/src/main/java/com/opendesk/notification/push/NotificationChannel.java
-    - services/notification-service/src/main/java/com/opendesk/notification/push/StubPushChannel.java
-    - services/notification-service/src/main/java/com/opendesk/notification/consumer/Events.java
-    - services/notification-service/src/main/java/com/opendesk/notification/consumer/IdentityEventConsumer.java
-    - services/notification-service/src/main/java/com/opendesk/notification/consumer/PaymentEventConsumer.java
-    - services/notification-service/src/main/java/com/opendesk/notification/consumer/WalletEventConsumer.java
-    - services/notification-service/src/main/java/com/opendesk/notification/consumer/MessagingEventConsumer.java
+    - services/notification-service/src/main/java/com/smsreseller/notification/config/RabbitMqConfig.java
+    - services/notification-service/src/main/java/com/smsreseller/notification/config/SecurityConfig.java
+    - services/notification-service/src/main/java/com/smsreseller/notification/idempotency/ProcessedEvent.java
+    - services/notification-service/src/main/java/com/smsreseller/notification/idempotency/ProcessedEventRepository.java
+    - services/notification-service/src/main/java/com/smsreseller/notification/notification/Notification.java
+    - services/notification-service/src/main/java/com/smsreseller/notification/notification/NotificationType.java
+    - services/notification-service/src/main/java/com/smsreseller/notification/notification/NotificationRepository.java
+    - services/notification-service/src/main/java/com/smsreseller/notification/notification/NotificationService.java
+    - services/notification-service/src/main/java/com/smsreseller/notification/notification/NotificationController.java
+    - services/notification-service/src/main/java/com/smsreseller/notification/notification/NotificationDto.java
+    - services/notification-service/src/main/java/com/smsreseller/notification/push/NotificationChannel.java
+    - services/notification-service/src/main/java/com/smsreseller/notification/push/StubPushChannel.java
+    - services/notification-service/src/main/java/com/smsreseller/notification/consumer/Events.java
+    - services/notification-service/src/main/java/com/smsreseller/notification/consumer/IdentityEventConsumer.java
+    - services/notification-service/src/main/java/com/smsreseller/notification/consumer/PaymentEventConsumer.java
+    - services/notification-service/src/main/java/com/smsreseller/notification/consumer/WalletEventConsumer.java
+    - services/notification-service/src/main/java/com/smsreseller/notification/consumer/MessagingEventConsumer.java
     - services/notification-service/src/main/resources/db/migration/V1__create_processed_events.sql
     - services/notification-service/src/main/resources/db/migration/V2__create_notifications.sql
-    - services/notification-service/src/test/java/com/opendesk/notification/TestKeys.java
-    - services/notification-service/src/test/java/com/opendesk/notification/JwtTestHelper.java
+    - services/notification-service/src/test/java/com/smsreseller/notification/TestKeys.java
+    - services/notification-service/src/test/java/com/smsreseller/notification/JwtTestHelper.java
   modified:
-    - services/notification-service/src/main/java/com/opendesk/notification/NotificationServiceApplication.java (added @EnableJpaAuditing)
-    - services/notification-service/src/test/java/com/opendesk/notification/notification/NotificationFeedIT.java (RED → GREEN)
-    - services/notification-service/src/test/java/com/opendesk/notification/consumer/UserVerifiedConsumerIT.java (RED → GREEN)
-    - services/notification-service/src/test/java/com/opendesk/notification/consumer/PaymentConfirmedConsumerIT.java (RED → GREEN)
-    - services/notification-service/src/test/java/com/opendesk/notification/consumer/LowCreditAlertConsumerIT.java (RED → GREEN)
-    - services/notification-service/src/test/java/com/opendesk/notification/consumer/ExpiryWarningConsumerIT.java (RED → GREEN)
-    - services/notification-service/src/test/java/com/opendesk/notification/consumer/CampaignCompletedConsumerIT.java (RED → GREEN)
-    - services/notification-service/src/test/java/com/opendesk/notification/consumer/SenderIdDecidedConsumerIT.java (RED → GREEN)
+    - services/notification-service/src/main/java/com/smsreseller/notification/NotificationServiceApplication.java (added @EnableJpaAuditing)
+    - services/notification-service/src/test/java/com/smsreseller/notification/notification/NotificationFeedIT.java (RED → GREEN)
+    - services/notification-service/src/test/java/com/smsreseller/notification/consumer/UserVerifiedConsumerIT.java (RED → GREEN)
+    - services/notification-service/src/test/java/com/smsreseller/notification/consumer/PaymentConfirmedConsumerIT.java (RED → GREEN)
+    - services/notification-service/src/test/java/com/smsreseller/notification/consumer/LowCreditAlertConsumerIT.java (RED → GREEN)
+    - services/notification-service/src/test/java/com/smsreseller/notification/consumer/ExpiryWarningConsumerIT.java (RED → GREEN)
+    - services/notification-service/src/test/java/com/smsreseller/notification/consumer/CampaignCompletedConsumerIT.java (RED → GREEN)
+    - services/notification-service/src/test/java/com/smsreseller/notification/consumer/SenderIdDecidedConsumerIT.java (RED → GREEN)
 decisions:
   - "Events.java local records duplicate upstream event shapes — service boundary isolation: no cross-service class imports"
   - "WalletEventConsumer uses two separate @RabbitListener methods on two queue names (notification.wallet.LowCreditAlert + notification.wallet.ExpiryWarning) instead of a shared queue — simpler and avoids @RabbitListeners container annotation complexity"

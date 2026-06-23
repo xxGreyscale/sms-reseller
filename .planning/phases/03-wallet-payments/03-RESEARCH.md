@@ -207,7 +207,7 @@ payment_outbox → OutboxRelay → payments.events (AMQP)
 ```
 services/
 ├── wallet-service/
-│   ├── src/main/java/com/opendesk/wallet/
+│   ├── src/main/java/com/smsreseller/wallet/
 │   │   ├── lot/             # CreditLot entity, CreditLotRepository, LotService
 │   │   ├── reservation/     # CreditReservation entity, ReservationService (SELECT FOR UPDATE)
 │   │   ├── transaction/     # CreditTransaction entity (append-only ledger entries)
@@ -224,7 +224,7 @@ services/
 │       └── V4__create_outbox.sql
 │
 ├── payment-service/
-│   ├── src/main/java/com/opendesk/payment/
+│   ├── src/main/java/com/smsreseller/payment/
 │   │   ├── bundle/          # SmsBundle entity, BundleRepository, BundleController
 │   │   ├── gateway/         # PaymentGateway interface, StubPaymentGateway, AzampayPaymentGateway
 │   │   ├── payment/         # Payment entity, PaymentRepository, PaymentService, PaymentController
@@ -803,14 +803,14 @@ Note: TZS stored as BIGINT cents (multiply TZS × 100). Taster `is_purchasable=f
 - **Phase gate:** Full suite green before `/gsd:verify-work`
 
 ### Wave 0 Gaps
-- [ ] `services/wallet-service/src/test/java/com/opendesk/wallet/AbstractWalletIntegrationTest.java` — PG16 + RabbitMQ + Redis @ServiceConnection base (copy from identity-service)
-- [ ] `services/wallet-service/src/test/java/com/opendesk/wallet/BalanceIT.java`
-- [ ] `services/wallet-service/src/test/java/com/opendesk/wallet/CreditReservationIT.java`
-- [ ] `services/wallet-service/src/test/java/com/opendesk/wallet/UserVerifiedConsumerIT.java`
-- [ ] `services/payment-service/src/test/java/com/opendesk/payment/AbstractPaymentIntegrationTest.java`
-- [ ] `services/payment-service/src/test/java/com/opendesk/payment/BundleCatalogIT.java`
-- [ ] `services/payment-service/src/test/java/com/opendesk/payment/CallbackProcessingIT.java`
-- [ ] `services/payment-service/src/test/java/com/opendesk/payment/ReconciliationIT.java`
+- [ ] `services/wallet-service/src/test/java/com/smsreseller/wallet/AbstractWalletIntegrationTest.java` — PG16 + RabbitMQ + Redis @ServiceConnection base (copy from identity-service)
+- [ ] `services/wallet-service/src/test/java/com/smsreseller/wallet/BalanceIT.java`
+- [ ] `services/wallet-service/src/test/java/com/smsreseller/wallet/CreditReservationIT.java`
+- [ ] `services/wallet-service/src/test/java/com/smsreseller/wallet/UserVerifiedConsumerIT.java`
+- [ ] `services/payment-service/src/test/java/com/smsreseller/payment/AbstractPaymentIntegrationTest.java`
+- [ ] `services/payment-service/src/test/java/com/smsreseller/payment/BundleCatalogIT.java`
+- [ ] `services/payment-service/src/test/java/com/smsreseller/payment/CallbackProcessingIT.java`
+- [ ] `services/payment-service/src/test/java/com/smsreseller/payment/ReconciliationIT.java`
 - [ ] Stub IT placeholder per requirement (one stub per REQ, matching Phase 2 02-01 convention)
 
 ---

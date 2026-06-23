@@ -19,22 +19,22 @@ key_files:
     - services/contact-service/src/main/resources/db/migration/V1__create_contacts.sql
     - services/contact-service/src/main/resources/db/migration/V2__create_contact_groups.sql
     - services/contact-service/src/main/resources/db/migration/V3__create_suppressed_numbers.sql
-    - services/contact-service/src/main/java/com/opendesk/contact/config/SecurityConfig.java
-    - services/contact-service/src/main/java/com/opendesk/contact/contact/Contact.java
-    - services/contact-service/src/main/java/com/opendesk/contact/contact/ContactRepository.java
-    - services/contact-service/src/main/java/com/opendesk/contact/contact/ContactService.java
-    - services/contact-service/src/main/java/com/opendesk/contact/contact/ContactController.java
-    - services/contact-service/src/main/java/com/opendesk/contact/contact/ContactDto.java
-    - services/contact-service/src/main/java/com/opendesk/contact/group/ContactGroup.java
-    - services/contact-service/src/main/java/com/opendesk/contact/group/GroupMembership.java
-    - services/contact-service/src/main/java/com/opendesk/contact/group/ContactGroupRepository.java
-    - services/contact-service/src/main/java/com/opendesk/contact/group/GroupMembershipRepository.java
-    - services/contact-service/src/main/java/com/opendesk/contact/group/GroupService.java
-    - services/contact-service/src/main/java/com/opendesk/contact/group/GroupController.java
-    - services/contact-service/src/main/java/com/opendesk/contact/suppression/SuppressedNumber.java
-    - services/contact-service/src/main/java/com/opendesk/contact/suppression/SuppressionRepository.java
-    - services/contact-service/src/main/java/com/opendesk/contact/suppression/SuppressionService.java
-    - services/contact-service/src/main/java/com/opendesk/contact/suppression/SuppressionController.java
+    - services/contact-service/src/main/java/com/smsreseller/contact/config/SecurityConfig.java
+    - services/contact-service/src/main/java/com/smsreseller/contact/contact/Contact.java
+    - services/contact-service/src/main/java/com/smsreseller/contact/contact/ContactRepository.java
+    - services/contact-service/src/main/java/com/smsreseller/contact/contact/ContactService.java
+    - services/contact-service/src/main/java/com/smsreseller/contact/contact/ContactController.java
+    - services/contact-service/src/main/java/com/smsreseller/contact/contact/ContactDto.java
+    - services/contact-service/src/main/java/com/smsreseller/contact/group/ContactGroup.java
+    - services/contact-service/src/main/java/com/smsreseller/contact/group/GroupMembership.java
+    - services/contact-service/src/main/java/com/smsreseller/contact/group/ContactGroupRepository.java
+    - services/contact-service/src/main/java/com/smsreseller/contact/group/GroupMembershipRepository.java
+    - services/contact-service/src/main/java/com/smsreseller/contact/group/GroupService.java
+    - services/contact-service/src/main/java/com/smsreseller/contact/group/GroupController.java
+    - services/contact-service/src/main/java/com/smsreseller/contact/suppression/SuppressedNumber.java
+    - services/contact-service/src/main/java/com/smsreseller/contact/suppression/SuppressionRepository.java
+    - services/contact-service/src/main/java/com/smsreseller/contact/suppression/SuppressionService.java
+    - services/contact-service/src/main/java/com/smsreseller/contact/suppression/SuppressionController.java
   modified: []
 decisions:
   - "Used @OnDelete(action=OnDeleteAction.CASCADE) on GroupMembership FKs so Hibernate DDL generates real FK constraints with ON DELETE CASCADE — required because tests use ddl-auto=create-drop (Flyway disabled) and plain @Column UUIDs without @ManyToOne produce no FK at all"

@@ -20,10 +20,10 @@ files_reviewed_list:
   - libs/shared-security/build.gradle.kts
   - libs/shared-observability/build.gradle.kts
   - apps/admin-web/build.gradle.kts
-  - libs/shared-security/src/main/java/com/opendesk/shared/security/package-info.java
-  - libs/shared-security/src/test/java/com/opendesk/shared/security/SharedSecurityModuleTest.java
-  - libs/shared-observability/src/main/java/com/opendesk/shared/observability/package-info.java
-  - libs/shared-observability/src/test/java/com/opendesk/shared/observability/SharedObservabilityModuleTest.java
+  - libs/shared-security/src/main/java/com/smsreseller/shared/security/package-info.java
+  - libs/shared-security/src/test/java/com/smsreseller/shared/security/SharedSecurityModuleTest.java
+  - libs/shared-observability/src/main/java/com/smsreseller/shared/observability/package-info.java
+  - libs/shared-observability/src/test/java/com/smsreseller/shared/observability/SharedObservabilityModuleTest.java
   - settings.gradle.kts
   - build.gradle.kts
   - gradle.properties
@@ -45,7 +45,7 @@ status: issues_found
 
 ## Summary
 
-Reviewed the complete Gradle multi-module monorepo skeleton for the open-desk platform: buildSrc convention plugins, version catalog, 8 service build files, 2 shared library build files, placeholder tests, settings, and configuration files.
+Reviewed the complete Gradle multi-module monorepo skeleton for the sms-reseller platform: buildSrc convention plugins, version catalog, 8 service build files, 2 shared library build files, placeholder tests, settings, and configuration files.
 
 The skeleton compiles and passes its Wave 0 tests as documented. However, three defects will cause failures the moment real implementation work begins in Phase 2:
 

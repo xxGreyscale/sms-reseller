@@ -17,22 +17,22 @@ tech_stack:
     - "@Transactional consumer: tryInsert + ledger mutation commit together or both roll back (T-04-09)"
 key_files:
   created:
-    - services/wallet-service/src/main/java/com/opendesk/wallet/reservation/LotAllocation.java
-    - services/wallet-service/src/main/java/com/opendesk/wallet/consumer/MessageAccepted.java
-    - services/wallet-service/src/main/java/com/opendesk/wallet/consumer/MessageReleased.java
-    - services/wallet-service/src/main/java/com/opendesk/wallet/consumer/MessageRefundDue.java
-    - services/wallet-service/src/main/java/com/opendesk/wallet/consumer/MessagingEventConsumer.java
-    - services/wallet-service/src/test/java/com/opendesk/wallet/ReservationAllocationTest.java
-    - services/wallet-service/src/test/java/com/opendesk/wallet/LotConsumeReleaseTest.java
-    - services/wallet-service/src/test/java/com/opendesk/wallet/MessagingEventConsumerIT.java
+    - services/wallet-service/src/main/java/com/smsreseller/wallet/reservation/LotAllocation.java
+    - services/wallet-service/src/main/java/com/smsreseller/wallet/consumer/MessageAccepted.java
+    - services/wallet-service/src/main/java/com/smsreseller/wallet/consumer/MessageReleased.java
+    - services/wallet-service/src/main/java/com/smsreseller/wallet/consumer/MessageRefundDue.java
+    - services/wallet-service/src/main/java/com/smsreseller/wallet/consumer/MessagingEventConsumer.java
+    - services/wallet-service/src/test/java/com/smsreseller/wallet/ReservationAllocationTest.java
+    - services/wallet-service/src/test/java/com/smsreseller/wallet/LotConsumeReleaseTest.java
+    - services/wallet-service/src/test/java/com/smsreseller/wallet/MessagingEventConsumerIT.java
   modified:
-    - services/wallet-service/src/main/java/com/opendesk/wallet/reservation/ReservationResult.java (added allocations field)
-    - services/wallet-service/src/main/java/com/opendesk/wallet/reservation/ReservationService.java (captures per-lot take into allocations)
-    - services/wallet-service/src/main/java/com/opendesk/wallet/lot/LotService.java (added consumeFromLot + releaseFromLot)
+    - services/wallet-service/src/main/java/com/smsreseller/wallet/reservation/ReservationResult.java (added allocations field)
+    - services/wallet-service/src/main/java/com/smsreseller/wallet/reservation/ReservationService.java (captures per-lot take into allocations)
+    - services/wallet-service/src/main/java/com/smsreseller/wallet/lot/LotService.java (added consumeFromLot + releaseFromLot)
 decisions:
   - "ReservationResult is a Java record — records are immutable and have fixed components; adding allocations as a third component requires callers to use three-arg constructor. The lotIds and reservedCount components remain at positions 0 and 1 — existing callers that destructure via canonical constructor must add the third arg. Any new callers use the three-arg constructor. This is a breaking change at the record level but no Phase 3 callers construct ReservationResult directly (only ReservationService does), so there is no regression."
   - "MessagingEventConsumer does NOT declare a messaging.events TopicExchange @Bean in wallet-service — the exchange is owned by messaging-service; @QueueBinding creates the wallet queues and binds them passively."
-  - "MessageAccepted/MessageReleased/MessageRefundDue are local records in com.opendesk.wallet.consumer — service boundary respected (no com.opendesk.messaging import), same pattern as UserVerifiedEvent and PaymentConfirmedEvent."
+  - "MessageAccepted/MessageReleased/MessageRefundDue are local records in com.smsreseller.wallet.consumer — service boundary respected (no com.smsreseller.messaging import), same pattern as UserVerifiedEvent and PaymentConfirmedEvent."
   - "consumeFromLot/releaseFromLot apply a delta of 1 per call — each event corresponds to exactly one message/one credit; MessagingEventConsumer calls them once per event after idempotency guard."
 metrics:
   duration: "~35 minutes"
@@ -200,7 +200,7 @@ No new network endpoints, auth paths, or file access patterns introduced. The AM
 - [x] `LotService.java` contains `consumeFromLot` and `releaseFromLot` methods
 - [x] `MessagingEventConsumer.java` contains `tryInsert` in all three handlers
 - [x] No `messaging.events` TopicExchange `@Bean` in `wallet-service/.../config/RabbitMqConfig.java`
-- [x] No `com.opendesk.messaging` import in any wallet-service source file
+- [x] No `com.smsreseller.messaging` import in any wallet-service source file
 - [x] No `javax.*` imports in any created file (all use `jakarta.*` where applicable)
 - [x] `./gradlew :services:wallet-service:test` BUILD SUCCESSFUL (all tests GREEN, no Phase 3 regression)
 - [x] RED commits (`a4d8f28`, `abfb5dd`) exist before GREEN commits (`1eb528f`, `39d9064`)

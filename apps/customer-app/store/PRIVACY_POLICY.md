@@ -42,6 +42,6 @@ close your account. Contact us at the address below.
 The App is intended for organizations and adults; it is not directed at children under 13.
 
 ## Contact
-Open Desk — privacy@opendesk.co.tz
+Open Desk — privacy@smsreseller.co.tz
 
 _This template should be reviewed by legal counsel and localized (EN + SW) before publication._

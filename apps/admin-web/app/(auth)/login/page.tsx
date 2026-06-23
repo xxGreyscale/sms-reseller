@@ -55,7 +55,7 @@ export default function LoginPage() {
                 name="email"
                 type="email"
                 autoComplete="email"
-                placeholder="admin@opendesk.co.tz"
+                placeholder="admin@smsreseller.co.tz"
                 required
                 disabled={isPending}
                 className="text-[14px]"

@@ -19,22 +19,22 @@ tech_stack:
     - Static {} container start in AbstractIntegrationTest — shared containers across all @SpringBootTest classes without @Testcontainers/@Container premature-stop issue
 key_files:
   created:
-    - services/identity-service/src/main/java/com/opendesk/identity/token/RefreshToken.java
-    - services/identity-service/src/main/java/com/opendesk/identity/token/RefreshTokenService.java
-    - services/identity-service/src/main/java/com/opendesk/identity/token/InvalidRefreshTokenException.java
-    - services/identity-service/src/main/java/com/opendesk/identity/lockout/LoginAttemptService.java
-    - services/identity-service/src/main/java/com/opendesk/identity/auth/LoginService.java
-    - services/identity-service/src/main/java/com/opendesk/identity/auth/SessionController.java
-    - services/identity-service/src/main/java/com/opendesk/identity/web/dto/LoginRequest.java
-    - services/identity-service/src/main/java/com/opendesk/identity/web/dto/TokenResponse.java
-    - services/identity-service/src/main/java/com/opendesk/identity/web/dto/RefreshRequest.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/token/RefreshToken.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/token/RefreshTokenService.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/token/InvalidRefreshTokenException.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/lockout/LoginAttemptService.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/auth/LoginService.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/auth/SessionController.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/web/dto/LoginRequest.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/web/dto/TokenResponse.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/web/dto/RefreshRequest.java
   modified:
-    - services/identity-service/src/test/java/com/opendesk/identity/RefreshRotationIT.java (placeholder → real assertions)
-    - services/identity-service/src/test/java/com/opendesk/identity/LoginIT.java (placeholder → real assertions)
-    - services/identity-service/src/test/java/com/opendesk/identity/LockoutIT.java (placeholder → real assertions)
-    - services/identity-service/src/test/java/com/opendesk/identity/LogoutIT.java (placeholder → real assertions)
-    - services/identity-service/src/test/java/com/opendesk/identity/AbstractIntegrationTest.java (static {} container start)
-    - services/identity-service/src/test/java/com/opendesk/identity/UserPersistenceTest.java (@BeforeEach deleteAll)
+    - services/identity-service/src/test/java/com/smsreseller/identity/RefreshRotationIT.java (placeholder → real assertions)
+    - services/identity-service/src/test/java/com/smsreseller/identity/LoginIT.java (placeholder → real assertions)
+    - services/identity-service/src/test/java/com/smsreseller/identity/LockoutIT.java (placeholder → real assertions)
+    - services/identity-service/src/test/java/com/smsreseller/identity/LogoutIT.java (placeholder → real assertions)
+    - services/identity-service/src/test/java/com/smsreseller/identity/AbstractIntegrationTest.java (static {} container start)
+    - services/identity-service/src/test/java/com/smsreseller/identity/UserPersistenceTest.java (@BeforeEach deleteAll)
 decisions:
   - "Token format {userId}|{deviceId}|{random} embeds routing metadata so rotate() derives the Redis key without a secondary lookup"
   - "Both key-absent AND hash-mismatch in rotate() trigger revokeAll — hash-mismatch means a previously-rotated token is being presented, which is also a reuse attack (Pitfall 4)"

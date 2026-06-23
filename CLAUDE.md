@@ -1,7 +1,7 @@
 <!-- GSD:project-start source:PROJECT.md -->
 ## Project
 
-**SMS Reseller Platform (open-desk)**
+**SMS Reseller Platform (sms-reseller)**
 
 A NIDA-verified bulk SMS reseller platform built for small organizations in Tanzania. Users register with their National ID (NIDA), purchase prepaid SMS bundles via mobile money (Azampay), manage their contacts, and dispatch bulk messages — all through a simple, mobile-first web interface. The platform acts as a reseller between an upstream SMS provider and small-batch buyers who need simplicity and trust over raw API access.
 

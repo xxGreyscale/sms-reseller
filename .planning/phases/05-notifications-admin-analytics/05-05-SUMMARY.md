@@ -15,13 +15,13 @@ tech_stack:
     - Controller error-handling via IllegalStateException with not-found string check
 key_files:
   created:
-    - services/payment-service/src/main/java/com/opendesk/payment/bundle/AdminBundleController.java
-    - services/payment-service/src/main/java/com/opendesk/payment/bundle/BundleSaveRequest.java
-    - services/payment-service/src/main/java/com/opendesk/payment/bundle/BundleAdminService.java
+    - services/payment-service/src/main/java/com/smsreseller/payment/bundle/AdminBundleController.java
+    - services/payment-service/src/main/java/com/smsreseller/payment/bundle/BundleSaveRequest.java
+    - services/payment-service/src/main/java/com/smsreseller/payment/bundle/BundleAdminService.java
   modified:
-    - services/payment-service/src/main/java/com/opendesk/payment/config/SecurityConfig.java
-    - services/payment-service/src/test/java/com/opendesk/payment/bundle/AdminBundleCatalogIT.java
-    - services/payment-service/src/test/java/com/opendesk/payment/JwtTestHelper.java
+    - services/payment-service/src/main/java/com/smsreseller/payment/config/SecurityConfig.java
+    - services/payment-service/src/test/java/com/smsreseller/payment/bundle/AdminBundleCatalogIT.java
+    - services/payment-service/src/test/java/com/smsreseller/payment/JwtTestHelper.java
 decisions:
   - SecurityConfig jwtAuthenticationConverter reads roles claim directly (ROLE_ADMIN string) — consistent with messaging-service pattern from 05-PATTERNS.md
   - BundleAdminService wraps BundleRepository rather than embedding logic in controller — testable and follows service-layer pattern
@@ -84,9 +84,9 @@ None — all threats in plan's threat model (T-05-12, T-05-13) are mitigated by 
 ## Self-Check: PASSED
 
 Files verified:
-- FOUND: services/payment-service/src/main/java/com/opendesk/payment/bundle/AdminBundleController.java
-- FOUND: services/payment-service/src/main/java/com/opendesk/payment/bundle/BundleSaveRequest.java
-- FOUND: services/payment-service/src/main/java/com/opendesk/payment/bundle/BundleAdminService.java
+- FOUND: services/payment-service/src/main/java/com/smsreseller/payment/bundle/AdminBundleController.java
+- FOUND: services/payment-service/src/main/java/com/smsreseller/payment/bundle/BundleSaveRequest.java
+- FOUND: services/payment-service/src/main/java/com/smsreseller/payment/bundle/BundleAdminService.java
 
 Commits verified:
 - ecc6d97 (RED test)

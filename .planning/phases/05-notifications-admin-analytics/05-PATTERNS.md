@@ -49,11 +49,11 @@
 
 ### `ProcessedEventRepository.java` — idempotency gate (notification-service copy)
 
-**Analog:** `services/wallet-service/src/main/java/com/opendesk/wallet/consumer/ProcessedEventRepository.java`
+**Analog:** `services/wallet-service/src/main/java/com/smsreseller/wallet/consumer/ProcessedEventRepository.java`
 
 **Full file (lines 1–42) — copy verbatim, change package only:**
 ```java
-package com.opendesk.notification.idempotency;  // ← only change
+package com.smsreseller.notification.idempotency;  // ← only change
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -79,7 +79,7 @@ public interface ProcessedEventRepository extends JpaRepository<ProcessedEvent, 
 
 ### `IdentityEventConsumer.java` — single-event consumer (notification-service)
 
-**Analog:** `services/wallet-service/src/main/java/com/opendesk/wallet/consumer/UserVerifiedConsumer.java`
+**Analog:** `services/wallet-service/src/main/java/com/smsreseller/wallet/consumer/UserVerifiedConsumer.java`
 
 **Imports pattern (lines 1–14):**
 ```java
@@ -124,7 +124,7 @@ public void onUserVerified(UserVerifiedEvent event) {
 
 ### `WalletEventConsumer.java` / `MessagingEventConsumer.java` — multi-routing-key consumers
 
-**Analog:** `services/wallet-service/src/main/java/com/opendesk/wallet/consumer/MessagingEventConsumer.java`
+**Analog:** `services/wallet-service/src/main/java/com/smsreseller/wallet/consumer/MessagingEventConsumer.java`
 
 **Multi-binding pattern (lines 49–68 shows one binding; repeat @RabbitListener per routing key or use separate methods sharing one queue):**
 ```java
@@ -155,7 +155,7 @@ public void onMessageAccepted(MessageAccepted event) {
 
 ### `SecurityConfig.java` (notification-service + admin service colocated configs)
 
-**Analog:** `services/messaging-service/src/main/java/com/opendesk/messaging/config/SecurityConfig.java` (lines 1–78)
+**Analog:** `services/messaging-service/src/main/java/com/smsreseller/messaging/config/SecurityConfig.java` (lines 1–78)
 
 **Full pattern — copy and adapt path matchers:**
 ```java
@@ -206,7 +206,7 @@ public class SecurityConfig {
 
 ### `JwtIssuer.java` modification — add `issueAdminToken`
 
-**Analog:** `services/identity-service/src/main/java/com/opendesk/identity/token/JwtIssuer.java` (lines 55–68)
+**Analog:** `services/identity-service/src/main/java/com/smsreseller/identity/token/JwtIssuer.java` (lines 55–68)
 
 **Existing `issueAccessToken` pattern to mirror:**
 ```java
@@ -250,7 +250,7 @@ public String issueAdminToken(UUID adminId) {
 
 ### `AdminLoginController.java` (identity-service — new)
 
-**Analog:** `services/messaging-service/src/main/java/com/opendesk/messaging/senderid/SenderIdAdminController.java` (lines 1–64)
+**Analog:** `services/messaging-service/src/main/java/com/smsreseller/messaging/senderid/SenderIdAdminController.java` (lines 1–64)
 
 **Imports + controller skeleton pattern (lines 1–23):**
 ```java
@@ -287,7 +287,7 @@ public class AdminLoginController {
 
 ### `AdminUserSearchController.java` / `AdminLedgerController.java` (identity-service / wallet-service)
 
-**Analog:** `services/messaging-service/src/main/java/com/opendesk/messaging/senderid/SenderIdAdminController.java`
+**Analog:** `services/messaging-service/src/main/java/com/smsreseller/messaging/senderid/SenderIdAdminController.java`
 
 **ADMIN-guarded controller pattern (lines 32–44):**
 ```java
@@ -319,7 +319,7 @@ try {
 
 ### `AdminBundleController.java` (payment-service — new CRUD on existing BundleRepository)
 
-**Analog:** `services/payment-service/src/main/java/com/opendesk/payment/bundle/BundleController.java` (lines 1–41)
+**Analog:** `services/payment-service/src/main/java/com/smsreseller/payment/bundle/BundleController.java` (lines 1–41)
 
 **Read-only pattern to extend with CRUD:**
 ```java
@@ -352,7 +352,7 @@ public class AdminBundleController {
 
 ### `RefundController.java` (wallet-service — existing, no changes for admin manual refund)
 
-**Analog:** `services/wallet-service/src/main/java/com/opendesk/wallet/refund/RefundController.java` (lines 1–47)
+**Analog:** `services/wallet-service/src/main/java/com/smsreseller/wallet/refund/RefundController.java` (lines 1–47)
 
 The existing `POST /api/v1/wallet/refunds` endpoint is reused by admin-web. The admin SecurityConfig must ensure this endpoint is accessible with ROLE_ADMIN tokens. No code changes needed — admin-web calls it with the admin JWT, and the wallet-service SecurityConfig already requires `authenticated()` for all requests.
 
@@ -360,7 +360,7 @@ The existing `POST /api/v1/wallet/refunds` endpoint is reused by admin-web. The 
 
 ### `DeliveryReceiptService.java` modification — add CampaignCompleted outbox emit (D-12 gap fix)
 
-**File:** `services/messaging-service/src/main/java/com/opendesk/messaging/message/DeliveryReceiptService.java`
+**File:** `services/messaging-service/src/main/java/com/smsreseller/messaging/message/DeliveryReceiptService.java`
 
 **Existing method to modify (lines 75–93):**
 ```java
@@ -433,7 +433,7 @@ ON CONFLICT (email) DO NOTHING;
 
 ### `AbstractNotificationIntegrationTest.java` (notification-service)
 
-**Analog:** `services/identity-service/src/test/java/com/opendesk/identity/AbstractIntegrationTest.java` (lines 1–73)
+**Analog:** `services/identity-service/src/test/java/com/smsreseller/identity/AbstractIntegrationTest.java` (lines 1–73)
 
 **Full pattern — copy, change package + container config:**
 ```java
@@ -470,7 +470,7 @@ public abstract class AbstractNotificationIntegrationTest {
 
 ### `UserVerifiedConsumerIT.java` (notification-service test)
 
-**Analog:** `services/wallet-service/src/test/java/com/opendesk/wallet/UserVerifiedConsumerIT.java` (lines 1–108)
+**Analog:** `services/wallet-service/src/test/java/com/smsreseller/wallet/UserVerifiedConsumerIT.java` (lines 1–108)
 
 **Core test structure to mirror (lines 57–107):**
 ```java
@@ -506,7 +506,7 @@ void userVerifiedEventGrantsBonusIdempotently() throws Exception {
 
 ### Analytics controllers (messaging-service + wallet-service — new endpoints)
 
-**Analog:** `services/payment-service/src/main/java/com/opendesk/payment/bundle/BundleController.java`
+**Analog:** `services/payment-service/src/main/java/com/smsreseller/payment/bundle/BundleController.java`
 
 **JWT-scoped read controller pattern:**
 ```java
@@ -554,7 +554,7 @@ List<OperatorRateRow> findOperatorRatesByUser(@Param("userId") UUID userId);
 ## Shared Patterns
 
 ### Idempotency Gate
-**Source:** `services/wallet-service/src/main/java/com/opendesk/wallet/consumer/ProcessedEventRepository.java` (full file, lines 1–42)
+**Source:** `services/wallet-service/src/main/java/com/smsreseller/wallet/consumer/ProcessedEventRepository.java` (full file, lines 1–42)
 **Apply to:** All AMQP consumer classes in notification-service and audit consumer in admin/audit module.
 ```java
 if (!processedEventRepository.tryInsert(event.eventId())) {
@@ -564,7 +564,7 @@ if (!processedEventRepository.tryInsert(event.eventId())) {
 ```
 
 ### AMQP Consumer Structure
-**Source:** `services/wallet-service/src/main/java/com/opendesk/wallet/consumer/UserVerifiedConsumer.java` (lines 34–67)
+**Source:** `services/wallet-service/src/main/java/com/smsreseller/wallet/consumer/UserVerifiedConsumer.java` (lines 34–67)
 **Apply to:** All 4 notification-service consumer classes; audit consumer.
 - `@Component @RequiredArgsConstructor @Slf4j` class annotation triple
 - `@RabbitListener @QueueBinding @Queue @Exchange` on consumer method
@@ -572,14 +572,14 @@ if (!processedEventRepository.tryInsert(event.eventId())) {
 - idempotency guard first, business action second, `log.info` last
 
 ### SecurityConfig (resource-server, ADMIN-guarded paths)
-**Source:** `services/messaging-service/src/main/java/com/opendesk/messaging/config/SecurityConfig.java` (lines 1–78)
+**Source:** `services/messaging-service/src/main/java/com/smsreseller/messaging/config/SecurityConfig.java` (lines 1–78)
 **Apply to:** notification-service SecurityConfig, identity-service SecurityConfig (extend with `/api/v1/admin/**`), wallet-service SecurityConfig (extend with `/api/v1/admin/**`), payment-service SecurityConfig (extend with `/api/v1/admin/bundles/**`).
 - CSRF disabled, STATELESS session
 - `jwtAuthenticationConverter()` reading `roles` claim — copy verbatim
 - `hasRole("ADMIN")` for admin paths, `.anyRequest().authenticated()` for remainder
 
 ### Outbox Emit Pattern
-**Source:** `services/wallet-service/src/main/java/com/opendesk/wallet/outbox/OutboxEntry.java` + `services/messaging-service/src/main/java/com/opendesk/messaging/outbox/OutboxRelay.java`
+**Source:** `services/wallet-service/src/main/java/com/smsreseller/wallet/outbox/OutboxEntry.java` + `services/messaging-service/src/main/java/com/smsreseller/messaging/outbox/OutboxRelay.java`
 **Apply to:** `DeliveryReceiptService.checkCampaignCompletion()` upstream gap fix (D-12).
 - Build `OutboxEntry` with `eventId`, `aggregateType`, `aggregateId`, `eventType`, `payload`
 - Save in same `@Transactional` as the status update
@@ -592,7 +592,7 @@ if (!processedEventRepository.tryInsert(event.eventId())) {
 - `ON CONFLICT (email) DO NOTHING` for safe re-run
 
 ### Controller Error Handling
-**Source:** `services/messaging-service/src/main/java/com/opendesk/messaging/senderid/SenderIdAdminController.java` (lines 37–44)
+**Source:** `services/messaging-service/src/main/java/com/smsreseller/messaging/senderid/SenderIdAdminController.java` (lines 37–44)
 **Apply to:** All new admin controllers in identity-service, wallet-service, payment-service.
 ```java
 try { ... }
@@ -603,7 +603,7 @@ catch (IllegalStateException e) {
 ```
 
 ### Testcontainers Integration Test Base
-**Source:** `services/identity-service/src/test/java/com/opendesk/identity/AbstractIntegrationTest.java` (lines 36–73)
+**Source:** `services/identity-service/src/test/java/com/smsreseller/identity/AbstractIntegrationTest.java` (lines 36–73)
 **Apply to:** notification-service `AbstractNotificationIntegrationTest`, all service-level IT bases added in Phase 5.
 - Static container start (NOT `@Testcontainers/@Container`) — avoids context-cache failures
 - `@ServiceConnection` on Postgres, `@DynamicPropertySource` for RabbitMQ (no `@ServiceConnection` for RabbitMQ in current setup)

@@ -15,6 +15,6 @@ spring:
 
 logging:
   level:
-    com.opendesk: DEBUG
+    com.smsreseller: DEBUG
     org.springframework.security: WARN
     org.springframework.amqp: WARN

@@ -18,35 +18,35 @@ tech_stack:
     - "Alert dedup: per-user/per-lot processed_events key — permanent MVP dedup (T-03-20 accept)"
 key_files:
   created:
-    - services/wallet-service/src/main/java/com/opendesk/wallet/consumer/PaymentConfirmedConsumer.java
-    - services/wallet-service/src/main/java/com/opendesk/wallet/consumer/PaymentConfirmedEvent.java
-    - services/wallet-service/src/main/java/com/opendesk/wallet/refund/RefundService.java
-    - services/wallet-service/src/main/java/com/opendesk/wallet/refund/RefundController.java
-    - services/wallet-service/src/main/java/com/opendesk/wallet/refund/RefundRequest.java
-    - services/wallet-service/src/main/java/com/opendesk/wallet/outbox/OutboxEntry.java
-    - services/wallet-service/src/main/java/com/opendesk/wallet/outbox/OutboxRepository.java
-    - services/wallet-service/src/main/java/com/opendesk/wallet/outbox/OutboxRelay.java
+    - services/wallet-service/src/main/java/com/smsreseller/wallet/consumer/PaymentConfirmedConsumer.java
+    - services/wallet-service/src/main/java/com/smsreseller/wallet/consumer/PaymentConfirmedEvent.java
+    - services/wallet-service/src/main/java/com/smsreseller/wallet/refund/RefundService.java
+    - services/wallet-service/src/main/java/com/smsreseller/wallet/refund/RefundController.java
+    - services/wallet-service/src/main/java/com/smsreseller/wallet/refund/RefundRequest.java
+    - services/wallet-service/src/main/java/com/smsreseller/wallet/outbox/OutboxEntry.java
+    - services/wallet-service/src/main/java/com/smsreseller/wallet/outbox/OutboxRepository.java
+    - services/wallet-service/src/main/java/com/smsreseller/wallet/outbox/OutboxRelay.java
     - services/wallet-service/src/main/resources/db/migration/V4__create_outbox.sql
-    - services/wallet-service/src/main/java/com/opendesk/wallet/sweep/LowCreditAlertJob.java
-    - services/wallet-service/src/main/java/com/opendesk/wallet/sweep/ExpiryWarningJob.java
-    - services/wallet-service/src/main/java/com/opendesk/wallet/sweep/ExpirySweepJob.java
-    - services/payment-service/src/main/java/com/opendesk/payment/reconciliation/ReconciliationJob.java
-    - services/payment-service/src/main/java/com/opendesk/payment/gateway/AzampayPaymentGateway.java
-    - services/payment-service/src/main/java/com/opendesk/payment/gateway/AzampayTokenProvider.java
-    - services/payment-service/src/main/java/com/opendesk/payment/gateway/AzampayTransientException.java
-    - services/payment-service/src/main/java/com/opendesk/payment/config/Resilience4jConfig.java
-    - services/wallet-service/src/test/java/com/opendesk/wallet/RefundIT.java
-    - services/wallet-service/src/test/java/com/opendesk/wallet/LowCreditAlertIT.java
-    - services/wallet-service/src/test/java/com/opendesk/wallet/ExpiryWarningIT.java
-    - services/payment-service/src/test/java/com/opendesk/payment/ReconciliationIT.java
+    - services/wallet-service/src/main/java/com/smsreseller/wallet/sweep/LowCreditAlertJob.java
+    - services/wallet-service/src/main/java/com/smsreseller/wallet/sweep/ExpiryWarningJob.java
+    - services/wallet-service/src/main/java/com/smsreseller/wallet/sweep/ExpirySweepJob.java
+    - services/payment-service/src/main/java/com/smsreseller/payment/reconciliation/ReconciliationJob.java
+    - services/payment-service/src/main/java/com/smsreseller/payment/gateway/AzampayPaymentGateway.java
+    - services/payment-service/src/main/java/com/smsreseller/payment/gateway/AzampayTokenProvider.java
+    - services/payment-service/src/main/java/com/smsreseller/payment/gateway/AzampayTransientException.java
+    - services/payment-service/src/main/java/com/smsreseller/payment/config/Resilience4jConfig.java
+    - services/wallet-service/src/test/java/com/smsreseller/wallet/RefundIT.java
+    - services/wallet-service/src/test/java/com/smsreseller/wallet/LowCreditAlertIT.java
+    - services/wallet-service/src/test/java/com/smsreseller/wallet/ExpiryWarningIT.java
+    - services/payment-service/src/test/java/com/smsreseller/payment/ReconciliationIT.java
   modified:
-    - services/wallet-service/src/main/java/com/opendesk/wallet/lot/CreditLotRepository.java (findExpiringBefore, findExpiredBefore, findUserIdsWithBalanceBelow)
-    - services/wallet-service/src/main/java/com/opendesk/wallet/config/RabbitMqConfig.java (EXCHANGE + ROUTING_KEY_PREFIX constants)
+    - services/wallet-service/src/main/java/com/smsreseller/wallet/lot/CreditLotRepository.java (findExpiringBefore, findExpiredBefore, findUserIdsWithBalanceBelow)
+    - services/wallet-service/src/main/java/com/smsreseller/wallet/config/RabbitMqConfig.java (EXCHANGE + ROUTING_KEY_PREFIX constants)
     - services/wallet-service/src/main/resources/application.yml (alert/cron config keys)
     - services/payment-service/src/main/resources/application.yml (Azampay credentials, resilience4j config, reconciliation.max-per-run)
-    - services/payment-service/src/test/java/com/opendesk/payment/ReconciliationIT.java (placeholder → real assertions)
-    - services/wallet-service/src/test/java/com/opendesk/wallet/ExpiryWarningIT.java (placeholder → real assertions)
-    - services/wallet-service/src/test/java/com/opendesk/wallet/LowCreditAlertIT.java (placeholder → real assertions)
+    - services/payment-service/src/test/java/com/smsreseller/payment/ReconciliationIT.java (placeholder → real assertions)
+    - services/wallet-service/src/test/java/com/smsreseller/wallet/ExpiryWarningIT.java (placeholder → real assertions)
+    - services/wallet-service/src/test/java/com/smsreseller/wallet/LowCreditAlertIT.java (placeholder → real assertions)
 decisions:
   - "PaymentConfirmedConsumer binds passively to payment.events — wallet-service does NOT redeclare the payment exchange (mirrors UserVerifiedConsumer/identity.events pattern from 03-04)"
   - "RefundService uses processed_events with 'refund:'+idempotencyKey prefix — reuses the same guard table as AMQP consumers; no separate idempotency table needed"
@@ -76,14 +76,14 @@ metrics:
 **GREEN commit:** `60b3f29` — implementation green
 
 **Wallet Outbox Infrastructure (new — plan 03-04 only added processed_events):**
-- `OutboxEntry` / `OutboxRepository` / `OutboxRelay` — verbatim copy from identity-service, package changed to `com.opendesk.wallet.outbox`, exchange constant → `RabbitMqConfig.EXCHANGE` ("wallet.events"). OutboxRelay publishes to `wallet.events` TopicExchange.
+- `OutboxEntry` / `OutboxRepository` / `OutboxRelay` — verbatim copy from identity-service, package changed to `com.smsreseller.wallet.outbox`, exchange constant → `RabbitMqConfig.EXCHANGE` ("wallet.events"). OutboxRelay publishes to `wallet.events` TopicExchange.
 - `V4__create_outbox.sql` — copy of identity V3 (`CONSTRAINT uq_outbox_event_id UNIQUE(event_id)`, unsent partial index).
 - `RabbitMqConfig` — added `EXCHANGE = "wallet.events"` and `ROUTING_KEY_PREFIX = "wallet."` constants.
 
 **PaymentConfirmedConsumer:**
 - `@RabbitListener` binding: queue `wallet.payment.PaymentConfirmed` (durable) on exchange `payment.events` (TOPIC, durable), key `payment.PaymentConfirmed`.
 - `@Transactional onPaymentConfirmed`: `processedEventRepository.tryInsert(eventId)` → if false return (duplicate); else `lotService.grantPurchased(userId, smsCount, paymentId)` (12-month expiry, D-03).
-- `PaymentConfirmedEvent` record — local mirror (`com.opendesk.wallet.consumer`); NO import from `com.opendesk.payment` (service boundary enforced).
+- `PaymentConfirmedEvent` record — local mirror (`com.smsreseller.wallet.consumer`); NO import from `com.smsreseller.payment` (service boundary enforced).
 
 **RefundService / RefundController / RefundRequest:**
 - `RefundService.refund(userId, credits, referenceId, idempotencyKey)` — validates `credits > 0`, guards via `processed_events` with key `"refund:" + idempotencyKey`, calls `lotService.creditBack` → REFUND lot + REFUND txn. Idempotent.
@@ -199,11 +199,11 @@ No new trust boundaries beyond the plan's STRIDE register. `POST /api/v1/wallet/
 - [x] `ExpiryWarningIT` GREEN: 4/4 (warning + sweep)
 - [x] `ReconciliationIT` GREEN: 3/3
 - [x] `PaymentConfirmedConsumer` uses `payment.events` exchange (not wallet.events)
-- [x] `PaymentConfirmedEvent` has no `com.opendesk.payment` import
+- [x] `PaymentConfirmedEvent` has no `com.smsreseller.payment` import
 - [x] `RefundService` uses `processed_events` with `"refund:"` prefix
 - [x] `V4__create_outbox.sql` contains `CONSTRAINT uq_outbox_event_id UNIQUE (event_id)`
 - [x] `AzampayPaymentGateway` annotated `@Profile("prod")`
 - [x] `grep RestTemplate AzampayPaymentGateway.java` — 0 hits in code (1 in javadoc comment only)
 - [x] No `javax.*` imports in any created file
-- [x] No `com.opendesk.payment` import in any wallet-service source file
+- [x] No `com.smsreseller.payment` import in any wallet-service source file
 - [x] Commits: 966c27a (RED1), 60b3f29 (GREEN1), 9684a45 (RED2), a410fe7 (GREEN2)

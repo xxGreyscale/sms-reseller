@@ -204,7 +204,7 @@ Developer Machine
 ### Recommended Project Structure
 
 ```
-open-desk/
+sms-reseller/
 ├── settings.gradle.kts               # include all modules
 ├── build.gradle.kts                  # root: apply false, allprojects repos
 ├── gradle/
@@ -326,13 +326,13 @@ services:
   postgres:
     image: postgres:16-alpine
     environment:
-      POSTGRES_DB: opendesk
-      POSTGRES_USER: opendesk
+      POSTGRES_DB: smsreseller
+      POSTGRES_USER: smsreseller
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-localdev}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD", "pg_isready", "-U", "opendesk"]
+      test: ["CMD", "pg_isready", "-U", "smsreseller"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -353,7 +353,7 @@ services:
   rabbitmq:
     image: rabbitmq:3-management-alpine
     environment:
-      RABBITMQ_DEFAULT_USER: opendesk
+      RABBITMQ_DEFAULT_USER: smsreseller
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-localdev}
     healthcheck:
       test: ["CMD", "rabbitmq-diagnostics", "check_port_connectivity"]
@@ -415,13 +415,13 @@ namePrefix: dev-
 
 images:
   - name: api
-    newName: ghcr.io/yourorg/open-desk-api
+    newName: ghcr.io/yourorg/sms-reseller-api
     newTag: latest
   - name: worker
-    newName: ghcr.io/yourorg/open-desk-worker
+    newName: ghcr.io/yourorg/sms-reseller-worker
     newTag: latest
   - name: admin-web
-    newName: ghcr.io/yourorg/open-desk-admin-web
+    newName: ghcr.io/yourorg/sms-reseller-admin-web
     newTag: latest
 ```
 
@@ -581,14 +581,14 @@ sentry:
 
 **What:** Each service's Flyway migrates its own schema. One Postgres database with 8 separate PostgreSQL schemas (not databases).
 
-**When to use:** The Docker Compose postgres image gets a single database (`opendesk`). Each service connects with a JDBC URL that includes `?currentSchema=identity` etc. Flyway runs at startup and creates the schema if absent.
+**When to use:** The Docker Compose postgres image gets a single database (`smsreseller`). Each service connects with a JDBC URL that includes `?currentSchema=identity` etc. Flyway runs at startup and creates the schema if absent.
 
 **Example (identity-service application.yml):**
 ```yaml
 spring:
   datasource:
-    url: jdbc:postgresql://postgres:5432/opendesk?currentSchema=identity
-    username: opendesk
+    url: jdbc:postgresql://postgres:5432/smsreseller?currentSchema=identity
+    username: smsreseller
     password: ${POSTGRES_PASSWORD}
   flyway:
     schemas: identity
@@ -651,7 +651,7 @@ dependencies {
 ### Pitfall 3: Compose Service Starts Before Database Is Ready
 **What goes wrong:** Spring Boot app throws `Connection refused` or Flyway fails on first startup.
 **Why it happens:** Docker starts containers in dependency order but does not wait for the inner service to be accepting connections.
-**How to avoid:** `depends_on: condition: service_healthy` combined with `healthcheck: test: ["CMD", "pg_isready", "-U", "opendesk"]` on the postgres service.
+**How to avoid:** `depends_on: condition: service_healthy` combined with `healthcheck: test: ["CMD", "pg_isready", "-U", "smsreseller"]` on the postgres service.
 **Warning signs:** Intermittent startup failures that succeed on second `docker compose up`.
 
 ### Pitfall 4: Flyway Missing `flyway-database-postgresql` on Flyway 10
@@ -691,7 +691,7 @@ dependencies {
 ### Gradle Root `settings.gradle.kts`
 ```kotlin
 // Source: docs.gradle.org/current/userguide/multi_project_builds.html [CITED]
-rootProject.name = "open-desk"
+rootProject.name = "sms-reseller"
 
 include(
     "services:identity-service",

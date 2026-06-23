@@ -16,20 +16,20 @@ tech_stack:
     - AdminLoginService explicit role check — USER role rejected at admin login endpoint (T-05-05)
 key_files:
   created:
-    - services/identity-service/src/main/java/com/opendesk/identity/user/UserRole.java
-    - services/identity-service/src/main/java/com/opendesk/identity/admin/AdminLoginRequest.java
-    - services/identity-service/src/main/java/com/opendesk/identity/admin/AdminLoginService.java
-    - services/identity-service/src/main/java/com/opendesk/identity/admin/AdminLoginController.java
-    - services/identity-service/src/main/java/com/opendesk/identity/admin/UserSummaryDto.java
-    - services/identity-service/src/main/java/com/opendesk/identity/admin/AdminUserService.java
-    - services/identity-service/src/main/java/com/opendesk/identity/admin/AdminUserSearchController.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/user/UserRole.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/admin/AdminLoginRequest.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/admin/AdminLoginService.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/admin/AdminLoginController.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/admin/UserSummaryDto.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/admin/AdminUserService.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/admin/AdminUserSearchController.java
     - services/identity-service/src/main/resources/db/migration/V4__add_role_and_full_name_to_users.sql
     - services/identity-service/src/main/resources/db/migration/V5__seed_admin_user.sql
   modified:
-    - services/identity-service/src/main/java/com/opendesk/identity/token/JwtIssuer.java
-    - services/identity-service/src/main/java/com/opendesk/identity/config/SecurityConfig.java
-    - services/identity-service/src/main/java/com/opendesk/identity/user/User.java
-    - services/identity-service/src/main/java/com/opendesk/identity/user/UserRepository.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/token/JwtIssuer.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/config/SecurityConfig.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/user/User.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/user/UserRepository.java
     - services/identity-service/src/main/resources/application.yml
 decisions:
   - "05-03: AdminLoginService loads user by email and explicitly checks role=ADMIN before BCrypt verify — prevents role escalation via /api/v1/auth/admin/login (T-05-05)"
@@ -112,9 +112,9 @@ None — all admin login and user search paths are wired end-to-end.
 ## Self-Check: PASSED
 
 Files created/exist:
-- `services/identity-service/src/main/java/com/opendesk/identity/admin/AdminLoginController.java` — FOUND
-- `services/identity-service/src/main/java/com/opendesk/identity/admin/AdminLoginService.java` — FOUND
-- `services/identity-service/src/main/java/com/opendesk/identity/admin/AdminUserSearchController.java` — FOUND
+- `services/identity-service/src/main/java/com/smsreseller/identity/admin/AdminLoginController.java` — FOUND
+- `services/identity-service/src/main/java/com/smsreseller/identity/admin/AdminLoginService.java` — FOUND
+- `services/identity-service/src/main/java/com/smsreseller/identity/admin/AdminUserSearchController.java` — FOUND
 - `services/identity-service/src/main/resources/db/migration/V5__seed_admin_user.sql` — FOUND
 - `services/identity-service/src/main/resources/db/migration/V4__add_role_and_full_name_to_users.sql` — FOUND
 

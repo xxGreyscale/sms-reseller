@@ -1,4 +1,4 @@
-# Requirements: SMS Reseller Platform (open-desk)
+# Requirements: SMS Reseller Platform (sms-reseller)
 
 **Defined:** 2026-06-18
 **Core Value:** Small organizations can send bulk SMS to their members in minutes — verified, trusted, and without needing any technical knowledge.

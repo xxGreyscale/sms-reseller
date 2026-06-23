@@ -61,7 +61,7 @@ official docs).
 **Full file pattern** (from RESEARCH.md Code Examples):
 ```kotlin
 // Source: docs.gradle.org/current/userguide/multi_project_builds.html [CITED]
-rootProject.name = "open-desk"
+rootProject.name = "sms-reseller"
 
 include(
     "services:identity-service",
@@ -337,13 +337,13 @@ services:
   postgres:
     image: postgres:16-alpine
     environment:
-      POSTGRES_DB: opendesk
-      POSTGRES_USER: opendesk
+      POSTGRES_DB: smsreseller
+      POSTGRES_USER: smsreseller
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-localdev}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD", "pg_isready", "-U", "opendesk"]
+      test: ["CMD", "pg_isready", "-U", "smsreseller"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -364,7 +364,7 @@ services:
   rabbitmq:
     image: rabbitmq:3-management-alpine
     environment:
-      RABBITMQ_DEFAULT_USER: opendesk
+      RABBITMQ_DEFAULT_USER: smsreseller
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-localdev}
     healthcheck:
       test: ["CMD", "rabbitmq-diagnostics", "check_port_connectivity"]
@@ -605,13 +605,13 @@ namePrefix: dev-
 
 images:
   - name: api
-    newName: ghcr.io/yourorg/open-desk-api
+    newName: ghcr.io/yourorg/sms-reseller-api
     newTag: latest
   - name: worker
-    newName: ghcr.io/yourorg/open-desk-worker
+    newName: ghcr.io/yourorg/sms-reseller-worker
     newTag: latest
   - name: admin-web
-    newName: ghcr.io/yourorg/open-desk-admin-web
+    newName: ghcr.io/yourorg/sms-reseller-admin-web
     newTag: latest
 ```
 
@@ -771,8 +771,8 @@ spring:
     virtual:
       enabled: true         # Java 21 virtual threads
   datasource:
-    url: jdbc:postgresql://postgres:5432/opendesk?currentSchema=identity
-    username: opendesk
+    url: jdbc:postgresql://postgres:5432/smsreseller?currentSchema=identity
+    username: smsreseller
     password: ${POSTGRES_PASSWORD}
   flyway:
     schemas: identity
@@ -820,8 +820,8 @@ namespace is Boot 4.x only. Verify empirically at implementation time.
 
 **Core pattern:**
 ```java
-// libs/shared-observability/src/main/java/com/opendesk/shared/observability/ObservabilityAutoConfiguration.java
-package com.opendesk.shared.observability;
+// libs/shared-observability/src/main/java/com/smsreseller/shared/observability/ObservabilityAutoConfiguration.java
+package com.smsreseller.shared.observability;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
@@ -838,7 +838,7 @@ public class ObservabilityAutoConfiguration {
 **Registration file (required for Spring Boot 3 auto-configuration detection):**
 ```
 # libs/shared-observability/src/main/resources/META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports
-com.opendesk.shared.observability.ObservabilityAutoConfiguration
+com.smsreseller.shared.observability.ObservabilityAutoConfiguration
 ```
 
 ---
@@ -1030,7 +1030,7 @@ planner should note these as areas requiring research-driven inference.
 
 ## Metadata
 
-**Analog search scope:** Entire repository root (`/Users/somar/Desktop/private/open-desk/`)
+**Analog search scope:** Entire repository root (`/Users/somar/Desktop/private/sms-reseller/`)
 **Files scanned:** 1 (`CLAUDE.md` only — codebase is greenfield)
 **Pattern source:** RESEARCH.md (01-RESEARCH.md) — all patterns sourced from official docs
 **Pattern extraction date:** 2026-06-18

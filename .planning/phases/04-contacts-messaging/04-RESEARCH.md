@@ -216,7 +216,7 @@ StubSmsProvider fires DeliveryReceiptEvent after configurable delay
 ```
 services/
 ├── contact-service/
-│   └── src/main/java/com/opendesk/contact/
+│   └── src/main/java/com/smsreseller/contact/
 │       ├── config/              # SecurityConfig, RabbitMqConfig (messaging.events passive bind)
 │       ├── contact/             # Contact entity, ContactRepository, ContactService, ContactController
 │       ├── group/               # ContactGroup, GroupMembership, GroupService, GroupController
@@ -224,7 +224,7 @@ services/
 │       ├── csv/                 # CsvImportService, PhoneNormalizer, ImportSummaryResponse
 │       └── outbox/              # OutboxEntry, OutboxRepository, OutboxRelay (copy from identity)
 ├── messaging-service/
-│   └── src/main/java/com/opendesk/messaging/
+│   └── src/main/java/com/smsreseller/messaging/
 │       ├── config/              # SecurityConfig, RabbitMqConfig (declares messaging.events, DLX queues)
 │       ├── campaign/            # Campaign, CampaignStatus, CampaignService, CampaignController
 │       ├── message/             # OutboundMessage, MessageStatus, SendMessageConsumer, DeadLetterConsumer

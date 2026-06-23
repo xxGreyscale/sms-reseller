@@ -50,7 +50,7 @@ test.describe('Admin authentication', () => {
     })
 
     await page.goto('/login')
-    await page.getByLabel('Email').fill('admin@opendesk.co.tz')
+    await page.getByLabel('Email').fill('admin@smsreseller.co.tz')
     await page.getByLabel('Password').fill('password123')
     await page.getByRole('button', { name: 'Sign in' }).click()
 
@@ -68,7 +68,7 @@ test.describe('Admin authentication', () => {
     })
 
     await page.goto('/login')
-    await page.getByLabel('Email').fill('admin@opendesk.co.tz')
+    await page.getByLabel('Email').fill('admin@smsreseller.co.tz')
     await page.getByLabel('Password').fill('wrongpassword')
     await page.getByRole('button', { name: 'Sign in' }).click()
 

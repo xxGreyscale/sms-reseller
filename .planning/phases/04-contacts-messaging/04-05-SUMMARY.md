@@ -18,21 +18,21 @@ tech_stack:
     - "MessageEventPublisher: outbox write with unique UUID eventId for wallet idempotency guard"
 key_files:
   created:
-    - services/messaging-service/src/main/java/com/opendesk/messaging/wallet/WalletReservationClient.java
-    - services/messaging-service/src/main/java/com/opendesk/messaging/wallet/ReservationResult.java
-    - services/messaging-service/src/main/java/com/opendesk/messaging/wallet/LotAllocation.java
-    - services/messaging-service/src/main/java/com/opendesk/messaging/wallet/InsufficientCreditsException.java
-    - services/messaging-service/src/main/java/com/opendesk/messaging/contact/ContactRecipientClient.java
-    - services/messaging-service/src/main/java/com/opendesk/messaging/contact/RestContactRecipientClient.java
-    - services/messaging-service/src/main/java/com/opendesk/messaging/campaign/CampaignDispatchResponse.java
-    - services/messaging-service/src/main/java/com/opendesk/messaging/message/SendMessagePayload.java
-    - services/messaging-service/src/main/java/com/opendesk/messaging/message/MessageEventPublisher.java
-    - services/messaging-service/src/main/java/com/opendesk/messaging/message/SendMessageConsumer.java
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/wallet/WalletReservationClient.java
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/wallet/ReservationResult.java
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/wallet/LotAllocation.java
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/wallet/InsufficientCreditsException.java
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/contact/ContactRecipientClient.java
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/contact/RestContactRecipientClient.java
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/campaign/CampaignDispatchResponse.java
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/message/SendMessagePayload.java
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/message/MessageEventPublisher.java
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/message/SendMessageConsumer.java
   modified:
-    - services/messaging-service/src/main/java/com/opendesk/messaging/campaign/CampaignService.java (added executeSend)
-    - services/messaging-service/src/main/java/com/opendesk/messaging/campaign/CampaignController.java (added POST /{id}/send)
-    - services/messaging-service/src/test/java/com/opendesk/messaging/CampaignIT.java (RED→GREEN)
-    - services/messaging-service/src/test/java/com/opendesk/messaging/SendPipelineIT.java (RED→GREEN)
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/campaign/CampaignService.java (added executeSend)
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/campaign/CampaignController.java (added POST /{id}/send)
+    - services/messaging-service/src/test/java/com/smsreseller/messaging/CampaignIT.java (RED→GREEN)
+    - services/messaging-service/src/test/java/com/smsreseller/messaging/SendPipelineIT.java (RED→GREEN)
     - services/messaging-service/src/test/resources/application-test.yml (wallet/contact base-url + Resilience4j config)
 decisions:
   - "ContactRecipientClient is an interface (not a concrete class) — allows @MockBean injection in ITs without HTTP. RestContactRecipientClient is the production implementation. Suppression filtering is applied at the contact-service boundary (D-14) — messaging-service trusts the already-filtered list, no secondary suppression check."

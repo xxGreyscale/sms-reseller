@@ -12,7 +12,7 @@ spring:
     enabled: true
     placeholder-replacement: true
     placeholders:
-      adminEmail: ${ADMIN_EMAIL:admin@open-desk.app}
+      adminEmail: ${ADMIN_EMAIL:admin@sms-reseller.app}
       adminPasswordHash: ${ADMIN_PASSWORD_HASH:{bcrypt}$2a$10$PLACEHOLDER_REPLACE_IN_PROD}
   profiles:
     group:

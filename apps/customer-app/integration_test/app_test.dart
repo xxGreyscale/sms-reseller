@@ -1,6 +1,6 @@
 // app_test.dart — end-to-end integration spine (MOBL-09 / SC5 regression).
 //
-// Boots the REAL OpenDeskApp (go_router + the full Riverpod provider graph)
+// Boots the REAL SmsResellerApp (go_router + the full Riverpod provider graph)
 // against a mock Dio backend and a temp Hive store, then walks the customer
 // journey that proves every wave composes:
 //
@@ -68,7 +68,7 @@ void main() {
 
   setUpAll(() async {
     registerFallbackValue(FakeRequestOptions());
-    hiveDir = await Directory.systemTemp.createTemp('opendesk_e2e_hive');
+    hiveDir = await Directory.systemTemp.createTemp('smsreseller_e2e_hive');
     Hive.init(hiveDir.path);
   });
 
@@ -177,7 +177,7 @@ void main() {
     await tester.pumpWidget(
       UncontrolledProviderScope(
         container: container,
-        child: const OpenDeskApp(),
+        child: const SmsResellerApp(),
       ),
     );
     // Let splash resolve auth + router redirect run.

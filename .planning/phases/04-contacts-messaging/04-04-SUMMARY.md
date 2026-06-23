@@ -22,31 +22,31 @@ key_files:
     - services/messaging-service/src/main/resources/db/migration/V2__create_outbound_messages.sql
     - services/messaging-service/src/main/resources/db/migration/V3__create_sender_id_requests.sql
     - services/messaging-service/src/main/resources/db/migration/V4__create_outbox.sql
-    - services/messaging-service/src/main/java/com/opendesk/messaging/config/SecurityConfig.java
-    - services/messaging-service/src/main/java/com/opendesk/messaging/config/RabbitMqConfig.java
-    - services/messaging-service/src/main/java/com/opendesk/messaging/campaign/Campaign.java
-    - services/messaging-service/src/main/java/com/opendesk/messaging/campaign/CampaignStatus.java
-    - services/messaging-service/src/main/java/com/opendesk/messaging/campaign/CampaignRepository.java
-    - services/messaging-service/src/main/java/com/opendesk/messaging/campaign/CampaignService.java
-    - services/messaging-service/src/main/java/com/opendesk/messaging/campaign/CampaignController.java
-    - services/messaging-service/src/main/java/com/opendesk/messaging/campaign/CreateCampaignRequest.java
-    - services/messaging-service/src/main/java/com/opendesk/messaging/campaign/CampaignResponse.java
-    - services/messaging-service/src/main/java/com/opendesk/messaging/message/OutboundMessage.java
-    - services/messaging-service/src/main/java/com/opendesk/messaging/message/MessageStatus.java
-    - services/messaging-service/src/main/java/com/opendesk/messaging/message/OutboundMessageRepository.java
-    - services/messaging-service/src/main/java/com/opendesk/messaging/senderid/SenderIdRequest.java
-    - services/messaging-service/src/main/java/com/opendesk/messaging/senderid/SenderIdStatus.java
-    - services/messaging-service/src/main/java/com/opendesk/messaging/outbox/OutboxEntry.java
-    - services/messaging-service/src/main/java/com/opendesk/messaging/outbox/OutboxRepository.java
-    - services/messaging-service/src/main/java/com/opendesk/messaging/outbox/OutboxRelay.java
-    - services/messaging-service/src/main/java/com/opendesk/messaging/sms/SmsEncoding.java
-    - services/messaging-service/src/main/java/com/opendesk/messaging/sms/SmsEncoder.java
-    - services/messaging-service/src/main/java/com/opendesk/messaging/sms/SmsProvider.java
-    - services/messaging-service/src/main/java/com/opendesk/messaging/sms/SmsResult.java
-    - services/messaging-service/src/main/java/com/opendesk/messaging/sms/StubSmsProvider.java
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/config/SecurityConfig.java
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/config/RabbitMqConfig.java
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/campaign/Campaign.java
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/campaign/CampaignStatus.java
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/campaign/CampaignRepository.java
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/campaign/CampaignService.java
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/campaign/CampaignController.java
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/campaign/CreateCampaignRequest.java
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/campaign/CampaignResponse.java
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/message/OutboundMessage.java
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/message/MessageStatus.java
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/message/OutboundMessageRepository.java
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/senderid/SenderIdRequest.java
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/senderid/SenderIdStatus.java
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/outbox/OutboxEntry.java
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/outbox/OutboxRepository.java
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/outbox/OutboxRelay.java
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/sms/SmsEncoding.java
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/sms/SmsEncoder.java
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/sms/SmsProvider.java
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/sms/SmsResult.java
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/sms/StubSmsProvider.java
   modified:
-    - services/messaging-service/src/test/java/com/opendesk/messaging/SmsEncoderTest.java
-    - services/messaging-service/src/test/java/com/opendesk/messaging/CampaignIT.java
+    - services/messaging-service/src/test/java/com/smsreseller/messaging/SmsEncoderTest.java
+    - services/messaging-service/src/test/java/com/smsreseller/messaging/CampaignIT.java
 decisions:
   - RabbitMqConfig.EXCHANGE="messaging.events" — consumed by OutboxRelay, and 04-05/06 publishers; wallet-service binds passively in 04-07
   - RabbitMqConfig.SEND_QUEUE="messaging.send" with deliveryLimit(3) — D-06 quorum queue with 3-attempt cap
