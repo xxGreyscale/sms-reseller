@@ -5,6 +5,7 @@
 //   1. Valid name+phone → POST; on success pops back
 //   2. Offline (Dio connectionError) → errorNetworkWrite ErrorBanner; no contact added to cache
 //   3. LoadingOverlay shown during in-flight POST
+import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,7 +15,6 @@ import 'package:mocktail/mocktail.dart';
 
 import 'package:customer_app/features/contacts/contacts_provider.dart';
 import 'package:customer_app/features/contacts/add_contact_screen.dart';
-import 'package:customer_app/features/contacts/contact_api.dart';
 import 'package:customer_app/core/dio/dio_client.dart';
 import 'package:customer_app/l10n/app_localizations.dart';
 
