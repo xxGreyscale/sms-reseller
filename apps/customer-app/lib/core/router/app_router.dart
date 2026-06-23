@@ -10,6 +10,9 @@ import 'package:customer_app/features/auth/register_screen.dart';
 import 'package:customer_app/features/auth/login_screen.dart';
 import 'package:customer_app/features/auth/nida_pending_screen.dart';
 import 'package:customer_app/features/dashboard/dashboard_screen.dart';
+import 'package:customer_app/features/payments/bundle_catalog_screen.dart';
+import 'package:customer_app/features/payments/payment_api.dart';
+import 'package:customer_app/features/payments/stk_purchase_screen.dart';
 import 'package:customer_app/shared/widgets/app_navigation_bar.dart';
 
 // ---------------------------------------------------------------------------
@@ -139,7 +142,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: kBundlesRoute,
-            builder: (_, __) => const _PlaceholderScreen('Bundles'),
+            builder: (_, __) => const BundleCatalogScreen(),
           ),
           GoRoute(
             path: kContactsRoute,
@@ -163,7 +166,19 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       // Routes that explicitly hide the NavigationBar (no shell)
       GoRoute(
         path: kBundlesPurchaseRoute,
-        builder: (_, __) => const _PlaceholderScreen('Purchase'),
+        builder: (_, state) {
+          final q = state.uri.queryParameters;
+          return StkPurchaseScreen(
+            args: StkPurchaseArgs(
+              bundleId: q['bundleId'] ?? '',
+              bundleName: q['bundleName'] ?? '',
+              smsCount: int.tryParse(q['smsCount'] ?? '') ?? 0,
+              priceTzs: int.tryParse(q['priceTzs'] ?? '') ?? 0,
+              msisdn: q['msisdn'] ?? '',
+              provider: q['provider'] ?? '',
+            ),
+          );
+        },
       ),
       GoRoute(
         path: kContactsAddRoute,
