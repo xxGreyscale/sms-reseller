@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Wave 5 complete (06-10) — Phase 6 at 11/12 plans; Wave 6 (06-12 store submission, manual checkpoint) next
+stopped_at: Phase 6 deliverables complete (12/12 plans) — 06-12 store SUBMISSION pending external (D-02/D-03); phase verification done
 last_updated: "2026-06-23T08:20:30.150Z"
-last_activity: 2026-06-23 -- Phase 06 Wave 5 merged (campaign composer + history/detail)
+last_activity: 2026-06-23 -- Phase 06 06-12 deliverables complete (e2e spine + signing + metadata + CI)
 progress:
   total_phases: 7
   completed_phases: 5
   total_plans: 42
-  completed_plans: 41
-  percent: 78
+  completed_plans: 42
+  percent: 81
 ---
 
 # Project State
@@ -25,12 +25,12 @@ See: .planning/PROJECT.md (updated 2026-06-18)
 
 ## Current Position
 
-Phase: 06 (flutter-mobile-app) — EXECUTING
-Plan: 11 of 12 (Waves 0–5 complete)
-Status: Executing Phase 06 — Wave 6 (06-12 store submission, manual checkpoint) is the final plan; then phase verification + milestone completion
-Last activity: 2026-06-23 -- Phase 06 Wave 5 merged (campaign composer + history/detail)
+Phase: 06 (flutter-mobile-app) — DELIVERABLES COMPLETE (12/12 plans)
+Plan: 12 of 12 — all repo deliverables done; MOBL-01..08 verified
+Status: 06-12 store SUBMISSION pending external (D-02/D-03: no Android SDK/Xcode here, store accounts + signing keys not provisioned). Phase verification done (06-VERIFICATION.md). Next: milestone completion once submission is performed in a provisioned env.
+Last activity: 2026-06-23 -- Phase 06 06-12 deliverables complete (e2e spine + signing + metadata + CI)
 
-Progress: [██████████] 96%
+Progress: [██████████] 100% (feature + tooling) — store submission external
 
 ## Performance Metrics
 
@@ -120,6 +120,7 @@ None yet.
 - Phase 0 (external): NIDA API access unconfirmed — timeline and cost unknown; this is the highest-risk external dependency
 - Phase 0 (external): Upstream SMS wholesale rate unconfirmed (~9–11 TZS assumed); pricing model depends on this
 - ~~Phase 0 (external): Azampay merchant onboarding timeline unknown~~ — **RESOLVED 2026-06-19**: Azampay sandbox API confirmed available; sandbox integration unblocked, production onboarding deferred to pre-launch
+- 06-12 (external): Store SUBMISSION pending — needs Google Play + Apple Developer accounts, signing keystore/cert (D-03), and an Android-SDK/Xcode build env (absent on this machine). All repo deliverables are done; submit via CI or a provisioned env per store/SUBMISSION_CHECKLIST.md, then milestone-complete.
 
 ## Deferred Items
 

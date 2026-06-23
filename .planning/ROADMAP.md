@@ -20,7 +20,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 3: Wallet & Payments** - Append-only credit ledger with pessimistic reservation, Azampay STK push with outbox and idempotent callbacks (completed 2026-06-20)
 - [x] **Phase 4: Contacts & Messaging** - Contact CRUD/CSV import/dedup, bulk SMS campaigns, credit reservation, DLX retry, sender ID lifecycle (completed 2026-06-21)
 - [x] **Phase 5: Notifications, Admin & Analytics** - RabbitMQ event fan-out to notification log, Next.js admin panel, cross-module read views, analytics queries (completed 2026-06-21)
-- [ ] **Phase 6: Flutter Mobile App** - Full Flutter customer app from onboarding through campaign history, published to both stores
+- [x] **Phase 6: Flutter Mobile App** - Full Flutter customer app from onboarding through campaign history, published to both stores (completed 2026-06-23)
 
 ## Phase Details
 
@@ -157,7 +157,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] 06-09-PLAN.md — Wave 4: flat contact list (cache) + online-only add + delete (MOBL-06)
 - [x] 06-11-PLAN.md — Wave 4: notification feed 30s polling + client-derived unread badge (D-01)
 - [x] 06-10-PLAN.md — Wave 5: campaign composer (contactIds send) + GSM-7/UCS-2 counter + history + detail (MOBL-07/08)
-- [ ] 06-12-PLAN.md — Wave 6: e2e integration test + signing + store metadata + CI + submission checkpoint (MOBL-09, autonomous:false)
+- [x] 06-12-PLAN.md — Wave 6: e2e integration test + signing + store metadata + CI + submission checkpoint (MOBL-09, autonomous:false)
 **UI hint**: yes
 
 ## Progress
@@ -173,7 +173,7 @@ Phase 0 runs as a parallel background track. Coding phases execute: 1 → 2 → 
 | 3. Wallet & Payments | 6/6 | Complete   | 2026-06-20 |
 | 4. Contacts & Messaging | 8/8 | Complete   | 2026-06-21 |
 | 5. Notifications, Admin & Analytics | 9/9 | Complete   | 2026-06-21 |
-| 6. Flutter Mobile App | 11/12 | In Progress|  |
+| 6. Flutter Mobile App | 12/12 | Complete   | 2026-06-23 |
 
 ---
 
