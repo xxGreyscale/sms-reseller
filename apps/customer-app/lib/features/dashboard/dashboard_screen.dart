@@ -9,6 +9,7 @@ import 'package:customer_app/features/dashboard/recent_campaigns_provider.dart';
 import 'package:customer_app/l10n/app_localizations.dart';
 import 'package:customer_app/shared/widgets/balance_card.dart';
 import 'package:customer_app/shared/widgets/error_banner.dart';
+import 'package:customer_app/shared/widgets/notification_badge.dart';
 import 'package:customer_app/shared/widgets/stale_indicator.dart';
 
 /// Dashboard screen (MOBL-04).
@@ -46,10 +47,8 @@ class DashboardScreen extends ConsumerWidget {
               expandedHeight: 160,
               automaticallyImplyLeading: false,
               actions: [
-                IconButton(
-                  icon: const Icon(Icons.notifications_outlined),
-                  tooltip: l10n.notificationsTitle,
-                  onPressed: () => context.go(kNotificationsRoute),
+                NotificationBadge(
+                  onTap: () => context.go(kNotificationsRoute),
                 ),
                 const SizedBox(width: 8),
               ],
