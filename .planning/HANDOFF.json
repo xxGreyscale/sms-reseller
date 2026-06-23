@@ -1,0 +1,32 @@
+{
+  "version": "1.0",
+  "timestamp": "2026-06-23T13:18:48.437Z",
+  "phase": "06",
+  "phase_name": "flutter-mobile-app",
+  "phase_dir": ".planning/phases/06-flutter-mobile-app",
+  "plan": 12,
+  "task": 3,
+  "total_tasks": 3,
+  "status": "blocked-human-checkpoint",
+  "completed_tasks": [
+    {"id": 1, "name": "06-12 Task 1 — e2e integration spine", "status": "done", "commit": "a2e970d"},
+    {"id": 2, "name": "06-12 Task 2 — release signing (debug fallback) + EN/SW metadata + privacy + CI", "status": "done", "commit": "bfe8186"}
+  ],
+  "remaining_tasks": [
+    {"id": 3, "name": "06-12 Task 3 — build signed AAB/IPA and submit to Google Play + App Store", "status": "blocked-human"}
+  ],
+  "blockers": [
+    {"description": "Store submission needs Google Play + Apple Developer accounts, signing keystore/cert (D-03), and an Android-SDK/Xcode build env (D-02) — none present on this machine", "type": "external", "workaround": "Build + submit via CI (.github/workflows/customer-app.yml) or a provisioned dev machine per store/SUBMISSION_CHECKLIST.md; debug-signing fallback makes the AAB build keystore-free"}
+  ],
+  "human_actions_pending": [
+    {"action": "Provision Google Play + Apple Developer accounts and signing keys, build signed AAB/IPA, submit to both stores", "context": "06-12 Task 3 / MOBL-09 — phase's only open item; review approval is external (D-02)", "blocking": true}
+  ],
+  "decisions": [
+    {"decision": "User-approved scope: build all repo deliverables now; defer AAB build + submission to a provisioned env", "rationale": "This machine has no Android SDK/Xcode and no store accounts", "phase": "06"},
+    {"decision": "Executed 06-12 inline (not a worktree subagent)", "rationale": "Heavy build verify + a human checkpoint that an autonomous agent cannot complete", "phase": "06"},
+    {"decision": "Replaced the MOBL-09 red-by-design placeholder with store_assets_test.dart", "rationale": "Real Nyquist coverage of the repo deliverables; submission stays external", "phase": "06"}
+  ],
+  "uncommitted_files": [],
+  "next_action": "Provide the store-submission resume signal (type \"submitted\" once both stores accept), OR proceed to milestone close-out (/gsd-audit-milestone then /gsd-complete-milestone) with store submission flagged as the single external open item.",
+  "context_notes": "Phase 6 (final feature phase) is feature + tooling complete: all 12 plans' repo deliverables committed on main (clean tree, latest 3299f0e). flutter test = 74 pass / 0 fail; e2e green via `flutter test integration_test/app_test.dart -d flutter-tester`; analyze 0 errors. gsd-verifier confirmed MOBL-01..08 (06-VERIFICATION.md). The only outstanding work is the external store submission (06-12 Task 3). Milestone close-out is the next GSD step once submission is done or explicitly deferred."
+}
