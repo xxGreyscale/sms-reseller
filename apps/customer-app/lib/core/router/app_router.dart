@@ -10,6 +10,7 @@ import 'package:customer_app/features/auth/register_screen.dart';
 import 'package:customer_app/features/auth/login_screen.dart';
 import 'package:customer_app/features/auth/nida_pending_screen.dart';
 import 'package:customer_app/features/dashboard/dashboard_screen.dart';
+import 'package:customer_app/features/notifications/notification_feed_screen.dart';
 import 'package:customer_app/shared/widgets/app_navigation_bar.dart';
 
 // ---------------------------------------------------------------------------
@@ -156,7 +157,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: kNotificationsRoute,
-            builder: (_, __) => const _PlaceholderScreen('Notifications'),
+            builder: (_, __) => const NotificationFeedScreen(),
           ),
         ],
       ),

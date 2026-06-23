@@ -1,4 +1,4 @@
-// notification_feed_test.dart — TDD RED
+// notification_feed_test.dart — TDD GREEN
 // Tests for notification feed polling, unread badge, feed screen rendering.
 //
 // Tests:
@@ -6,6 +6,8 @@
 //   Test 2: Unread badge count equals count(read == false) from fetched items
 //   Test 3: Feed renders type-mapped icons; unread tileColor primaryContainer; empty → notificationsEmptyHeading
 //   Test 4: Poller timer is cancelled on dispose (no fetch after disposal)
+
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,7 +17,6 @@ import 'package:go_router/go_router.dart';
 import 'package:customer_app/features/notifications/notification_api.dart';
 import 'package:customer_app/features/notifications/notification_provider.dart';
 import 'package:customer_app/features/notifications/notification_feed_screen.dart';
-import 'package:customer_app/shared/widgets/notification_badge.dart';
 import 'package:customer_app/l10n/app_localizations.dart';
 
 // ---------------------------------------------------------------------------
@@ -67,7 +68,7 @@ Widget buildFeed({
   return ProviderScope(
     overrides: [
       notificationFeedProvider.overrideWith(
-        (ref) => NotificationFeedNotifier.test(feedValue),
+        () => NotificationFeedNotifier.test(feedValue),
       ),
     ],
     child: MaterialApp.router(
