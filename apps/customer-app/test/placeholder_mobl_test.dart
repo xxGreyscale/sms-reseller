@@ -1,7 +1,6 @@
 // Nyquist validation map — one failing placeholder per MOBL requirement.
-// Each later plan deletes its row as the feature lands.
-// These are intentionally RED and must stay RED until the feature is built.
-import 'package:flutter_test/flutter_test.dart';
+// Each later plan deleted its row as the feature landed. All MOBL-01..09 rows
+// are now removed (every requirement has dedicated tests). Kept as an audit trail.
 
 void main() {
   // MOBL-02 removed — implemented in 06-06 (nida_pending_test.dart)
@@ -10,5 +9,6 @@ void main() {
   // MOBL-06 removed — implemented in 06-09 (contact_list_test.dart, add_contact_test.dart)
   // MOBL-07 removed — implemented in 06-10 (composer_test.dart)
   // MOBL-08 removed — implemented in 06-10 (history_detail_test.dart)
-  test('MOBL-09 placeholder', () => fail('not implemented'));
+  // MOBL-09 removed — implemented in 06-12 (store/ deliverables: store_assets_test.dart;
+  //   integration_test/app_test.dart e2e spine; submission is external per D-02/D-03).
 }

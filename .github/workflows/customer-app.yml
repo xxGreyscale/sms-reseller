@@ -1,0 +1,77 @@
+name: customer-app
+
+# CI for the Flutter customer app (MOBL-09).
+# - Linux job: analyze, full unit/widget suite, e2e spine, and a release AAB build.
+#   The release build uses the debug-signing fallback when android/key.properties is
+#   absent (the production keystore is only needed for the actual store-submission build).
+# - iOS job: builds an unsigned IPA on a macOS runner. It is gated behind a repository
+#   variable (RUN_IOS_BUILD) because a provisioned macOS runner + Apple Developer account
+#   are an external prerequisite (D-03 / Open Question #5).
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/customer-app/**'
+      - '.github/workflows/customer-app.yml'
+  pull_request:
+    paths:
+      - 'apps/customer-app/**'
+      - '.github/workflows/customer-app.yml'
+  workflow_dispatch:
+
+defaults:
+  run:
+    working-directory: apps/customer-app
+
+jobs:
+  android:
+    name: Analyze, test & build AAB (Linux)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.41.5'
+          channel: stable
+          cache: true
+      - name: Install dependencies
+        run: flutter pub get
+      - name: Analyze
+        run: flutter analyze --no-fatal-infos
+      - name: Unit & widget tests
+        run: flutter test
+      - name: End-to-end spine
+        run: flutter test integration_test/app_test.dart -d flutter-tester
+      - name: Build release AAB (debug-signing fallback if no keystore)
+        run: flutter build appbundle --release
+      - name: Upload AAB artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release-aab
+          path: apps/customer-app/build/app/outputs/bundle/release/app-release.aab
+          if-no-files-found: warn
+
+  ios:
+    name: Build IPA (macOS)
+    # Gated: requires a provisioned macOS runner + Apple Developer account (D-03).
+    # Enable by setting repository variable RUN_IOS_BUILD=true.
+    if: ${{ vars.RUN_IOS_BUILD == 'true' }}
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.41.5'
+          channel: stable
+          cache: true
+      - name: Install dependencies
+        run: flutter pub get
+      - name: Build IPA (no codesign until distribution cert is provisioned)
+        run: flutter build ipa --release --no-codesign
+      - name: Upload IPA artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release-ipa
+          path: apps/customer-app/build/ios/ipa/*.ipa
+          if-no-files-found: warn
