@@ -5,12 +5,12 @@ package com.smsreseller.payment;
 //   PYMT-07 — EXPIRED payment is surfaced to status endpoint; no infinite spinner (T-03-13)
 // Covered by: 03-05 (PaymentTimeoutJob @Scheduled sweep)
 
-import com.smsreseller.payment.bundle.BundleRepository;
-import com.smsreseller.payment.bundle.SmsBundle;
-import com.smsreseller.payment.payment.Payment;
-import com.smsreseller.payment.payment.PaymentRepository;
-import com.smsreseller.payment.payment.PaymentStatus;
-import com.smsreseller.payment.timeout.PaymentTimeoutJob;
+import com.smsreseller.payment.domain.bundle.SmsBundle;
+import com.smsreseller.payment.domain.payment.Payment;
+import com.smsreseller.payment.domain.payment.PaymentStatus;
+import com.smsreseller.payment.infrastructure.persistence.BundleRepository;
+import com.smsreseller.payment.infrastructure.persistence.PaymentRepository;
+import com.smsreseller.payment.infrastructure.scheduling.PaymentTimeoutJob;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
