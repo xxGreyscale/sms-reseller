@@ -12,17 +12,17 @@ tech_stack:
   patterns: [db-poll-scheduler, testable-dispatch-delegate, outbox-event, jwt-roles-converter]
 key_files:
   created:
-    - services/messaging-service/src/main/java/com/opendesk/messaging/scheduler/ScheduledCampaignDispatchJob.java
-    - services/messaging-service/src/main/java/com/opendesk/messaging/senderid/SenderIdRepository.java
-    - services/messaging-service/src/main/java/com/opendesk/messaging/senderid/SenderIdService.java
-    - services/messaging-service/src/main/java/com/opendesk/messaging/senderid/SenderIdController.java
-    - services/messaging-service/src/main/java/com/opendesk/messaging/senderid/SenderIdAdminController.java
-    - services/messaging-service/src/main/java/com/opendesk/messaging/senderid/SenderIdDto.java
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/scheduler/ScheduledCampaignDispatchJob.java
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/senderid/SenderIdRepository.java
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/senderid/SenderIdService.java
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/senderid/SenderIdController.java
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/senderid/SenderIdAdminController.java
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/senderid/SenderIdDto.java
   modified:
-    - services/messaging-service/src/main/java/com/opendesk/messaging/campaign/CampaignService.java
-    - services/messaging-service/src/main/java/com/opendesk/messaging/campaign/CampaignController.java
-    - services/messaging-service/src/main/java/com/opendesk/messaging/config/SecurityConfig.java
-    - services/messaging-service/src/test/java/com/opendesk/messaging/SenderIdIT.java
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/campaign/CampaignService.java
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/campaign/CampaignController.java
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/config/SecurityConfig.java
+    - services/messaging-service/src/test/java/com/smsreseller/messaging/SenderIdIT.java
 decisions:
   - "JWT roles claim converter added to SecurityConfig so hasRole(ADMIN) evaluates correctly from roles array in token"
   - "ScheduledCampaignDispatchJob uses testable dispatch(Instant) delegate pattern (mirrors ReconciliationJob)"

@@ -40,7 +40,7 @@ re_verification: false
 
 | Artifact | Expected | Status | Details |
 |----------|----------|--------|---------|
-| `settings.gradle.kts` | 11 module includes + rootProject.name | VERIFIED | `rootProject.name = "open-desk"`, 11 includes confirmed |
+| `settings.gradle.kts` | 11 module includes + rootProject.name | VERIFIED | `rootProject.name = "sms-reseller"`, 11 includes confirmed |
 | `build.gradle.kts` | Boot + dependency-management plugins with `apply false` | VERIFIED | `grep -c "apply false"` returns 2 |
 | `gradle/libs.versions.toml` | Version catalog with spring-boot=3.5.9, mapstruct=1.6.3 | VERIFIED | Both version entries confirmed; also includes resilience4j, spring-retry, spring-boot-testcontainers added via post-review fix commits |
 | `gradle/wrapper/gradle-wrapper.properties` | Gradle 8.x pinned | VERIFIED | Pinned to `gradle-8.14.2-bin.zip` (upgraded from planned 8.11.1 during CR-03 fix — still 8.x) |

@@ -16,19 +16,19 @@ tech_stack:
     - Admin controller with no subject-scoping (vs analytics controller with JWT-scoping)
 key_files:
   created:
-    - services/wallet-service/src/main/java/com/opendesk/wallet/admin/AdminLedgerController.java
-    - services/wallet-service/src/main/java/com/opendesk/wallet/admin/AdminLedgerService.java
-    - services/wallet-service/src/main/java/com/opendesk/wallet/admin/LedgerEntryDto.java
-    - services/wallet-service/src/main/java/com/opendesk/wallet/analytics/CreditUsageController.java
-    - services/wallet-service/src/main/java/com/opendesk/wallet/analytics/CreditUsageService.java
-    - services/wallet-service/src/main/java/com/opendesk/wallet/analytics/CreditUsageDto.java
-    - services/wallet-service/src/main/java/com/opendesk/wallet/analytics/CreditUsageRow.java
+    - services/wallet-service/src/main/java/com/smsreseller/wallet/admin/AdminLedgerController.java
+    - services/wallet-service/src/main/java/com/smsreseller/wallet/admin/AdminLedgerService.java
+    - services/wallet-service/src/main/java/com/smsreseller/wallet/admin/LedgerEntryDto.java
+    - services/wallet-service/src/main/java/com/smsreseller/wallet/analytics/CreditUsageController.java
+    - services/wallet-service/src/main/java/com/smsreseller/wallet/analytics/CreditUsageService.java
+    - services/wallet-service/src/main/java/com/smsreseller/wallet/analytics/CreditUsageDto.java
+    - services/wallet-service/src/main/java/com/smsreseller/wallet/analytics/CreditUsageRow.java
   modified:
-    - services/wallet-service/src/main/java/com/opendesk/wallet/transaction/CreditTransactionRepository.java
-    - services/wallet-service/src/main/java/com/opendesk/wallet/config/SecurityConfig.java
-    - services/wallet-service/src/test/java/com/opendesk/wallet/admin/AdminLedgerIT.java
-    - services/wallet-service/src/test/java/com/opendesk/wallet/analytics/CreditUsageAnalyticsIT.java
-    - services/wallet-service/src/test/java/com/opendesk/wallet/JwtTestHelper.java
+    - services/wallet-service/src/main/java/com/smsreseller/wallet/transaction/CreditTransactionRepository.java
+    - services/wallet-service/src/main/java/com/smsreseller/wallet/config/SecurityConfig.java
+    - services/wallet-service/src/test/java/com/smsreseller/wallet/admin/AdminLedgerIT.java
+    - services/wallet-service/src/test/java/com/smsreseller/wallet/analytics/CreditUsageAnalyticsIT.java
+    - services/wallet-service/src/test/java/com/smsreseller/wallet/JwtTestHelper.java
 decisions:
   - SecurityConfig extended with jwtAuthenticationConverter reading roles claim — required for hasRole("ADMIN") to work when JWT stores "ROLE_ADMIN" strings; without this the default converter does not map custom claims
   - CreditUsageController uses JwtAuthenticationToken method injection (not SecurityContextHolder) — virtual-thread safe per CLAUDE.md

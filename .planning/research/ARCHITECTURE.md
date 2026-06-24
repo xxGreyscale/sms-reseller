@@ -437,10 +437,10 @@ public CompletableFuture<NidaResult> nidaFallback(String nin, String dob, Except
 ## Recommended Project Structure
 
 ```
-open-desk/
+sms-reseller/
 ├── services/
 │   ├── identity/
-│   │   └── src/main/java/tz/opendesk/identity/
+│   │   └── src/main/java/tz/smsreseller/identity/
 │   │       ├── api/          # REST controllers
 │   │       ├── domain/       # Entities, repositories
 │   │       ├── application/  # Use cases (service classes)
@@ -449,7 +449,7 @@ open-desk/
 │   │       │   └── outbox/   # Outbox relay
 │   │       └── events/       # Published event payloads
 │   ├── wallet/
-│   │   └── src/main/java/tz/opendesk/wallet/
+│   │   └── src/main/java/tz/smsreseller/wallet/
 │   │       ├── api/
 │   │       ├── domain/
 │   │       │   ├── Ledger.java          # Append-only entry
@@ -458,7 +458,7 @@ open-desk/
 │   │       ├── application/
 │   │       └── events/       # Consumers: payment.confirmed, nida.verified
 │   ├── payment/
-│   │   └── src/main/java/tz/opendesk/payment/
+│   │   └── src/main/java/tz/smsreseller/payment/
 │   │       ├── api/
 │   │       │   └── WebhookController.java  # Azampay webhooks
 │   │       ├── domain/
@@ -468,7 +468,7 @@ open-desk/
 │   │       └── infrastructure/
 │   │           └── azampay/   # Azampay client
 │   ├── messaging/
-│   │   └── src/main/java/tz/opendesk/messaging/
+│   │   └── src/main/java/tz/smsreseller/messaging/
 │   │       ├── api/
 │   │       ├── domain/
 │   │       │   ├── Campaign.java
@@ -643,5 +643,5 @@ Phase 5 — Frontends:
 
 ---
 
-*Architecture research for: multi-tenant bulk SMS reseller platform (open-desk)*
+*Architecture research for: multi-tenant bulk SMS reseller platform (sms-reseller)*
 *Researched: 2026-06-18*

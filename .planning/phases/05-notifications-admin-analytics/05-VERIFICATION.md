@@ -23,7 +23,7 @@ gaps:
       exists. At runtime the page throws an API error and renders the error fallback UI.
       ADMN-04 requires "view … the sender ID approval queue" — the view half is broken.
     artifacts:
-      - path: "services/messaging-service/src/main/java/com/opendesk/messaging/senderid/SenderIdAdminController.java"
+      - path: "services/messaging-service/src/main/java/com/smsreseller/messaging/senderid/SenderIdAdminController.java"
         issue: "Missing GET / handler at /api/v1/internal/sender-ids for paginated queue listing"
       - path: "apps/admin-web/app/(admin)/sender-ids/page.tsx"
         issue: "Calls GET /api/v1/internal/sender-ids which returns 405/404 — no matching backend endpoint"

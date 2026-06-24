@@ -27,25 +27,25 @@ tech_stack:
     - hasRole(ADMIN) on /api/v1/admin/** via SecurityConfig
 key_files:
   created:
-    - services/admin-service/src/main/java/com/opendesk/admin/audit/AuditEntry.java
-    - services/admin-service/src/main/java/com/opendesk/admin/audit/AuditRepository.java
-    - services/admin-service/src/main/java/com/opendesk/admin/audit/AuditService.java
-    - services/admin-service/src/main/java/com/opendesk/admin/audit/AuditController.java
-    - services/admin-service/src/main/java/com/opendesk/admin/audit/AuditEntryDto.java
-    - services/admin-service/src/main/java/com/opendesk/admin/audit/AdminMutationController.java
-    - services/admin-service/src/main/java/com/opendesk/admin/config/SecurityConfig.java
-    - services/admin-service/src/main/java/com/opendesk/admin/config/RabbitMqConfig.java
-    - services/admin-service/src/main/java/com/opendesk/admin/consumer/DomainEventAuditConsumer.java
-    - services/admin-service/src/main/java/com/opendesk/admin/idempotency/ProcessedEvent.java
-    - services/admin-service/src/main/java/com/opendesk/admin/idempotency/ProcessedEventRepository.java
+    - services/admin-service/src/main/java/com/smsreseller/admin/audit/AuditEntry.java
+    - services/admin-service/src/main/java/com/smsreseller/admin/audit/AuditRepository.java
+    - services/admin-service/src/main/java/com/smsreseller/admin/audit/AuditService.java
+    - services/admin-service/src/main/java/com/smsreseller/admin/audit/AuditController.java
+    - services/admin-service/src/main/java/com/smsreseller/admin/audit/AuditEntryDto.java
+    - services/admin-service/src/main/java/com/smsreseller/admin/audit/AdminMutationController.java
+    - services/admin-service/src/main/java/com/smsreseller/admin/config/SecurityConfig.java
+    - services/admin-service/src/main/java/com/smsreseller/admin/config/RabbitMqConfig.java
+    - services/admin-service/src/main/java/com/smsreseller/admin/consumer/DomainEventAuditConsumer.java
+    - services/admin-service/src/main/java/com/smsreseller/admin/idempotency/ProcessedEvent.java
+    - services/admin-service/src/main/java/com/smsreseller/admin/idempotency/ProcessedEventRepository.java
     - services/admin-service/src/main/resources/db/migration/V1__create_processed_events.sql
     - services/admin-service/src/main/resources/db/migration/V2__create_audit_entries.sql
-    - services/admin-service/src/test/java/com/opendesk/admin/TestKeys.java
-    - services/admin-service/src/test/java/com/opendesk/admin/JwtTestHelper.java
-    - services/admin-service/src/test/java/com/opendesk/admin/AdminTestConfiguration.java
+    - services/admin-service/src/test/java/com/smsreseller/admin/TestKeys.java
+    - services/admin-service/src/test/java/com/smsreseller/admin/JwtTestHelper.java
+    - services/admin-service/src/test/java/com/smsreseller/admin/AdminTestConfiguration.java
   modified:
-    - services/admin-service/src/main/java/com/opendesk/admin/AdminServiceApplication.java (@EnableJpaAuditing + @EnableScheduling)
-    - services/admin-service/src/test/java/com/opendesk/admin/audit/AuditLogIT.java (real assertions replacing Assumptions.abort() placeholder)
+    - services/admin-service/src/main/java/com/smsreseller/admin/AdminServiceApplication.java (@EnableJpaAuditing + @EnableScheduling)
+    - services/admin-service/src/test/java/com/smsreseller/admin/audit/AuditLogIT.java (real assertions replacing Assumptions.abort() placeholder)
     - services/admin-service/src/test/resources/application-test.yml (Flyway enabled for admin schema creation in Testcontainers)
 decisions:
   - "Flyway enabled in test profile to create admin schema — ddl-auto=create-drop cannot create a schema from @Table(schema=admin) annotations alone"
@@ -130,7 +130,7 @@ Each handler is `@Transactional`. Flow: `tryInsert(eventId)` → early return if
   "content": [{
     "id": "uuid",
     "timestamp": "2026-06-22T00:00:00Z",
-    "actor": "admin@opendesk.co",
+    "actor": "admin@smsreseller.co",
     "action": "SENDER_ID_APPROVED",
     "target": "uuid-of-sender-id",
     "details": "{\"decision\":\"approved\"}"
@@ -143,7 +143,7 @@ Each handler is `@Transactional`. Flow: `tryInsert(eventId)` → early return if
 `POST /api/v1/admin/audit/record` body (admin-web mutation seam):
 ```json
 {
-  "actor": "admin@opendesk.co",
+  "actor": "admin@smsreseller.co",
   "action": "SENDER_ID_APPROVED",
   "target": "uuid",
   "details": "{...}"

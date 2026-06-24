@@ -1,4 +1,4 @@
-# SMS Reseller Platform (open-desk)
+# SMS Reseller Platform (sms-reseller)
 
 ## What This Is
 

@@ -71,7 +71,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
             ),
             const SizedBox(height: 24),
             Text(
-              'OpenDesk',
+              'SmsReseller',
               style: textTheme.headlineLarge?.copyWith(
                 color: colorScheme.onPrimary,
                 fontWeight: FontWeight.bold,

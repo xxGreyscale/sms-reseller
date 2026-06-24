@@ -62,11 +62,11 @@
 
 ### `contact-service/.../contact/Contact.java` (model, CRUD)
 
-**Analog:** `services/payment-service/src/main/java/com/opendesk/payment/payment/Payment.java`
+**Analog:** `services/payment-service/src/main/java/com/smsreseller/payment/payment/Payment.java`
 
 **Entity pattern** (lines 1–100 — full file):
 ```java
-package com.opendesk.payment.payment;
+package com.smsreseller.payment.payment;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -111,7 +111,7 @@ public class Payment {
 
 ### `contact-service/.../contact/ContactController.java` (controller, request-response)
 
-**Analog:** `services/payment-service/src/main/java/com/opendesk/payment/payment/PaymentController.java`
+**Analog:** `services/payment-service/src/main/java/com/smsreseller/payment/payment/PaymentController.java`
 
 **IDOR guard + JWT pattern** (lines 1–72 — full file):
 ```java
@@ -154,7 +154,7 @@ Alternatively, `WalletController` uses `@AuthenticationPrincipal Jwt auth` + `au
 
 ### `contact-service/.../config/SecurityConfig.java` (config, request-response)
 
-**Analog:** `services/wallet-service/src/main/java/com/opendesk/wallet/config/SecurityConfig.java`
+**Analog:** `services/wallet-service/src/main/java/com/smsreseller/wallet/config/SecurityConfig.java`
 
 **Full file** (lines 1–47):
 ```java
@@ -189,7 +189,7 @@ public class SecurityConfig {
 
 ### `contact-service/.../config/RabbitMqConfig.java` + `messaging-service/.../config/RabbitMqConfig.java` (config, event-driven)
 
-**Analog for simple exchange declaration:** `services/wallet-service/src/main/java/com/opendesk/wallet/config/RabbitMqConfig.java`
+**Analog for simple exchange declaration:** `services/wallet-service/src/main/java/com/smsreseller/wallet/config/RabbitMqConfig.java`
 
 **Simple exchange + converter pattern** (lines 1–60 — full file):
 ```java
@@ -269,10 +269,10 @@ spring:
 
 ### `contact-service/.../outbox/OutboxEntry.java` (model, event-driven)
 
-**Analog:** `services/identity-service/src/main/java/com/opendesk/identity/outbox/OutboxEntry.java`
+**Analog:** `services/identity-service/src/main/java/com/smsreseller/identity/outbox/OutboxEntry.java`
 
 **Full file** (lines 1–84):
-Copy verbatim; change package from `com.opendesk.identity.outbox` to service-specific package (e.g. `com.opendesk.contact.outbox`). The entity is identical across all three existing services — identity, wallet, payment all have their own copy.
+Copy verbatim; change package from `com.smsreseller.identity.outbox` to service-specific package (e.g. `com.smsreseller.contact.outbox`). The entity is identical across all three existing services — identity, wallet, payment all have their own copy.
 
 Key fields: `id UUID`, `eventId UUID (unique)`, `aggregateType String`, `aggregateId String`, `eventType String`, `payload TEXT`, `sent boolean`, `createdAt Instant`, `sentAt Instant`.
 
@@ -280,7 +280,7 @@ Key fields: `id UUID`, `eventId UUID (unique)`, `aggregateType String`, `aggrega
 
 ### `contact-service/.../outbox/OutboxRepository.java` (repository, event-driven)
 
-**Analog:** `services/identity-service/src/main/java/com/opendesk/identity/outbox/OutboxRepository.java`
+**Analog:** `services/identity-service/src/main/java/com/smsreseller/identity/outbox/OutboxRepository.java`
 
 **Full file** (lines 1–29):
 ```java
@@ -296,7 +296,7 @@ Copy verbatim; change package and `OutboxEntry` import.
 
 ### `contact-service/.../outbox/OutboxRelay.java` + `messaging-service/.../outbox/OutboxRelay.java` (scheduler, event-driven)
 
-**Analog:** `services/identity-service/src/main/java/com/opendesk/identity/outbox/OutboxRelay.java`
+**Analog:** `services/identity-service/src/main/java/com/smsreseller/identity/outbox/OutboxRelay.java`
 
 **Full relay pattern** (lines 1–83 — full file):
 ```java
@@ -346,7 +346,7 @@ Change: exchange constant reference (`RabbitMqConfig.EXCHANGE` → `messaging.ev
 
 ### `messaging-service/.../sms/SmsProvider.java` (interface, request-response)
 
-**Analog:** `services/payment-service/src/main/java/com/opendesk/payment/gateway/PaymentGateway.java`
+**Analog:** `services/payment-service/src/main/java/com/smsreseller/payment/gateway/PaymentGateway.java`
 
 **Interface pattern** (lines 1–36 — full file):
 ```java
@@ -375,7 +375,7 @@ Result type `SmsResult` should encode: `ACCEPTED | HARD_FAIL | TRANSIENT_FAIL` o
 
 ### `messaging-service/.../sms/StubSmsProvider.java` (service, request-response)
 
-**Analog:** `services/payment-service/src/main/java/com/opendesk/payment/gateway/StubPaymentGateway.java`
+**Analog:** `services/payment-service/src/main/java/com/smsreseller/payment/gateway/StubPaymentGateway.java`
 
 **Stub pattern with magic suffix + configurable default** (lines 1–93 — full file):
 ```java
@@ -414,7 +414,7 @@ public class StubPaymentGateway implements PaymentGateway {
 
 ### `messaging-service/.../sms/RealSmsProvider.java` (service, request-response)
 
-**Analog:** `services/payment-service/src/main/java/com/opendesk/payment/gateway/AzampayPaymentGateway.java`
+**Analog:** `services/payment-service/src/main/java/com/smsreseller/payment/gateway/AzampayPaymentGateway.java`
 
 **RestClient + Resilience4j CB + Retry pattern** (lines 29–144 — full file):
 ```java
@@ -458,7 +458,7 @@ public class AzampayPaymentGateway implements PaymentGateway {
 
 ### `messaging-service/.../wallet/WalletReservationClient.java` (client, request-response)
 
-**Analog:** `services/payment-service/src/main/java/com/opendesk/payment/gateway/AzampayPaymentGateway.java`
+**Analog:** `services/payment-service/src/main/java/com/smsreseller/payment/gateway/AzampayPaymentGateway.java`
 
 **RestClient + CB pattern** — same structure as `AzampayPaymentGateway` but calling wallet-service:
 ```java
@@ -494,7 +494,7 @@ public StkPushResult initiateStkPush(StkPushRequest request) {
 
 ### `messaging-service/.../message/SendMessageConsumer.java` (consumer, event-driven)
 
-**Analog:** `services/wallet-service/src/main/java/com/opendesk/wallet/consumer/UserVerifiedConsumer.java`
+**Analog:** `services/wallet-service/src/main/java/com/smsreseller/wallet/consumer/UserVerifiedConsumer.java`
 
 **@RabbitListener + idempotency + @Transactional pattern** (lines 1–67 — full file):
 ```java
@@ -535,7 +535,7 @@ public class UserVerifiedConsumer {
 
 ### `messaging-service/.../message/DeadLetterConsumer.java` (consumer, event-driven)
 
-**Analog:** `services/wallet-service/src/main/java/com/opendesk/wallet/consumer/UserVerifiedConsumer.java`
+**Analog:** `services/wallet-service/src/main/java/com/smsreseller/wallet/consumer/UserVerifiedConsumer.java`
 
 Same `@RabbitListener` structure but listening on `messaging.dead`:
 ```java
@@ -551,7 +551,7 @@ public void onDeadLetter(SendMessagePayload payload) {
 
 ### `messaging-service/.../scheduler/ScheduledCampaignDispatchJob.java` (scheduler, batch)
 
-**Analog:** `services/payment-service/src/main/java/com/opendesk/payment/reconciliation/ReconciliationJob.java`
+**Analog:** `services/payment-service/src/main/java/com/smsreseller/payment/reconciliation/ReconciliationJob.java`
 
 **Scheduled job pattern — testable via delegate method** (lines 37–117 — full file):
 ```java
@@ -611,7 +611,7 @@ public void dispatch(Instant now) {   // testable — pass future now to fast-fo
 
 ### `messaging-service/.../senderid/SenderIdController.java` (controller, request-response)
 
-**Analog:** `services/payment-service/src/main/java/com/opendesk/payment/payment/PaymentController.java`
+**Analog:** `services/payment-service/src/main/java/com/smsreseller/payment/payment/PaymentController.java`
 
 Same IDOR pattern. The internal admin endpoint must additionally check `ROLE_ADMIN`:
 ```java
@@ -623,7 +623,7 @@ Same IDOR pattern. The internal admin endpoint must additionally check `ROLE_ADM
 
 ### `wallet-service/.../consumer/MessagingEventConsumer.java` (consumer, event-driven)
 
-**Analog:** `services/wallet-service/src/main/java/com/opendesk/wallet/consumer/UserVerifiedConsumer.java`
+**Analog:** `services/wallet-service/src/main/java/com/smsreseller/wallet/consumer/UserVerifiedConsumer.java`
 
 **Full exact pattern** (lines 1–67 — full file):
 ```java
@@ -679,7 +679,7 @@ Note: `wallet-service` does NOT redeclare `messaging.events` exchange in its `Ra
 
 ### `wallet-service/.../lot/LotService.java` additions
 
-**Analog:** `services/wallet-service/src/main/java/com/opendesk/wallet/lot/LotService.java` (modify existing file)
+**Analog:** `services/wallet-service/src/main/java/com/smsreseller/wallet/lot/LotService.java` (modify existing file)
 
 **Existing `creditBack` pattern to copy for `consumeFromLot` and `releaseFromLot`** (lines 99–115):
 ```java
@@ -721,7 +721,7 @@ public void releaseFromLot(UUID userId, UUID lotId) {
 
 ### `AbstractContactIntegrationTest.java` + `AbstractMessagingIntegrationTest.java` (test)
 
-**Analog:** `services/wallet-service/src/test/java/com/opendesk/wallet/AbstractWalletIntegrationTest.java`
+**Analog:** `services/wallet-service/src/test/java/com/smsreseller/wallet/AbstractWalletIntegrationTest.java`
 
 **Full base class pattern** (lines 1–73 — full file):
 ```java

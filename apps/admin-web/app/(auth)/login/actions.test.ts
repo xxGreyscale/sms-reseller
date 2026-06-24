@@ -47,7 +47,7 @@ describe('adminLogin Server Action', () => {
     const { adminLogin } = await import('./actions')
 
     const formData = new FormData()
-    formData.set('email', 'admin@opendesk.co.tz')
+    formData.set('email', 'admin@smsreseller.co.tz')
     formData.set('password', 'secret')
 
     await expect(adminLogin(formData)).rejects.toThrow('NEXT_REDIRECT:/sender-ids')
@@ -72,7 +72,7 @@ describe('adminLogin Server Action', () => {
     const { adminLogin } = await import('./actions')
 
     const formData = new FormData()
-    formData.set('email', 'admin@opendesk.co.tz')
+    formData.set('email', 'admin@smsreseller.co.tz')
     formData.set('password', 'wrong')
 
     const result = await adminLogin(formData)
@@ -90,7 +90,7 @@ describe('adminLogin Server Action', () => {
     const { adminLogin } = await import('./actions')
 
     const formData = new FormData()
-    formData.set('email', 'admin@opendesk.co.tz')
+    formData.set('email', 'admin@smsreseller.co.tz')
     formData.set('password', 'secret')
 
     const result = await adminLogin(formData)

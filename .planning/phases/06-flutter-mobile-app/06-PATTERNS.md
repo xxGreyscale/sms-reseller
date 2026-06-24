@@ -23,7 +23,7 @@
 
 ### D-11: `GET /api/v1/payments/{id}` — single payment status
 
-**Analog file:** `services/payment-service/src/main/java/com/opendesk/payment/payment/PaymentController.java`
+**Analog file:** `services/payment-service/src/main/java/com/smsreseller/payment/payment/PaymentController.java`
 
 **What exists (lines 63–71) — `GET /api/v1/payments` list:**
 ```java
@@ -83,7 +83,7 @@ Optional<Payment> findByIdAndUserId(UUID id, UUID userId);
 
 ### D-12: Campaign `contactIds[]` targeting
 
-**Analog file:** `services/messaging-service/src/main/java/com/opendesk/messaging/campaign/CreateCampaignRequest.java`
+**Analog file:** `services/messaging-service/src/main/java/com/smsreseller/messaging/campaign/CreateCampaignRequest.java`
 
 **What exists (lines 14–30):**
 ```java
@@ -150,7 +150,7 @@ if (campaign.getContactIds() != null && !campaign.getContactIds().isEmpty()) {
 
 ### D-13: `GET /auth/me` — lightweight verification status read
 
-**Analog file:** `services/identity-service/src/main/java/com/opendesk/identity/auth/SessionController.java`
+**Analog file:** `services/identity-service/src/main/java/com/smsreseller/identity/auth/SessionController.java`
 
 **Pattern to copy — `@PostMapping("/logout")` (lines 119–132): authenticated endpoint reading subject from `@AuthenticationPrincipal Jwt`:**
 ```java
@@ -197,7 +197,7 @@ public record TokenResponse(String accessToken, String refreshToken, String stat
 
 ### D-14 (optional): `PATCH /api/v1/notifications/{id}/read`
 
-**Analog file:** `services/notification-service/src/main/java/com/opendesk/notification/notification/NotificationController.java`
+**Analog file:** `services/notification-service/src/main/java/com/smsreseller/notification/notification/NotificationController.java`
 
 **Full existing controller (lines 1–48) — copy the IDOR + auth pattern:**
 ```java

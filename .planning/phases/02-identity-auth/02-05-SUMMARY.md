@@ -19,16 +19,16 @@ tech_stack:
     - StubEmailSender.getLastResetUrl() provides zero-SMTP test hook for PasswordResetIT
 key_files:
   created:
-    - services/identity-service/src/main/java/com/opendesk/identity/password/EmailSender.java
-    - services/identity-service/src/main/java/com/opendesk/identity/password/StubEmailSender.java
-    - services/identity-service/src/main/java/com/opendesk/identity/password/RealEmailSender.java
-    - services/identity-service/src/main/java/com/opendesk/identity/password/PasswordResetService.java
-    - services/identity-service/src/main/java/com/opendesk/identity/auth/PasswordResetController.java
-    - services/identity-service/src/main/java/com/opendesk/identity/web/dto/ForgotPasswordRequest.java
-    - services/identity-service/src/main/java/com/opendesk/identity/web/dto/ResetPasswordRequest.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/password/EmailSender.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/password/StubEmailSender.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/password/RealEmailSender.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/password/PasswordResetService.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/auth/PasswordResetController.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/web/dto/ForgotPasswordRequest.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/web/dto/ResetPasswordRequest.java
   modified:
     - services/identity-service/build.gradle.kts (added libs.spring.boot.starter.mail)
-    - services/identity-service/src/test/java/com/opendesk/identity/PasswordResetIT.java (placeholder → 6 real assertions)
+    - services/identity-service/src/test/java/com/smsreseller/identity/PasswordResetIT.java (placeholder → 6 real assertions)
 decisions:
   - "StubEmailSender stores last reset URL in AtomicReference — thread-safe, injectable, no framework overhead"
   - "Token deleted BEFORE password update (delete-before-apply): prevents a race where two concurrent /auth/reset calls both pass the GET check. The second DELETE returns false (key already gone) → 400"

@@ -19,23 +19,23 @@ tech_stack:
 key_files:
   created:
     - services/wallet-service/src/main/resources/db/migration/V3__create_processed_events.sql
-    - services/wallet-service/src/main/java/com/opendesk/wallet/consumer/ProcessedEvent.java
-    - services/wallet-service/src/main/java/com/opendesk/wallet/consumer/ProcessedEventRepository.java
-    - services/wallet-service/src/main/java/com/opendesk/wallet/consumer/UserVerifiedEvent.java
-    - services/wallet-service/src/main/java/com/opendesk/wallet/consumer/UserVerifiedConsumer.java
-    - services/wallet-service/src/main/java/com/opendesk/wallet/config/RabbitMqConfig.java
-    - services/wallet-service/src/main/java/com/opendesk/wallet/config/SecurityConfig.java
-    - services/wallet-service/src/main/java/com/opendesk/wallet/api/BalanceResponse.java
-    - services/wallet-service/src/main/java/com/opendesk/wallet/api/WalletController.java
-    - services/wallet-service/src/main/java/com/opendesk/wallet/transaction/CreditTransactionDto.java
-    - services/wallet-service/src/test/java/com/opendesk/wallet/TestKeys.java
-    - services/wallet-service/src/test/java/com/opendesk/wallet/JwtTestHelper.java
-    - services/wallet-service/src/test/java/com/opendesk/wallet/WalletTestConfiguration.java
+    - services/wallet-service/src/main/java/com/smsreseller/wallet/consumer/ProcessedEvent.java
+    - services/wallet-service/src/main/java/com/smsreseller/wallet/consumer/ProcessedEventRepository.java
+    - services/wallet-service/src/main/java/com/smsreseller/wallet/consumer/UserVerifiedEvent.java
+    - services/wallet-service/src/main/java/com/smsreseller/wallet/consumer/UserVerifiedConsumer.java
+    - services/wallet-service/src/main/java/com/smsreseller/wallet/config/RabbitMqConfig.java
+    - services/wallet-service/src/main/java/com/smsreseller/wallet/config/SecurityConfig.java
+    - services/wallet-service/src/main/java/com/smsreseller/wallet/api/BalanceResponse.java
+    - services/wallet-service/src/main/java/com/smsreseller/wallet/api/WalletController.java
+    - services/wallet-service/src/main/java/com/smsreseller/wallet/transaction/CreditTransactionDto.java
+    - services/wallet-service/src/test/java/com/smsreseller/wallet/TestKeys.java
+    - services/wallet-service/src/test/java/com/smsreseller/wallet/JwtTestHelper.java
+    - services/wallet-service/src/test/java/com/smsreseller/wallet/WalletTestConfiguration.java
   modified:
-    - services/wallet-service/src/test/java/com/opendesk/wallet/UserVerifiedConsumerIT.java (placeholder → real assertions)
-    - services/wallet-service/src/test/java/com/opendesk/wallet/BalanceIT.java (placeholder → real assertions)
-    - services/wallet-service/src/test/java/com/opendesk/wallet/TransactionHistoryIT.java (placeholder → real assertions)
-    - services/wallet-service/src/test/java/com/opendesk/wallet/AbstractWalletIntegrationTest.java (@Import WalletTestConfiguration)
+    - services/wallet-service/src/test/java/com/smsreseller/wallet/UserVerifiedConsumerIT.java (placeholder → real assertions)
+    - services/wallet-service/src/test/java/com/smsreseller/wallet/BalanceIT.java (placeholder → real assertions)
+    - services/wallet-service/src/test/java/com/smsreseller/wallet/TransactionHistoryIT.java (placeholder → real assertions)
+    - services/wallet-service/src/test/java/com/smsreseller/wallet/AbstractWalletIntegrationTest.java (@Import WalletTestConfiguration)
 decisions:
   - "UserVerifiedEvent is a local record in wallet.consumer — no identity-service import; contract mirrored from 02-06-SUMMARY.md to respect service ownership boundary (CLAUDE.md)"
   - "RabbitMqConfig does NOT declare identity.events — @QueueBinding creates the binding passively to an already-declared exchange; declaring it again in wallet-service would be a hidden coupling"
@@ -75,7 +75,7 @@ RED gate confirmed: `NoSuchBeanDefinitionException` (UserVerifiedConsumer, Secur
 
 3. **ProcessedEventRepository** — native query `INSERT INTO processed_events ... ON CONFLICT DO NOTHING` returning `int` rows affected. `default boolean tryInsert(String eventId)` wraps this to a boolean for clean caller code. No SELECT-then-INSERT race (atomically safe).
 
-4. **UserVerifiedEvent** `record(String eventId, UUID userId, int freeCredits)` — local mirror of identity-service's event shape. No `com.opendesk.identity` import (service boundary respected per CLAUDE.md).
+4. **UserVerifiedEvent** `record(String eventId, UUID userId, int freeCredits)` — local mirror of identity-service's event shape. No `com.smsreseller.identity` import (service boundary respected per CLAUDE.md).
 
 5. **UserVerifiedConsumer** `@Component @RabbitListener` — binds to queue `wallet.identity.UserVerified` (durable) on exchange `identity.events` (TOPIC, durable) with key `identity.UserVerified`. `@Transactional onUserVerified`: guard via `tryInsert(eventId)` → if duplicate returns early; else `lotService.grantBonus(userId, freeCredits, now+30d)`.
 
@@ -154,6 +154,6 @@ None — no new network endpoints beyond what was planned. `GET /balance` and `G
 - [x] `SecurityConfig.java` has zero `PasswordEncoder` references
 - [x] `WalletController.java` extracts userId via `auth.getSubject()` — no userId in path/body/query
 - [x] No `javax.*` imports in any created source file
-- [x] No `com.opendesk.identity` imports in any wallet source file
+- [x] No `com.smsreseller.identity` imports in any wallet source file
 - [x] `./gradlew :services:wallet-service:test` BUILD SUCCESSFUL (all 7 new tests GREEN, prior tests unaffected)
 - [x] RED commit `db9ffc6` exists before GREEN commit `f870c5a`

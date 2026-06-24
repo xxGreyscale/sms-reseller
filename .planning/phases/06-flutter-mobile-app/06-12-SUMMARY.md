@@ -13,7 +13,7 @@ dependency_graph:
 tech_stack:
   added: []
   patterns:
-    - "Integration spine boots the real OpenDeskApp against a path-routed mock Dio + temp Hive; runs on host via `-d flutter-tester` (no device/Android SDK needed)"
+    - "Integration spine boots the real SmsResellerApp against a path-routed mock Dio + temp Hive; runs on host via `-d flutter-tester` (no device/Android SDK needed)"
     - "Android release signing reads android/key.properties (gitignored) and falls back to the debug signingConfig when absent, so `flutter build appbundle --release` succeeds in CI/dev without the production keystore"
     - "MOBL-09 Nyquist coverage = store_assets_test.dart (asserts metadata/privacy/CI/signing deliverables exist) instead of a perpetual red placeholder"
 
@@ -41,7 +41,7 @@ status: deliverables-complete-submission-pending
 ## What was built (Tasks 1 & 2 — complete, committed)
 
 - **Task 1 — e2e integration spine** (`integration_test/app_test.dart`, commit a2e970d): boots the
-  real `OpenDeskApp` (go_router + full Riverpod graph) against a path-routed mock Dio and a temp Hive
+  real `SmsResellerApp` (go_router + full Riverpod graph) against a path-routed mock Dio and a temp Hive
   store, walking PENDING wall → `/auth/me` VERIFIED → dashboard balance → bundle catalog → STK purchase
   (CONFIRMED) → contacts → campaign send (contactIds[]) → detail. Proves all waves compose. Runs on
   host via `flutter test integration_test/app_test.dart -d flutter-tester`.

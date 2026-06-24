@@ -51,13 +51,13 @@
 
 ### Outbox: `OutboxEntry`, `OutboxRepository`, `OutboxRelay` (both services)
 
-**Analog:** `services/identity-service/src/main/java/com/opendesk/identity/outbox/`
+**Analog:** `services/identity-service/src/main/java/com/smsreseller/identity/outbox/`
 
 These three files are **direct copies** — change only the package name and the exchange constant. No other modifications.
 
 **OutboxEntry** — lines 1–84 of `outbox/OutboxEntry.java`:
 ```java
-package com.opendesk.wallet.outbox;  // or com.opendesk.payment.outbox
+package com.smsreseller.wallet.outbox;  // or com.smsreseller.payment.outbox
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -106,7 +106,7 @@ public class OutboxEntry {
 
 **OutboxRepository** — lines 1–28 of `outbox/OutboxRepository.java`:
 ```java
-package com.opendesk.wallet.outbox;
+package com.smsreseller.wallet.outbox;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -123,9 +123,9 @@ public interface OutboxRepository extends JpaRepository<OutboxEntry, UUID> {
 
 **OutboxRelay** — lines 1–83 of `outbox/OutboxRelay.java` (change exchange constant only):
 ```java
-package com.opendesk.wallet.outbox;
+package com.smsreseller.wallet.outbox;
 
-import com.opendesk.wallet.config.RabbitMqConfig;
+import com.smsreseller.wallet.config.RabbitMqConfig;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -196,14 +196,14 @@ CREATE INDEX IF NOT EXISTS idx_outbox_sent ON outbox (sent) WHERE sent = FALSE;
 
 ### `PaymentGateway` interface + `StubPaymentGateway` + `AzampayPaymentGateway`
 
-**Analog:** `services/identity-service/src/main/java/com/opendesk/identity/verification/`
+**Analog:** `services/identity-service/src/main/java/com/smsreseller/identity/verification/`
 - Interface: `NidaVerificationService.java` (lines 1–32)
 - Stub: `StubNidaVerificationService.java` (lines 1–94)
 - Real/Prod: `RealNidaVerificationService.java` (lines 1–105)
 
 **Interface pattern** (copy `NidaVerificationService.java` shape):
 ```java
-package com.opendesk.payment.gateway;
+package com.smsreseller.payment.gateway;
 
 /**
  * Implementations:
@@ -294,11 +294,11 @@ public class AzampayPaymentGateway implements PaymentGateway {
 
 ### `ReconciliationJob` and `ExpirySweepJob` / `LowCreditAlertJob`
 
-**Analog:** `services/identity-service/src/main/java/com/opendesk/identity/verification/VerificationRetryJob.java` (lines 1–79)
+**Analog:** `services/identity-service/src/main/java/com/smsreseller/identity/verification/VerificationRetryJob.java` (lines 1–79)
 
 **Scheduled job pattern** (all three jobs follow this shape exactly):
 ```java
-package com.opendesk.payment.reconciliation;
+package com.smsreseller.payment.reconciliation;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -359,9 +359,9 @@ public class ReconciliationJob {
 This is the first inbound integration: wallet-service binds a durable queue to the `identity.events` topic exchange already declared by identity-service. The consumer pattern follows Spring AMQP `@RabbitListener` with `@QueueBinding`.
 
 ```java
-package com.opendesk.wallet.consumer;
+package com.smsreseller.wallet.consumer;
 
-import com.opendesk.identity.outbox.UserVerifiedEvent;  // or mirror the record locally
+import com.smsreseller.identity.outbox.UserVerifiedEvent;  // or mirror the record locally
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.ExchangeTypes;
@@ -406,10 +406,10 @@ public class UserVerifiedConsumer {
 
 ### JPA Entity pattern (`CreditLot`, `CreditTransaction`, `Payment`, `SmsBundle`)
 
-**Analog:** `services/identity-service/src/main/java/com/opendesk/identity/user/User.java` (lines 1–75)
+**Analog:** `services/identity-service/src/main/java/com/smsreseller/identity/user/User.java` (lines 1–75)
 
 ```java
-package com.opendesk.wallet.lot;
+package com.smsreseller.wallet.lot;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -467,10 +467,10 @@ Key differences from `User`:
 
 ### Repository pattern (`CreditLotRepository`, `PaymentRepository`, etc.)
 
-**Analog:** `services/identity-service/src/main/java/com/opendesk/identity/user/UserRepository.java` (lines 1–43)
+**Analog:** `services/identity-service/src/main/java/com/smsreseller/identity/user/UserRepository.java` (lines 1–43)
 
 ```java
-package com.opendesk.wallet.lot;
+package com.smsreseller.wallet.lot;
 
 import jakarta.persistence.LockModeType;
 import org.springframework.data.domain.Pageable;
@@ -511,10 +511,10 @@ List<Payment> findByStatusInAndCreatedAtBefore(
 
 ### REST Controller pattern (`WalletController`, `BundleController`, `PaymentController`)
 
-**Analog:** `services/identity-service/src/main/java/com/opendesk/identity/auth/RegistrationController.java` (lines 1–37)
+**Analog:** `services/identity-service/src/main/java/com/smsreseller/identity/auth/RegistrationController.java` (lines 1–37)
 
 ```java
-package com.opendesk.wallet.api;
+package com.smsreseller.wallet.api;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -568,7 +568,7 @@ public class CallbackController {
 
 ### `SecurityConfig` (wallet-service and payment-service)
 
-**Analog:** `services/identity-service/src/main/java/com/opendesk/identity/config/SecurityConfig.java` (lines 1–98)
+**Analog:** `services/identity-service/src/main/java/com/smsreseller/identity/config/SecurityConfig.java` (lines 1–98)
 
 Wallet/payment SecurityConfig differs from identity's: no `DaoAuthenticationProvider`, no `PasswordEncoder` bean — these are purely JWT resource servers. Copy the filter chain shape, keep `oauth2ResourceServer.jwt`, add `permitAll` for the Azampay callback endpoint on payment-service.
 
@@ -603,7 +603,7 @@ Shared-security JWT decoder wired via `libs/shared-security` — add `implementa
 
 ### `RabbitMqConfig` (wallet-service and payment-service)
 
-**Analog:** `services/identity-service/src/main/java/com/opendesk/identity/config/RabbitMqConfig.java` (lines 1–47)
+**Analog:** `services/identity-service/src/main/java/com/smsreseller/identity/config/RabbitMqConfig.java` (lines 1–47)
 
 wallet-service binds to `identity.events` (declared by identity-service, NOT re-declared here — `@RabbitListener` binding in `UserVerifiedConsumer` handles queue creation) and declares `wallet.events` for outbound:
 
@@ -697,12 +697,12 @@ ON CONFLICT DO NOTHING;
 
 ### `AbstractWalletIntegrationTest` / `AbstractPaymentIntegrationTest`
 
-**Analog:** `services/identity-service/src/test/java/com/opendesk/identity/AbstractIntegrationTest.java` (lines 1–73)
+**Analog:** `services/identity-service/src/test/java/com/smsreseller/identity/AbstractIntegrationTest.java` (lines 1–73)
 
 Direct copy — change package, database name, and activate `{"stub", "test"}` profiles:
 
 ```java
-package com.opendesk.wallet;
+package com.smsreseller.wallet;
 
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
@@ -768,7 +768,7 @@ class BalanceIT extends AbstractWalletIntegrationTest {
 
 ### `AuthClaims` usage in controllers (shared-security)
 
-**Analog:** `libs/shared-security/src/main/java/com/opendesk/shared/security/AuthClaims.java` (lines 1–70) and `JwtConfig.java` (lines 1–72)
+**Analog:** `libs/shared-security/src/main/java/com/smsreseller/shared/security/AuthClaims.java` (lines 1–70) and `JwtConfig.java` (lines 1–72)
 
 All wallet/payment controllers that serve authenticated users must:
 1. Accept `JwtAuthenticationToken auth` as method parameter
@@ -788,20 +788,20 @@ if (!AuthClaims.isVerified(auth.getToken())) {
 ## Shared Patterns
 
 ### 1. Transactional Outbox
-**Source:** `services/identity-service/src/main/java/com/opendesk/identity/outbox/`
+**Source:** `services/identity-service/src/main/java/com/smsreseller/identity/outbox/`
 **Apply to:** wallet-service outbox, payment-service outbox
 - Copy all three files (`OutboxEntry`, `OutboxRepository`, `OutboxRelay`), change package and exchange constant only
 - Flyway migration: copy `V3__create_outbox.sql` verbatim
 
 ### 2. Mock-First Interface + `@Profile`
-**Source:** `services/identity-service/src/main/java/com/opendesk/identity/verification/` (`NidaVerificationService`, `StubNidaVerificationService`, `RealNidaVerificationService`)
+**Source:** `services/identity-service/src/main/java/com/smsreseller/identity/verification/` (`NidaVerificationService`, `StubNidaVerificationService`, `RealNidaVerificationService`)
 **Apply to:** `PaymentGateway` + `StubPaymentGateway` + `AzampayPaymentGateway`
 - Interface with single-line contract doc listing both impls
 - Stub: `@Profile("stub")`, magic-suffix outcome control, `@Value` delay + default-outcome
 - Real: `@Profile("prod")`, `RestClient`, `@CircuitBreaker` + `@Retryable`, fallback method
 
 ### 3. Scheduled Job Structure
-**Source:** `services/identity-service/src/main/java/com/opendesk/identity/verification/VerificationRetryJob.java` (lines 39–79)
+**Source:** `services/identity-service/src/main/java/com/smsreseller/identity/verification/VerificationRetryJob.java` (lines 39–79)
 **Apply to:** `ReconciliationJob`, `ExpirySweepJob`, `LowCreditAlertJob`
 - `@Scheduled(fixedDelayString = "${...}")` — not fixedRate
 - Bounded query with `PageRequest.of(0, maxPerRun)`
@@ -809,7 +809,7 @@ if (!AuthClaims.isVerified(auth.getToken())) {
 - Per-item try/catch — one item failure does not block the rest
 
 ### 4. JWT Security — Resource Server Only
-**Source:** `libs/shared-security/src/main/java/com/opendesk/shared/security/JwtConfig.java` + `services/identity-service/src/main/java/com/opendesk/identity/config/SecurityConfig.java`
+**Source:** `libs/shared-security/src/main/java/com/smsreseller/shared/security/JwtConfig.java` + `services/identity-service/src/main/java/com/smsreseller/identity/config/SecurityConfig.java`
 **Apply to:** `SecurityConfig` in wallet-service and payment-service
 - Add `implementation(project(":libs:shared-security"))` to `build.gradle.kts`
 - No `PasswordEncoder`, no `DaoAuthenticationProvider`, no `UserDetailsService`
@@ -817,7 +817,7 @@ if (!AuthClaims.isVerified(auth.getToken())) {
 - Only difference: payment-service `SecurityConfig` adds `permitAll` for `/api/v1/payments/callback`
 
 ### 5. JPA Entity Conventions
-**Source:** `services/identity-service/src/main/java/com/opendesk/identity/user/User.java`
+**Source:** `services/identity-service/src/main/java/com/smsreseller/identity/user/User.java`
 - `jakarta.*` imports throughout (never `javax.*`)
 - `@EntityListeners(AuditingEntityListener.class)` + `@CreatedDate` / `@LastModifiedDate`
 - Lombok: `@Getter @Setter @Builder @NoArgsConstructor @AllArgsConstructor`
@@ -826,14 +826,14 @@ if (!AuthClaims.isVerified(auth.getToken())) {
 - `BIGINT` → `long` for TZS amounts; `INT` → `int` for credit counts
 
 ### 6. Idempotency Guard
-**Source:** `services/identity-service/src/main/java/com/opendesk/identity/outbox/OutboxEntry.java` + `OutboxRelay.java`
+**Source:** `services/identity-service/src/main/java/com/smsreseller/identity/outbox/OutboxEntry.java` + `OutboxRelay.java`
 **Apply to:** `UserVerifiedConsumer`, `CallbackProcessor`
 - `processed_events (event_id UUID PRIMARY KEY)` table
 - `INSERT INTO processed_events ... ON CONFLICT DO NOTHING` → if 0 rows inserted, skip
 - Stronger than status-check guard (atomic via DB constraint)
 
 ### 7. RabbitMQ Config
-**Source:** `services/identity-service/src/main/java/com/opendesk/identity/config/RabbitMqConfig.java`
+**Source:** `services/identity-service/src/main/java/com/smsreseller/identity/config/RabbitMqConfig.java`
 **Apply to:** wallet-service `RabbitMqConfig`, payment-service `RabbitMqConfig`
 - Declares own exchange only (wallet.events, payment.events)
 - Does NOT redeclare `identity.events` — consumer `@QueueBinding` creates binding passively

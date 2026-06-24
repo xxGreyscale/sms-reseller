@@ -57,10 +57,10 @@ key_files:
     - libs/shared-security/build.gradle.kts
     - libs/shared-observability/build.gradle.kts
     - apps/admin-web/build.gradle.kts
-    - libs/shared-security/src/main/java/com/opendesk/shared/security/package-info.java
-    - libs/shared-security/src/test/java/com/opendesk/shared/security/SharedSecurityModuleTest.java
-    - libs/shared-observability/src/main/java/com/opendesk/shared/observability/package-info.java
-    - libs/shared-observability/src/test/java/com/opendesk/shared/observability/SharedObservabilityModuleTest.java
+    - libs/shared-security/src/main/java/com/smsreseller/shared/security/package-info.java
+    - libs/shared-security/src/test/java/com/smsreseller/shared/security/SharedSecurityModuleTest.java
+    - libs/shared-observability/src/main/java/com/smsreseller/shared/observability/package-info.java
+    - libs/shared-observability/src/test/java/com/smsreseller/shared/observability/SharedObservabilityModuleTest.java
   modified: []
 decisions:
   - "Removed version from root build.gradle.kts plugin declarations: buildSrc puts Spring Boot plugin on classpath already; duplicate version declaration causes 'plugin already on classpath with unknown version' error"
@@ -84,7 +84,7 @@ metrics:
 Established the complete Gradle multi-module monorepo skeleton that every subsequent Phase 1 plan and all future phases build on. Key deliverables:
 
 1. **Gradle wrapper** pinned to 8.11.1 (`gradlew`, `gradle-wrapper.jar`, `gradle-wrapper.properties`)
-2. **settings.gradle.kts** with `rootProject.name = "open-desk"` and 11 module includes (8 services + 2 libs + 1 apps)
+2. **settings.gradle.kts** with `rootProject.name = "sms-reseller"` and 11 module includes (8 services + 2 libs + 1 apps)
 3. **Root build.gradle.kts** declaring Spring Boot 3.5.9 and dependency-management 1.1.7 plugins with `apply false`
 4. **gradle/libs.versions.toml** version catalog pinning all versions (spring-boot=3.5.9, mapstruct=1.6.3, testcontainers=1.21.2, sentry=8.44.0) with BOM-managed and explicitly-versioned library entries
 5. **buildSrc convention plugins:**

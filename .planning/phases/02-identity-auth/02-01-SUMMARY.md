@@ -31,24 +31,24 @@ key_files:
   created:
     - gradle/libs.versions.toml (spring-boot-starter-mail + testcontainers-junit-jupiter entries added)
     - services/identity-service/build.gradle.kts (full Phase 2 dep set)
-    - services/identity-service/src/main/java/com/opendesk/identity/IdentityServiceApplication.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/IdentityServiceApplication.java
     - services/identity-service/src/main/resources/application.yml
     - services/identity-service/src/test/resources/application-test.yml
-    - services/identity-service/src/test/java/com/opendesk/identity/AbstractIntegrationTest.java
-    - services/identity-service/src/test/java/com/opendesk/identity/TestKeys.java
+    - services/identity-service/src/test/java/com/smsreseller/identity/AbstractIntegrationTest.java
+    - services/identity-service/src/test/java/com/smsreseller/identity/TestKeys.java
     - services/identity-service/src/test/resources/test-keys/jwt-private.pem
     - services/identity-service/src/test/resources/test-keys/jwt-public.pem
-    - services/identity-service/src/test/java/com/opendesk/identity/RegistrationIT.java
-    - services/identity-service/src/test/java/com/opendesk/identity/LoginIT.java
-    - services/identity-service/src/test/java/com/opendesk/identity/LockoutIT.java
-    - services/identity-service/src/test/java/com/opendesk/identity/RefreshRotationIT.java
-    - services/identity-service/src/test/java/com/opendesk/identity/LogoutIT.java
-    - services/identity-service/src/test/java/com/opendesk/identity/PasswordResetIT.java
-    - services/identity-service/src/test/java/com/opendesk/identity/VerificationOutboxIT.java
-    - services/identity-service/src/test/java/com/opendesk/identity/NidaDegradedIT.java
-    - services/identity-service/src/test/java/com/opendesk/identity/SenderIdIT.java
-    - services/identity-service/src/test/java/com/opendesk/identity/JwtIssuerUnitTest.java
-    - libs/shared-security/src/test/java/com/opendesk/shared/security/JwtValidationUnitTest.java
+    - services/identity-service/src/test/java/com/smsreseller/identity/RegistrationIT.java
+    - services/identity-service/src/test/java/com/smsreseller/identity/LoginIT.java
+    - services/identity-service/src/test/java/com/smsreseller/identity/LockoutIT.java
+    - services/identity-service/src/test/java/com/smsreseller/identity/RefreshRotationIT.java
+    - services/identity-service/src/test/java/com/smsreseller/identity/LogoutIT.java
+    - services/identity-service/src/test/java/com/smsreseller/identity/PasswordResetIT.java
+    - services/identity-service/src/test/java/com/smsreseller/identity/VerificationOutboxIT.java
+    - services/identity-service/src/test/java/com/smsreseller/identity/NidaDegradedIT.java
+    - services/identity-service/src/test/java/com/smsreseller/identity/SenderIdIT.java
+    - services/identity-service/src/test/java/com/smsreseller/identity/JwtIssuerUnitTest.java
+    - libs/shared-security/src/test/java/com/smsreseller/shared/security/JwtValidationUnitTest.java
     - libs/shared-security/src/test/resources/test-keys/jwt-private.pem
     - libs/shared-security/src/test/resources/test-keys/jwt-public.pem
   modified: []
@@ -92,7 +92,7 @@ Wave 0 test infrastructure for the identity-service and shared-security module:
 **2. [Rule 1 - Bug] Ambiguous assertThat overload on getClaim return type**
 - **Found during:** Task 3 — `JwtValidationUnitTest` failed to compile with "reference to assertThat is ambiguous" on `decoded.getClaim("verification_status")` (returns `Object`)
 - **Fix:** Cast to `(String)` before passing to `assertThat`
-- **Files modified:** `libs/shared-security/src/test/java/com/opendesk/shared/security/JwtValidationUnitTest.java`
+- **Files modified:** `libs/shared-security/src/test/java/com/smsreseller/shared/security/JwtValidationUnitTest.java`
 
 **3. [Rule 2 - Design] RSA keys copied to shared-security test resources**
 - **Found during:** Task 3 — `JwtValidationUnitTest` in `shared-security` can't reference `TestKeys.java` from `identity-service` test sources (separate Gradle modules with no test source dependency)

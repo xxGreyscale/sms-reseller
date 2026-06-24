@@ -16,11 +16,11 @@ tech_stack:
     - 404 on missing-or-not-owned (never 403 — existence must not leak)
 key_files:
   created:
-    - services/payment-service/src/test/java/com/opendesk/payment/payment/PaymentByIdIT.java
+    - services/payment-service/src/test/java/com/smsreseller/payment/payment/PaymentByIdIT.java
   modified:
-    - services/payment-service/src/main/java/com/opendesk/payment/payment/PaymentRepository.java
-    - services/payment-service/src/main/java/com/opendesk/payment/payment/PaymentService.java
-    - services/payment-service/src/main/java/com/opendesk/payment/payment/PaymentController.java
+    - services/payment-service/src/main/java/com/smsreseller/payment/payment/PaymentRepository.java
+    - services/payment-service/src/main/java/com/smsreseller/payment/payment/PaymentService.java
+    - services/payment-service/src/main/java/com/smsreseller/payment/payment/PaymentController.java
 decisions:
   - "findByIdAndUserId compound JPA derived query: single DB call enforces owner scope; no separate existence check avoids timing oracle"
   - "404 (not 403) for cross-user access: payment existence must not leak to unauthenticated observer (T-06-02-01)"
@@ -124,7 +124,7 @@ None — the endpoint is fully functional. `PaymentDto.status` is the live statu
 ## Self-Check: PASSED
 
 - [x] `./gradlew :services:payment-service:test` BUILD SUCCESSFUL (all ITs pass, no regressions)
-- [x] `./gradlew :services:payment-service:test --tests "com.opendesk.payment.payment.PaymentByIdIT"` — 3/3 pass
+- [x] `./gradlew :services:payment-service:test --tests "com.smsreseller.payment.payment.PaymentByIdIT"` — 3/3 pass
 - [x] PaymentController contains `@GetMapping("/{id}")` with `@PathVariable UUID id`
 - [x] userId extracted from `auth.getToken().getSubject()` (never from path)
 - [x] Cross-user test asserts `HttpStatus.NOT_FOUND` (not 403)

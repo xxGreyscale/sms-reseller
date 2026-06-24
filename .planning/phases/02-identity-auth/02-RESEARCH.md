@@ -190,7 +190,7 @@ slopcheck targets npm/PyPI; these are Maven Central artifacts from `org.springfr
 
 ### Recommended Project Structure
 ```
-services/identity-service/src/main/java/com/opendesk/identity/
+services/identity-service/src/main/java/com/smsreseller/identity/
 ├── IdentityServiceApplication.java        # @SpringBootApplication (replaces placeholder.MainClass)
 ├── config/
 │   ├── SecurityConfig.java                # SecurityFilterChain: stateless, CSRF off, permit auth endpoints
@@ -231,7 +231,7 @@ JwtEncoder jwtEncoder(RSAPublicKey pub, RSAPrivateKey priv) {
 }
 // issue:
 JwtClaimsSet claims = JwtClaimsSet.builder()
-    .issuer("https://identity.open-desk")
+    .issuer("https://identity.sms-reseller")
     .subject(userId.toString())
     .issuedAt(now).expiresAt(now.plus(15, ChronoUnit.MINUTES))
     .claim("verification_status", user.getStatus().name())   // D-02 — load-bearing

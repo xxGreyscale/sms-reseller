@@ -371,5 +371,5 @@ logging:
 - `/vercel/next.js` (Context7) — Next.js 14 App Router, TypeScript API route patterns
 
 ---
-*Stack research for: SMS Reseller SaaS (open-desk), Tanzania market*
+*Stack research for: SMS Reseller SaaS (sms-reseller), Tanzania market*
 *Researched: 2026-06-18*

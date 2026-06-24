@@ -16,14 +16,14 @@ tech_stack:
     - "IDOR guard: userId from JwtAuthenticationToken.getToken().getSubject() in CsvImportController"
 key_files:
   created:
-    - services/contact-service/src/main/java/com/opendesk/contact/csv/PhoneNormalizer.java
-    - services/contact-service/src/main/java/com/opendesk/contact/csv/ImportSummaryResponse.java
-    - services/contact-service/src/main/java/com/opendesk/contact/csv/CsvImportService.java
-    - services/contact-service/src/main/java/com/opendesk/contact/csv/CsvImportController.java
+    - services/contact-service/src/main/java/com/smsreseller/contact/csv/PhoneNormalizer.java
+    - services/contact-service/src/main/java/com/smsreseller/contact/csv/ImportSummaryResponse.java
+    - services/contact-service/src/main/java/com/smsreseller/contact/csv/CsvImportService.java
+    - services/contact-service/src/main/java/com/smsreseller/contact/csv/CsvImportController.java
   modified:
-    - services/contact-service/src/main/java/com/opendesk/contact/contact/Contact.java
-    - services/contact-service/src/test/java/com/opendesk/contact/PhoneNormalizerTest.java
-    - services/contact-service/src/test/java/com/opendesk/contact/CsvImportIT.java
+    - services/contact-service/src/main/java/com/smsreseller/contact/contact/Contact.java
+    - services/contact-service/src/test/java/com/smsreseller/contact/PhoneNormalizerTest.java
+    - services/contact-service/src/test/java/com/smsreseller/contact/CsvImportIT.java
 decisions:
   - "Contact entity @UniqueConstraint added for Hibernate DDL (create-drop in tests) to support ON CONFLICT clause — Flyway migration already had uq_contact_user_phone but JPA entity did not declare it, causing 42P10 in test runs"
   - "Intra-file dedup via HashSet<String> in CsvImportService (per D-09): tracks E.164 seen in this import; avoids double-increment of both imported and duplicate for same phone appearing twice in one CSV"
@@ -92,10 +92,10 @@ None beyond the plan's threat model:
 
 ## Self-Check: PASSED
 
-- PhoneNormalizer.java: FOUND at services/contact-service/src/main/java/com/opendesk/contact/csv/PhoneNormalizer.java
-- ImportSummaryResponse.java: FOUND at services/contact-service/src/main/java/com/opendesk/contact/csv/ImportSummaryResponse.java
-- CsvImportService.java: FOUND at services/contact-service/src/main/java/com/opendesk/contact/csv/CsvImportService.java
-- CsvImportController.java: FOUND at services/contact-service/src/main/java/com/opendesk/contact/csv/CsvImportController.java
+- PhoneNormalizer.java: FOUND at services/contact-service/src/main/java/com/smsreseller/contact/csv/PhoneNormalizer.java
+- ImportSummaryResponse.java: FOUND at services/contact-service/src/main/java/com/smsreseller/contact/csv/ImportSummaryResponse.java
+- CsvImportService.java: FOUND at services/contact-service/src/main/java/com/smsreseller/contact/csv/CsvImportService.java
+- CsvImportController.java: FOUND at services/contact-service/src/main/java/com/smsreseller/contact/csv/CsvImportController.java
 - RED commit 7a75197: VERIFIED
 - GREEN commit be7ffc1: VERIFIED
 - Full contact-service test suite: BUILD SUCCESSFUL

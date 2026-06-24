@@ -27,30 +27,30 @@ tech_stack:
 key_files:
   created:
     - services/notification-service/build.gradle.kts
-    - services/notification-service/src/main/java/com/opendesk/notification/NotificationServiceApplication.java
+    - services/notification-service/src/main/java/com/smsreseller/notification/NotificationServiceApplication.java
     - services/notification-service/src/main/resources/application.yml
-    - services/notification-service/src/test/java/com/opendesk/notification/AbstractNotificationIntegrationTest.java
-    - services/notification-service/src/test/java/com/opendesk/notification/consumer/UserVerifiedConsumerIT.java
-    - services/notification-service/src/test/java/com/opendesk/notification/consumer/PaymentConfirmedConsumerIT.java
-    - services/notification-service/src/test/java/com/opendesk/notification/consumer/LowCreditAlertConsumerIT.java
-    - services/notification-service/src/test/java/com/opendesk/notification/consumer/ExpiryWarningConsumerIT.java
-    - services/notification-service/src/test/java/com/opendesk/notification/consumer/CampaignCompletedConsumerIT.java
-    - services/notification-service/src/test/java/com/opendesk/notification/consumer/SenderIdDecidedConsumerIT.java
-    - services/notification-service/src/test/java/com/opendesk/notification/notification/NotificationFeedIT.java
+    - services/notification-service/src/test/java/com/smsreseller/notification/AbstractNotificationIntegrationTest.java
+    - services/notification-service/src/test/java/com/smsreseller/notification/consumer/UserVerifiedConsumerIT.java
+    - services/notification-service/src/test/java/com/smsreseller/notification/consumer/PaymentConfirmedConsumerIT.java
+    - services/notification-service/src/test/java/com/smsreseller/notification/consumer/LowCreditAlertConsumerIT.java
+    - services/notification-service/src/test/java/com/smsreseller/notification/consumer/ExpiryWarningConsumerIT.java
+    - services/notification-service/src/test/java/com/smsreseller/notification/consumer/CampaignCompletedConsumerIT.java
+    - services/notification-service/src/test/java/com/smsreseller/notification/consumer/SenderIdDecidedConsumerIT.java
+    - services/notification-service/src/test/java/com/smsreseller/notification/notification/NotificationFeedIT.java
     - services/admin-service/build.gradle.kts
-    - services/admin-service/src/main/java/com/opendesk/admin/AdminServiceApplication.java
+    - services/admin-service/src/main/java/com/smsreseller/admin/AdminServiceApplication.java
     - services/admin-service/src/main/resources/application.yml
-    - services/admin-service/src/test/java/com/opendesk/admin/AbstractAdminIntegrationTest.java
-    - services/admin-service/src/test/java/com/opendesk/admin/audit/AuditLogIT.java
-    - services/identity-service/src/test/java/com/opendesk/identity/admin/AdminLoginIT.java
-    - services/identity-service/src/test/java/com/opendesk/identity/admin/AdminUserSearchIT.java
-    - services/identity-service/src/test/java/com/opendesk/identity/admin/AuditLogIT.java
-    - services/wallet-service/src/test/java/com/opendesk/wallet/admin/AdminLedgerIT.java
-    - services/wallet-service/src/test/java/com/opendesk/wallet/analytics/CreditUsageAnalyticsIT.java
-    - services/messaging-service/src/test/java/com/opendesk/messaging/message/CampaignCompletedIT.java
-    - services/messaging-service/src/test/java/com/opendesk/messaging/analytics/CampaignAnalyticsIT.java
-    - services/messaging-service/src/test/java/com/opendesk/messaging/analytics/OperatorRateAnalyticsIT.java
-    - services/payment-service/src/test/java/com/opendesk/payment/bundle/AdminBundleCatalogIT.java
+    - services/admin-service/src/test/java/com/smsreseller/admin/AbstractAdminIntegrationTest.java
+    - services/admin-service/src/test/java/com/smsreseller/admin/audit/AuditLogIT.java
+    - services/identity-service/src/test/java/com/smsreseller/identity/admin/AdminLoginIT.java
+    - services/identity-service/src/test/java/com/smsreseller/identity/admin/AdminUserSearchIT.java
+    - services/identity-service/src/test/java/com/smsreseller/identity/admin/AuditLogIT.java
+    - services/wallet-service/src/test/java/com/smsreseller/wallet/admin/AdminLedgerIT.java
+    - services/wallet-service/src/test/java/com/smsreseller/wallet/analytics/CreditUsageAnalyticsIT.java
+    - services/messaging-service/src/test/java/com/smsreseller/messaging/message/CampaignCompletedIT.java
+    - services/messaging-service/src/test/java/com/smsreseller/messaging/analytics/CampaignAnalyticsIT.java
+    - services/messaging-service/src/test/java/com/smsreseller/messaging/analytics/OperatorRateAnalyticsIT.java
+    - services/payment-service/src/test/java/com/smsreseller/payment/bundle/AdminBundleCatalogIT.java
     - apps/admin-web/package.json
     - apps/admin-web/next.config.mjs
     - apps/admin-web/tsconfig.json

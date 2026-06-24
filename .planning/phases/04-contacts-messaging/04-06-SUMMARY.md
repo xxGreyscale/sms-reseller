@@ -17,22 +17,22 @@ tech_stack:
     - "CampaignResponse: aggregate counts (totalCount/sentCount/deliveredCount/failedCount) in single-campaign GET; zero counts in list endpoint"
 key_files:
   created:
-    - services/messaging-service/src/main/java/com/opendesk/messaging/message/DeadLetterConsumer.java
-    - services/messaging-service/src/main/java/com/opendesk/messaging/message/DeliveryReceiptService.java
-    - services/messaging-service/src/main/java/com/opendesk/messaging/message/DlrController.java
-    - services/messaging-service/src/main/java/com/opendesk/messaging/message/MessageView.java
-    - services/messaging-service/src/main/java/com/opendesk/messaging/config/SmsProviderConfig.java
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/message/DeadLetterConsumer.java
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/message/DeliveryReceiptService.java
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/message/DlrController.java
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/message/MessageView.java
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/config/SmsProviderConfig.java
   modified:
-    - services/messaging-service/src/main/java/com/opendesk/messaging/message/SendMessageConsumer.java (Approach A ladder)
-    - services/messaging-service/src/main/java/com/opendesk/messaging/message/OutboundMessageRepository.java (findByExternalId, findByEventType)
-    - services/messaging-service/src/main/java/com/opendesk/messaging/campaign/CampaignResponse.java (aggregate count fields)
-    - services/messaging-service/src/main/java/com/opendesk/messaging/campaign/CampaignController.java (GET /{id}/messages, aggregate counts)
-    - services/messaging-service/src/main/java/com/opendesk/messaging/campaign/CampaignService.java (toCampaignResponseWithCounts, getMessages)
-    - services/messaging-service/src/main/java/com/opendesk/messaging/config/SecurityConfig.java (permit /api/v1/messaging/dlr)
-    - services/messaging-service/src/main/java/com/opendesk/messaging/outbox/OutboxRepository.java (findByEventType)
-    - services/messaging-service/src/test/java/com/opendesk/messaging/DlxRetryIT.java (RED→GREEN)
-    - services/messaging-service/src/test/java/com/opendesk/messaging/DeliveryTrackingIT.java (RED→GREEN)
-    - services/messaging-service/src/test/java/com/opendesk/messaging/CampaignStatusIT.java (RED→GREEN)
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/message/SendMessageConsumer.java (Approach A ladder)
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/message/OutboundMessageRepository.java (findByExternalId, findByEventType)
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/campaign/CampaignResponse.java (aggregate count fields)
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/campaign/CampaignController.java (GET /{id}/messages, aggregate counts)
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/campaign/CampaignService.java (toCampaignResponseWithCounts, getMessages)
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/config/SecurityConfig.java (permit /api/v1/messaging/dlr)
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/outbox/OutboxRepository.java (findByEventType)
+    - services/messaging-service/src/test/java/com/smsreseller/messaging/DlxRetryIT.java (RED→GREEN)
+    - services/messaging-service/src/test/java/com/smsreseller/messaging/DeliveryTrackingIT.java (RED→GREEN)
+    - services/messaging-service/src/test/java/com/smsreseller/messaging/CampaignStatusIT.java (RED→GREEN)
 decisions:
   - "Approach A (explicit republish+ack) over nack-based DLX: the nack path routes all failures to messaging.retry.1m (first retry queue) — even HARD_FAIL. Approach A gives explicit routing: HARD_FAIL → messaging.dead immediately (no TTL wait), TRANSIENT_FAIL → correct rung of the ladder. This resolves an idempotency gap where HARD_FAIL marked FAILED would ack (no-op) on subsequent retry-queue re-deliveries and never reach the dead queue."
   - "SmsProviderConfig as ApplicationRunner (not constructor injection): avoids circular dependency between StubSmsProvider and DeliveryReceiptService. The handler is set after both beans are fully initialized."

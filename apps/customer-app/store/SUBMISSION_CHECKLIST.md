@@ -23,7 +23,7 @@ Final review/approval is external and tracked separately (**D-03** prerequisite)
 - [ ] On macOS: `flutter build ipa --release` → `build/ios/ipa/*.ipa`.
 
 ## Google Play (Android)
-- [ ] Create the app in Play Console; package `com.opendesk.customer_app`.
+- [ ] Create the app in Play Console; package `com.smsreseller.customer_app`.
 - [ ] App icon **512×512**.
 - [ ] Feature graphic **1024×500**.
 - [ ] **≥2 phone screenshots** (dashboard, composer, purchase recommended).
@@ -35,7 +35,7 @@ Final review/approval is external and tracked separately (**D-03** prerequisite)
 - [ ] Upload AAB → submit for review.
 
 ## Apple App Store (iOS)
-- [ ] Create app record in App Store Connect; bundle id matches `com.opendesk.customer_app`; min iOS **12.0**.
+- [ ] Create app record in App Store Connect; bundle id matches `com.smsreseller.customer_app`; min iOS **12.0**.
 - [ ] Screenshots per required device sizes.
 - [ ] Description EN — `store/metadata/ios/en-US/description.txt`.
 - [ ] Description SW — `store/metadata/ios/sw/description.txt`.

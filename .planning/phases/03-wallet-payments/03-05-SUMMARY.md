@@ -18,29 +18,29 @@ tech_stack:
     - PaymentController userId from JWT subject (never request body — ASVS V4 IDOR prevention)
 key_files:
   created:
-    - services/payment-service/src/main/java/com/opendesk/payment/payment/PaymentService.java
-    - services/payment-service/src/main/java/com/opendesk/payment/payment/PaymentController.java
-    - services/payment-service/src/main/java/com/opendesk/payment/payment/PurchaseRequest.java
-    - services/payment-service/src/main/java/com/opendesk/payment/payment/PaymentDto.java
-    - services/payment-service/src/main/java/com/opendesk/payment/payment/PendingPaymentExistsException.java
-    - services/payment-service/src/main/java/com/opendesk/payment/payment/BundleNotPurchasableException.java
-    - services/payment-service/src/main/java/com/opendesk/payment/callback/CallbackController.java
-    - services/payment-service/src/main/java/com/opendesk/payment/callback/CallbackProcessor.java
-    - services/payment-service/src/main/java/com/opendesk/payment/callback/AzampayCallbackPayload.java
-    - services/payment-service/src/main/java/com/opendesk/payment/callback/WebhookSignatureValidator.java
-    - services/payment-service/src/main/java/com/opendesk/payment/callback/StubSignatureValidator.java
-    - services/payment-service/src/main/java/com/opendesk/payment/timeout/PaymentTimeoutJob.java
-    - services/payment-service/src/main/java/com/opendesk/payment/outbox/OutboxEntry.java
-    - services/payment-service/src/main/java/com/opendesk/payment/outbox/OutboxRepository.java
-    - services/payment-service/src/main/java/com/opendesk/payment/outbox/OutboxRelay.java
-    - services/payment-service/src/main/java/com/opendesk/payment/outbox/PaymentConfirmedEvent.java
+    - services/payment-service/src/main/java/com/smsreseller/payment/payment/PaymentService.java
+    - services/payment-service/src/main/java/com/smsreseller/payment/payment/PaymentController.java
+    - services/payment-service/src/main/java/com/smsreseller/payment/payment/PurchaseRequest.java
+    - services/payment-service/src/main/java/com/smsreseller/payment/payment/PaymentDto.java
+    - services/payment-service/src/main/java/com/smsreseller/payment/payment/PendingPaymentExistsException.java
+    - services/payment-service/src/main/java/com/smsreseller/payment/payment/BundleNotPurchasableException.java
+    - services/payment-service/src/main/java/com/smsreseller/payment/callback/CallbackController.java
+    - services/payment-service/src/main/java/com/smsreseller/payment/callback/CallbackProcessor.java
+    - services/payment-service/src/main/java/com/smsreseller/payment/callback/AzampayCallbackPayload.java
+    - services/payment-service/src/main/java/com/smsreseller/payment/callback/WebhookSignatureValidator.java
+    - services/payment-service/src/main/java/com/smsreseller/payment/callback/StubSignatureValidator.java
+    - services/payment-service/src/main/java/com/smsreseller/payment/timeout/PaymentTimeoutJob.java
+    - services/payment-service/src/main/java/com/smsreseller/payment/outbox/OutboxEntry.java
+    - services/payment-service/src/main/java/com/smsreseller/payment/outbox/OutboxRepository.java
+    - services/payment-service/src/main/java/com/smsreseller/payment/outbox/OutboxRelay.java
+    - services/payment-service/src/main/java/com/smsreseller/payment/outbox/PaymentConfirmedEvent.java
     - services/payment-service/src/main/resources/db/migration/V4__create_outbox.sql
   modified:
     - services/payment-service/src/main/resources/application.yml (timeout-sweep-ms, timeout-max-per-run)
-    - services/payment-service/src/test/java/com/opendesk/payment/PaymentInitiationIT.java
-    - services/payment-service/src/test/java/com/opendesk/payment/PaymentHistoryIT.java
-    - services/payment-service/src/test/java/com/opendesk/payment/CallbackProcessingIT.java
-    - services/payment-service/src/test/java/com/opendesk/payment/PaymentTimeoutIT.java
+    - services/payment-service/src/test/java/com/smsreseller/payment/PaymentInitiationIT.java
+    - services/payment-service/src/test/java/com/smsreseller/payment/PaymentHistoryIT.java
+    - services/payment-service/src/test/java/com/smsreseller/payment/CallbackProcessingIT.java
+    - services/payment-service/src/test/java/com/smsreseller/payment/PaymentTimeoutIT.java
 decisions:
   - "PaymentConfirmedEvent contract: record(String eventId, UUID userId, UUID paymentId, int smsCount) — consumed by wallet-service Plan 06 to grant PURCHASED credit lot"
   - "Callback idempotency: dual-layer guard — (1) status==SUCCESS skip at service layer; (2) outbox event_id UNIQUE DB constraint prevents double-row on concurrent duplicate delivery (T-03-11)"
@@ -73,7 +73,7 @@ metrics:
 - **PaymentDto:** `paymentId, bundleId, amountTzs, smsCount, status, createdAt, timeoutSeconds` — 120s timeout hint for UI countdown.
 - **PurchaseRequest:** `bundleId, msisdn, provider` with `@NotNull`/`@NotBlank` validation.
 - **Exceptions:** `PendingPaymentExistsException` → 409; `BundleNotPurchasableException` → 400.
-- **OutboxEntry/OutboxRepository/OutboxRelay:** Verbatim copy from identity-service, package changed to `com.opendesk.payment.outbox`, exchange constant → `payment.events`.
+- **OutboxEntry/OutboxRepository/OutboxRelay:** Verbatim copy from identity-service, package changed to `com.smsreseller.payment.outbox`, exchange constant → `payment.events`.
 - **PaymentConfirmedEvent record:** `(String eventId, UUID userId, UUID paymentId, int smsCount)` — contract for wallet-service Plan 06 consumer.
 - **V4__create_outbox.sql:** Outbox table with `CONSTRAINT uq_outbox_event_id UNIQUE (event_id)` and unsent partial index.
 

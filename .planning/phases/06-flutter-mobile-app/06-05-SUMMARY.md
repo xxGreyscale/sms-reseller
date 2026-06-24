@@ -51,7 +51,7 @@ Unauthenticated journey — splash (auth-state routing), 3-slide onboarding (MOB
 
 **SplashScreen (`lib/features/onboarding/splash_screen.dart`)**
 - Full-screen `Scaffold(backgroundColor: colorScheme.primary)` (accent blue `#1565C0`)
-- Centered 120 dp logo placeholder (icon) + `headlineLarge` white app name "OpenDesk"
+- Centered 120 dp logo placeholder (icon) + `headlineLarge` white app name "SmsReseller"
 - 2-second `Timer` that reads `authNotifierProvider` and routes:
   - `Verified` → `/dashboard`
   - `Pending` → `/pending`

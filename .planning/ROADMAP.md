@@ -1,4 +1,4 @@
-# Roadmap: SMS Reseller Platform (open-desk)
+# Roadmap: SMS Reseller Platform (sms-reseller)
 
 ## Overview
 

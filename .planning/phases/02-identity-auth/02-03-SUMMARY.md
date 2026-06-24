@@ -19,25 +19,25 @@ tech_stack:
     - /error added to SecurityConfig permitAll to allow 409/400 responses on auth-free endpoints
 key_files:
   created:
-    - services/identity-service/src/main/java/com/opendesk/identity/auth/RegistrationController.java
-    - services/identity-service/src/main/java/com/opendesk/identity/auth/RegistrationService.java
-    - services/identity-service/src/main/java/com/opendesk/identity/web/dto/RegisterRequest.java
-    - services/identity-service/src/main/java/com/opendesk/identity/web/dto/RegisterResponse.java
-    - services/identity-service/src/main/java/com/opendesk/identity/verification/NidaVerificationService.java
-    - services/identity-service/src/main/java/com/opendesk/identity/verification/NidaResult.java
-    - services/identity-service/src/main/java/com/opendesk/identity/verification/NidaTransientException.java
-    - services/identity-service/src/main/java/com/opendesk/identity/verification/StubNidaVerificationService.java
-    - services/identity-service/src/main/java/com/opendesk/identity/verification/RealNidaVerificationService.java
-    - services/identity-service/src/main/java/com/opendesk/identity/verification/VerificationFinalizer.java
-    - services/identity-service/src/main/java/com/opendesk/identity/verification/VerificationOrchestrator.java
-    - services/identity-service/src/main/java/com/opendesk/identity/verification/VerificationOrchestratorImpl.java
-    - services/identity-service/src/main/java/com/opendesk/identity/verification/VerificationRetryJob.java
-    - services/identity-service/src/main/java/com/opendesk/identity/verification/NoOpVerificationFinalizer.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/auth/RegistrationController.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/auth/RegistrationService.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/web/dto/RegisterRequest.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/web/dto/RegisterResponse.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/verification/NidaVerificationService.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/verification/NidaResult.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/verification/NidaTransientException.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/verification/StubNidaVerificationService.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/verification/RealNidaVerificationService.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/verification/VerificationFinalizer.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/verification/VerificationOrchestrator.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/verification/VerificationOrchestratorImpl.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/verification/VerificationRetryJob.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/verification/NoOpVerificationFinalizer.java
   modified:
-    - services/identity-service/src/main/java/com/opendesk/identity/user/UserRepository.java (added findByStatusAndCreatedAtBefore)
-    - services/identity-service/src/main/java/com/opendesk/identity/config/SecurityConfig.java (added /error to permitAll)
-    - services/identity-service/src/test/java/com/opendesk/identity/RegistrationIT.java (converted stub → real container IT)
-    - services/identity-service/src/test/java/com/opendesk/identity/NidaDegradedIT.java (converted stub → real container IT)
+    - services/identity-service/src/main/java/com/smsreseller/identity/user/UserRepository.java (added findByStatusAndCreatedAtBefore)
+    - services/identity-service/src/main/java/com/smsreseller/identity/config/SecurityConfig.java (added /error to permitAll)
+    - services/identity-service/src/test/java/com/smsreseller/identity/RegistrationIT.java (converted stub → real container IT)
+    - services/identity-service/src/test/java/com/smsreseller/identity/NidaDegradedIT.java (converted stub → real container IT)
 decisions:
   - "VerificationFinalizer defined as interface-only seam; NoOpVerificationFinalizer placeholder via @ConditionalOnMissingBean until 02-06"
   - "/error added to SecurityConfig permitAll — Spring Boot redirects 4xx exceptions from permitAll endpoints to /error which was auth-protected, causing 401 instead of 409/400"
@@ -92,13 +92,13 @@ Wave 2 production code for registration and async NIDA verification:
 **1. [Rule 1 - Bug] Spring Boot /error endpoint required authentication**
 - **Found during:** Task 1 — when RegistrationService throws `ResponseStatusException(409)`, Spring Boot redirects to `/error`. The `/error` path was not in the `permitAll` list, so Spring Security challenged it with 401 before returning the 409 to the client
 - **Fix:** Added `/error` to `permitAll` in `SecurityConfig.authorizeHttpRequests`
-- **Files modified:** `services/identity-service/src/main/java/com/opendesk/identity/config/SecurityConfig.java`
+- **Files modified:** `services/identity-service/src/main/java/com/smsreseller/identity/config/SecurityConfig.java`
 - **Commit:** `cd837b0`
 
 **2. [Rule 1 - Bug] Deprecated @SpyBean in Spring Boot 3.4+**
 - **Found during:** Task 2 — `@SpyBean` from `spring-boot-test` is marked for removal in Spring Boot 3.4+; compiler warning emitted
 - **Fix:** Replaced with `@MockitoSpyBean` from `org.springframework.test.context.bean.override.mockito` (Spring Boot 3.4+ native replacement)
-- **Files modified:** `services/identity-service/src/test/java/com/opendesk/identity/NidaDegradedIT.java`
+- **Files modified:** `services/identity-service/src/test/java/com/smsreseller/identity/NidaDegradedIT.java`
 - **Commit:** `5835237`
 
 ### TDD Ordering Deviation

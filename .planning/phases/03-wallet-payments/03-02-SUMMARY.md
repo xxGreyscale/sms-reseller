@@ -18,22 +18,22 @@ tech_stack:
     - "Partial index WHERE (granted - consumed - reserved) > 0 on credit_lots"
 key_files:
   created:
-    - services/wallet-service/src/main/java/com/opendesk/wallet/lot/CreditLot.java
-    - services/wallet-service/src/main/java/com/opendesk/wallet/lot/LotType.java
-    - services/wallet-service/src/main/java/com/opendesk/wallet/lot/CreditLotRepository.java
-    - services/wallet-service/src/main/java/com/opendesk/wallet/lot/LotService.java
-    - services/wallet-service/src/main/java/com/opendesk/wallet/transaction/CreditTransaction.java
-    - services/wallet-service/src/main/java/com/opendesk/wallet/transaction/TxnType.java
-    - services/wallet-service/src/main/java/com/opendesk/wallet/transaction/CreditTransactionRepository.java
-    - services/wallet-service/src/main/java/com/opendesk/wallet/balance/BalanceService.java
-    - services/wallet-service/src/main/java/com/opendesk/wallet/reservation/ReservationService.java
-    - services/wallet-service/src/main/java/com/opendesk/wallet/reservation/ReservationResult.java
-    - services/wallet-service/src/main/java/com/opendesk/wallet/reservation/InsufficientCreditsException.java
+    - services/wallet-service/src/main/java/com/smsreseller/wallet/lot/CreditLot.java
+    - services/wallet-service/src/main/java/com/smsreseller/wallet/lot/LotType.java
+    - services/wallet-service/src/main/java/com/smsreseller/wallet/lot/CreditLotRepository.java
+    - services/wallet-service/src/main/java/com/smsreseller/wallet/lot/LotService.java
+    - services/wallet-service/src/main/java/com/smsreseller/wallet/transaction/CreditTransaction.java
+    - services/wallet-service/src/main/java/com/smsreseller/wallet/transaction/TxnType.java
+    - services/wallet-service/src/main/java/com/smsreseller/wallet/transaction/CreditTransactionRepository.java
+    - services/wallet-service/src/main/java/com/smsreseller/wallet/balance/BalanceService.java
+    - services/wallet-service/src/main/java/com/smsreseller/wallet/reservation/ReservationService.java
+    - services/wallet-service/src/main/java/com/smsreseller/wallet/reservation/ReservationResult.java
+    - services/wallet-service/src/main/java/com/smsreseller/wallet/reservation/InsufficientCreditsException.java
     - services/wallet-service/src/main/resources/db/migration/V1__create_credit_lots.sql
     - services/wallet-service/src/main/resources/db/migration/V2__create_credit_transactions.sql
   modified:
-    - services/wallet-service/src/test/java/com/opendesk/wallet/CreditLotExpiryTest.java (placeholder → real assertions)
-    - services/wallet-service/src/test/java/com/opendesk/wallet/CreditReservationIT.java (placeholder → real assertions)
+    - services/wallet-service/src/test/java/com/smsreseller/wallet/CreditLotExpiryTest.java (placeholder → real assertions)
+    - services/wallet-service/src/test/java/com/smsreseller/wallet/CreditReservationIT.java (placeholder → real assertions)
     - services/wallet-service/src/main/resources/application.yml (fixed duplicate spring: key)
 decisions:
   - "grantPurchased derives expiresAt as createdAt.plus(365d) AFTER first save so @CreatedDate is already populated — two-save pattern ensures test assertion on lot.createdAt + 365d holds"

@@ -5,7 +5,7 @@
 # or the key.jks keystore — both are gitignored (see android/.gitignore).
 #
 # Generate an upload keystore:
-#   keytool -genkey -v -keystore ~/opendesk-upload.jks \
+#   keytool -genkey -v -keystore ~/smsreseller-upload.jks \
 #     -keyalg RSA -keysize 2048 -validity 10000 -alias upload
 #
 # Then point storeFile at it (absolute path, or relative to android/app).
@@ -13,4 +13,4 @@
 storePassword=CHANGE_ME
 keyPassword=CHANGE_ME
 keyAlias=upload
-storeFile=/absolute/path/to/opendesk-upload.jks
+storeFile=/absolute/path/to/smsreseller-upload.jks

@@ -19,21 +19,21 @@ tech_stack:
     - "SenderIdService.assign() collision-retry loop with existsBySenderId check before INSERT"
 key_files:
   created:
-    - services/identity-service/src/main/java/com/opendesk/identity/verification/VerificationFinalizerImpl.java
-    - services/identity-service/src/main/java/com/opendesk/identity/sender/SenderId.java
-    - services/identity-service/src/main/java/com/opendesk/identity/sender/SenderIdRepository.java
-    - services/identity-service/src/main/java/com/opendesk/identity/sender/SenderIdService.java
-    - services/identity-service/src/main/java/com/opendesk/identity/outbox/OutboxEntry.java
-    - services/identity-service/src/main/java/com/opendesk/identity/outbox/OutboxRepository.java
-    - services/identity-service/src/main/java/com/opendesk/identity/outbox/OutboxRelay.java
-    - services/identity-service/src/main/java/com/opendesk/identity/outbox/UserVerifiedEvent.java
-    - services/identity-service/src/main/java/com/opendesk/identity/config/RabbitMqConfig.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/verification/VerificationFinalizerImpl.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/sender/SenderId.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/sender/SenderIdRepository.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/sender/SenderIdService.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/outbox/OutboxEntry.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/outbox/OutboxRepository.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/outbox/OutboxRelay.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/outbox/UserVerifiedEvent.java
+    - services/identity-service/src/main/java/com/smsreseller/identity/config/RabbitMqConfig.java
     - services/identity-service/src/main/resources/db/migration/V2__create_sender_ids.sql
     - services/identity-service/src/main/resources/db/migration/V3__create_outbox.sql
   modified:
-    - services/identity-service/src/test/java/com/opendesk/identity/SenderIdIT.java (converted stub → real container IT)
-    - services/identity-service/src/test/java/com/opendesk/identity/VerificationOutboxIT.java (converted stub → real container IT)
-    - services/identity-service/src/test/java/com/opendesk/identity/AbstractIntegrationTest.java (added RabbitMQContainer)
+    - services/identity-service/src/test/java/com/smsreseller/identity/SenderIdIT.java (converted stub → real container IT)
+    - services/identity-service/src/test/java/com/smsreseller/identity/VerificationOutboxIT.java (converted stub → real container IT)
+    - services/identity-service/src/test/java/com/smsreseller/identity/AbstractIntegrationTest.java (added RabbitMQContainer)
 decisions:
   - "VerificationFinalizerImpl bean name 'transactionalVerificationFinalizer' displaces NoOpVerificationFinalizer (@ConditionalOnMissingBean(name=...)) without removing the placeholder"
   - "SenderIdService.assign() uses @Transactional(REQUIRED) — joins outer TX from VerificationFinalizerImpl; also callable standalone in tests"

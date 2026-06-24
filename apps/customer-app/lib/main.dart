@@ -20,13 +20,13 @@ void main() async {
       overrides: [
         sharedPreferencesProvider.overrideWithValue(prefs),
       ],
-      child: const OpenDeskApp(),
+      child: const SmsResellerApp(),
     ),
   );
 }
 
-class OpenDeskApp extends ConsumerWidget {
-  const OpenDeskApp({super.key});
+class SmsResellerApp extends ConsumerWidget {
+  const SmsResellerApp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

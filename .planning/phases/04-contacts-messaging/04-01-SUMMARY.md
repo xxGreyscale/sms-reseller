@@ -29,10 +29,10 @@ key_files:
     - services/messaging-service/src/main/resources/application.yml
     - services/messaging-service/src/test/resources/application-test.yml
     - services/contact-service/src/test/resources/application-test.yml
-    - services/contact-service/src/main/java/com/opendesk/contact/ContactServiceApplication.java
-    - services/messaging-service/src/main/java/com/opendesk/messaging/MessagingServiceApplication.java
-    - services/contact-service/src/test/java/com/opendesk/contact/AbstractContactIntegrationTest.java
-    - services/messaging-service/src/test/java/com/opendesk/messaging/AbstractMessagingIntegrationTest.java
+    - services/contact-service/src/main/java/com/smsreseller/contact/ContactServiceApplication.java
+    - services/messaging-service/src/main/java/com/smsreseller/messaging/MessagingServiceApplication.java
+    - services/contact-service/src/test/java/com/smsreseller/contact/AbstractContactIntegrationTest.java
+    - services/messaging-service/src/test/java/com/smsreseller/messaging/AbstractMessagingIntegrationTest.java
     - 13 placeholder IT/unit test files (9 contact + 13 messaging = 22 test methods total)
     - .planning/phases/04-contacts-messaging/04-VALIDATION.md (populated, nyquist_compliant=true)
   modified:
@@ -107,8 +107,8 @@ None beyond what the plan's threat model covers:
 
 ## Self-Check: PASSED
 
-- AbstractContactIntegrationTest: FOUND at services/contact-service/src/test/java/com/opendesk/contact/AbstractContactIntegrationTest.java
-- AbstractMessagingIntegrationTest: FOUND at services/messaging-service/src/test/java/com/opendesk/messaging/AbstractMessagingIntegrationTest.java
+- AbstractContactIntegrationTest: FOUND at services/contact-service/src/test/java/com/smsreseller/contact/AbstractContactIntegrationTest.java
+- AbstractMessagingIntegrationTest: FOUND at services/messaging-service/src/test/java/com/smsreseller/messaging/AbstractMessagingIntegrationTest.java
 - 04-VALIDATION.md: FOUND at .planning/phases/04-contacts-messaging/04-VALIDATION.md with nyquist_compliant: true
 - Build: `./gradlew :services:contact-service:compileTestJava :services:messaging-service:compileTestJava` GREEN
 - Tests: `./gradlew :services:contact-service:test :services:messaging-service:test` GREEN (22 skipped placeholders)

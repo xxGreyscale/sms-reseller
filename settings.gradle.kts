@@ -1,5 +1,5 @@
 // Source: docs.gradle.org/current/userguide/multi_project_builds.html [CITED]
-rootProject.name = "open-desk"
+rootProject.name = "sms-reseller"
 
 include(
     "services:identity-service",
