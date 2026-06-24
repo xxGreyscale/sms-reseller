@@ -5,8 +5,11 @@ package com.smsreseller.payment.payment;
 
 import com.smsreseller.payment.AbstractPaymentIntegrationTest;
 import com.smsreseller.payment.JwtTestHelper;
-import com.smsreseller.payment.bundle.BundleRepository;
-import com.smsreseller.payment.bundle.SmsBundle;
+import com.smsreseller.payment.domain.bundle.SmsBundle;
+import com.smsreseller.payment.domain.payment.Payment;
+import com.smsreseller.payment.domain.payment.PaymentStatus;
+import com.smsreseller.payment.infrastructure.persistence.BundleRepository;
+import com.smsreseller.payment.infrastructure.persistence.PaymentRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -3,11 +3,11 @@ package com.smsreseller.payment;
 // Requirement: PYMT-03 (timeout) + PYMT-04 (late SUCCESS from Azampay after EXPIRED transition, D-04)
 // ReconciliationJob polls stale PENDING/EXPIRED payments and drives the idempotent late-success path.
 
-import com.smsreseller.payment.outbox.OutboxRepository;
-import com.smsreseller.payment.payment.Payment;
-import com.smsreseller.payment.payment.PaymentRepository;
-import com.smsreseller.payment.payment.PaymentStatus;
-import com.smsreseller.payment.reconciliation.ReconciliationJob;
+import com.smsreseller.payment.domain.payment.Payment;
+import com.smsreseller.payment.domain.payment.PaymentStatus;
+import com.smsreseller.payment.infrastructure.persistence.OutboxRepository;
+import com.smsreseller.payment.infrastructure.persistence.PaymentRepository;
+import com.smsreseller.payment.infrastructure.scheduling.ReconciliationJob;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -3,10 +3,10 @@ package com.smsreseller.payment;
 // Requirements: PYMT-02, D-05/D-13 (single-pending), PYMT-03 (countdown contract)
 // Covered by: 03-05 (PaymentService + PaymentController + StubPaymentGateway)
 
-import com.smsreseller.payment.bundle.BundleRepository;
-import com.smsreseller.payment.bundle.SmsBundle;
-import com.smsreseller.payment.payment.PaymentRepository;
-import com.smsreseller.payment.payment.PaymentStatus;
+import com.smsreseller.payment.domain.bundle.SmsBundle;
+import com.smsreseller.payment.domain.payment.PaymentStatus;
+import com.smsreseller.payment.infrastructure.persistence.BundleRepository;
+import com.smsreseller.payment.infrastructure.persistence.PaymentRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
