@@ -8,6 +8,7 @@ sentry = "8.44.0"
 resilience4j = "2.2.0"
 commons-csv = "1.14.1"
 libphonenumber = "9.0.32"
+archunit = "1.4.1"
 
 [libraries]
 # BOM-managed — no version needed in dependency declarations
@@ -40,6 +41,7 @@ spring-boot-starter-mail = { module = "org.springframework.boot:spring-boot-star
 resilience4j-spring-boot3 = { module = "io.github.resilience4j:resilience4j-spring-boot3", version.ref = "resilience4j" }
 commons-csv = { module = "org.apache.commons:commons-csv", version.ref = "commons-csv" }
 libphonenumber = { module = "com.googlecode.libphonenumber:libphonenumber", version.ref = "libphonenumber" }
+archunit-junit5 = { module = "com.tngtech.archunit:archunit-junit5", version.ref = "archunit" }
 
 [plugins]
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }

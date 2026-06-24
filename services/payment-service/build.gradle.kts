@@ -26,4 +26,5 @@ dependencies {
     testImplementation(libs.testcontainers.rabbitmq)
     testImplementation(libs.testcontainers.junit.jupiter)
     // Redis Testcontainers: using org.testcontainers.containers.GenericContainer("redis:7") — no catalog entry needed
+    testImplementation(libs.archunit.junit5)
 }
