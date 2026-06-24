@@ -21,6 +21,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 4: Contacts & Messaging** - Contact CRUD/CSV import/dedup, bulk SMS campaigns, credit reservation, DLX retry, sender ID lifecycle (completed 2026-06-21)
 - [x] **Phase 5: Notifications, Admin & Analytics** - RabbitMQ event fan-out to notification log, Next.js admin panel, cross-module read views, analytics queries (completed 2026-06-21)
 - [x] **Phase 6: Flutter Mobile App** - Full Flutter customer app from onboarding through campaign history, published to both stores (completed 2026-06-23)
+- [ ] **Phase 7: Clean Architecture & Local Dev Tooling** - Refactor payment-service into clean-architecture layers as the canonical reference pattern, add a one-command start script (Compose infra + all services), and add .env-based local secrets for Azampay (post-v1.0 developer-experience phase)
 
 ## Phase Details
 
@@ -160,6 +161,21 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] 06-12-PLAN.md — Wave 6: e2e integration test + signing + store metadata + CI + submission checkpoint (MOBL-09, autonomous:false)
 **UI hint**: yes
 
+### Phase 7: Clean Architecture & Local Dev Tooling
+**Goal**: payment-service is refactored into clean-architecture layers (domain / application / infrastructure / presentation) as a documented, behavior-neutral reference pattern for later rollout to the other 7 services; a single command boots the full local stack (Compose infra + all 8 Spring Boot services + admin-web); and Azampay (and other) local secrets are supplied via a gitignored `.env` derived from a committed `.env.example`
+**Depends on**: Phase 6 (all services exist and are feature-complete)
+**Scope note**: Clean-architecture refactor is **payment-service ONLY** at this phase — it is the canonical reference. Rollout to the other 7 services is explicitly deferred to later phases. The refactor MUST be behavior-neutral: no API contract, DB schema, event, or test-outcome changes — the existing payment-service test suite must stay green throughout.
+**Pre-existing-gap note**: The ROADMAP claims Phase 1 delivered a Docker Compose local stack, but no compose/k8s/Terraform files exist in the repo. The start-script work therefore must **create** the local-infra Compose file (Postgres 16 / Redis 7 / RabbitMQ 3), not merely invoke an existing one.
+**Requirements**: ARCH-01, DEVX-01, DEVX-02, DEVX-03
+**Success Criteria** (what must be TRUE when complete):
+  1. payment-service source is organized into explicit clean-architecture layers with an enforced inward dependency rule (domain depends on nothing; application depends on domain; infrastructure/presentation depend inward) and a CLEAN-ARCHITECTURE.md documents the layer boundaries + the rollout playbook for the remaining services
+  2. The full payment-service test suite (unit + Testcontainers integration) passes unchanged after the refactor — no behavior, contract, schema, or event change
+  3. A committed `docker-compose.yml` (or `compose.yaml`) starts Postgres 16, Redis 7, and RabbitMQ 3 for local dev with healthchecks
+  4. A single committed start script boots Compose infra, waits for healthy infra, then launches all 8 Spring Boot services + admin-web with one command; a matching stop/teardown path exists
+  5. A committed `.env.example` documents AZAMPAY_BASE_URL/AZAMPAY_APP_NAME/AZAMPAY_CLIENT_ID/AZAMPAY_CLIENT_SECRET (already wired as env placeholders in payment-service/application.yml) plus infra connection vars; the start script sources a gitignored `.env`; no real secret is committed
+**Plans**: TBD
+**UI hint**: no
+
 ## Progress
 
 **Execution Order:**
@@ -174,6 +190,7 @@ Phase 0 runs as a parallel background track. Coding phases execute: 1 → 2 → 
 | 4. Contacts & Messaging | 8/8 | Complete   | 2026-06-21 |
 | 5. Notifications, Admin & Analytics | 9/9 | Complete   | 2026-06-21 |
 | 6. Flutter Mobile App | 12/12 | Complete   | 2026-06-23 |
+| 7. Clean Architecture & Local Dev Tooling | 0/TBD | Not started | - |
 
 ---
 
@@ -190,8 +207,9 @@ Phase 0 runs as a parallel background track. Coding phases execute: 1 → 2 → 
 | Phase 4 | CONT-01, CONT-02, CONT-03, CONT-04, CONT-05, CONT-06, CONT-07, CONT-08, CONT-09, MESG-01, MESG-02, MESG-03, MESG-04, MESG-05, MESG-06, MESG-07, MESG-08, MESG-09, MESG-10, SNDR-02, SNDR-03, SNDR-04 |
 | Phase 5 | NOTF-01, NOTF-02, NOTF-03, NOTF-04, NOTF-05, NOTF-06, ADMN-01, ADMN-02, ADMN-03, ADMN-04, ADMN-05, ADMN-06, ADMN-07, ANLX-01, ANLX-02, ANLX-03 |
 | Phase 6 | MOBL-01, MOBL-02, MOBL-03, MOBL-04, MOBL-05, MOBL-06, MOBL-07, MOBL-08, MOBL-09 |
+| Phase 7 | ARCH-01, DEVX-01, DEVX-02, DEVX-03 (post-v1.0 dev-experience; not part of the original 76 v1 requirements) |
 
-**Total mapped: 76 / 76**
+**Total mapped: 76 / 76** (v1 requirements; Phase 7 adds 4 post-v1.0 dev-experience requirements — ARCH-01, DEVX-01, DEVX-02, DEVX-03)
 
 ---
 
