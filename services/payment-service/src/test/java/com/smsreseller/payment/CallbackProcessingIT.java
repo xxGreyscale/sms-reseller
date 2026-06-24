@@ -6,12 +6,12 @@ package com.smsreseller.payment;
 //   D-04    — A success callback for an EXPIRED payment also succeeds (late-success credit idempotent)
 // Covered by: 03-05 (CallbackController + CallbackProcessor + outbox idempotent guard)
 
-import com.smsreseller.payment.bundle.BundleRepository;
-import com.smsreseller.payment.bundle.SmsBundle;
-import com.smsreseller.payment.outbox.OutboxRepository;
-import com.smsreseller.payment.payment.Payment;
-import com.smsreseller.payment.payment.PaymentRepository;
-import com.smsreseller.payment.payment.PaymentStatus;
+import com.smsreseller.payment.domain.bundle.SmsBundle;
+import com.smsreseller.payment.domain.payment.Payment;
+import com.smsreseller.payment.domain.payment.PaymentStatus;
+import com.smsreseller.payment.infrastructure.persistence.BundleRepository;
+import com.smsreseller.payment.infrastructure.persistence.OutboxRepository;
+import com.smsreseller.payment.infrastructure.persistence.PaymentRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
