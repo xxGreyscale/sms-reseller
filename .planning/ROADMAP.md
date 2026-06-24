@@ -176,7 +176,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 4 plans (3 waves)
 - [x] 07-01-PLAN.md — Wave 1: archunit-junit5 catalog+dep + RED PaymentArchitectureTest (ARCH-01 enforcement scaffold)
 - [x] 07-02-PLAN.md — Wave 1: compose.yaml (PG16/Redis7/Rabbit3 healthy) + per-service db-init + .env.example (DEVX-02/03)
-- [ ] 07-03-PLAN.md — Wave 2: re-layer payment-service to domain/application/infrastructure/presentation, ArchUnit GREEN + oracle green + CLEAN-ARCHITECTURE.md (ARCH-01)
+- [x] 07-03-PLAN.md — Wave 2: re-layer payment-service to domain/application/infrastructure/presentation, ArchUnit GREEN + oracle green + CLEAN-ARCHITECTURE.md (ARCH-01)
 - [ ] 07-04-PLAN.md — Wave 3: 8-service bootRun-prereq audit + dev config/JWT keys + start.sh/stop.sh (DEVX-01)
 **UI hint**: no
 
@@ -194,7 +194,7 @@ Phase 0 runs as a parallel background track. Coding phases execute: 1 â 2 �
 | 4. Contacts & Messaging | 8/8 | Complete   | 2026-06-21 |
 | 5. Notifications, Admin & Analytics | 9/9 | Complete   | 2026-06-21 |
 | 6. Flutter Mobile App | 12/12 | Complete   | 2026-06-23 |
-| 7. Clean Architecture & Local Dev Tooling | 2/4 | In Progress|  |
+| 7. Clean Architecture & Local Dev Tooling | 3/4 | In Progress|  |
 
 ---
 
