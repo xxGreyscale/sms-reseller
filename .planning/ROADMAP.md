@@ -21,7 +21,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 4: Contacts & Messaging** - Contact CRUD/CSV import/dedup, bulk SMS campaigns, credit reservation, DLX retry, sender ID lifecycle (completed 2026-06-21)
 - [x] **Phase 5: Notifications, Admin & Analytics** - RabbitMQ event fan-out to notification log, Next.js admin panel, cross-module read views, analytics queries (completed 2026-06-21)
 - [x] **Phase 6: Flutter Mobile App** - Full Flutter customer app from onboarding through campaign history, published to both stores (completed 2026-06-23)
-- [ ] **Phase 7: Clean Architecture & Local Dev Tooling** - Refactor payment-service into clean-architecture layers as the canonical reference pattern, add a one-command start script (Compose infra + all services), and add .env-based local secrets for Azampay (post-v1.0 developer-experience phase)
+- [x] **Phase 7: Clean Architecture & Local Dev Tooling** - Refactor payment-service into clean-architecture layers as the canonical reference pattern, add a one-command start script (Compose infra + all services), and add .env-based local secrets for Azampay (post-v1.0 developer-experience phase) (completed 2026-06-25)
 
 ## Phase Details
 
@@ -177,7 +177,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] 07-01-PLAN.md — Wave 1: archunit-junit5 catalog+dep + RED PaymentArchitectureTest (ARCH-01 enforcement scaffold)
 - [x] 07-02-PLAN.md — Wave 1: compose.yaml (PG16/Redis7/Rabbit3 healthy) + per-service db-init + .env.example (DEVX-02/03)
 - [x] 07-03-PLAN.md — Wave 2: re-layer payment-service to domain/application/infrastructure/presentation, ArchUnit GREEN + oracle green + CLEAN-ARCHITECTURE.md (ARCH-01)
-- [ ] 07-04-PLAN.md — Wave 3: 8-service bootRun-prereq audit + dev config/JWT keys + start.sh/stop.sh (DEVX-01)
+- [x] 07-04-PLAN.md — Wave 3: 8-service bootRun-prereq audit + dev config/JWT keys + start.sh/stop.sh (DEVX-01)
 **UI hint**: no
 
 ## Progress
@@ -194,7 +194,7 @@ Phase 0 runs as a parallel background track. Coding phases execute: 1 â 2 �
 | 4. Contacts & Messaging | 8/8 | Complete   | 2026-06-21 |
 | 5. Notifications, Admin & Analytics | 9/9 | Complete   | 2026-06-21 |
 | 6. Flutter Mobile App | 12/12 | Complete   | 2026-06-23 |
-| 7. Clean Architecture & Local Dev Tooling | 3/4 | In Progress|  |
+| 7. Clean Architecture & Local Dev Tooling | 4/4 | Complete   | 2026-06-25 |
 
 ---
 
