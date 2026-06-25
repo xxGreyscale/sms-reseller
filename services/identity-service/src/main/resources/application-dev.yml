@@ -29,7 +29,7 @@ spring:
 # private key is committed to src/main/resources.
 app:
   jwt:
-    private-key-location: file:services/identity-service/src/test/resources/test-keys/jwt-private.pem
+    private-key-location: file:src/test/resources/test-keys/jwt-private.pem
     public-key-location: classpath:keys/jwt-public.pem
 
 logging:

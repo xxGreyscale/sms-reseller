@@ -18,7 +18,7 @@ import java.util.UUID;
  * {@code payload} is JSONB carrying event-specific detail (e.g. amountTzs for payment).
  */
 @Entity
-@Table(name = "notifications")
+@Table(schema = "notification", name = "notifications")
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 @NoArgsConstructor

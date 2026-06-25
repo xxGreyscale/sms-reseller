@@ -16,7 +16,7 @@ import java.time.Instant;
  * T-05-14: INSERT ON CONFLICT DO NOTHING atomically prevents duplicate notification creation.
  */
 @Entity
-@Table(name = "processed_events")
+@Table(schema = "notification", name = "processed_events")
 @Getter
 @NoArgsConstructor
 public class ProcessedEvent {
