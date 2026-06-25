@@ -1,0 +1,38 @@
+# Dev-profile overrides for identity-service.
+# Values without defaults MUST be supplied via environment (sourced from .env by start.sh).
+# No secrets are hardcoded here.
+
+server:
+  port: ${SERVER_PORT:8081}
+
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/identity}
+    username: ${SPRING_DATASOURCE_USERNAME:smsreseller}
+    password: ${SPRING_DATASOURCE_PASSWORD:smsreseller}
+  data:
+    redis:
+      host: ${SPRING_DATA_REDIS_HOST:localhost}
+      port: ${SPRING_DATA_REDIS_PORT:6379}
+  rabbitmq:
+    host: ${SPRING_RABBITMQ_HOST:localhost}
+    port: ${SPRING_RABBITMQ_PORT:5672}
+    username: ${SPRING_RABBITMQ_USERNAME:guest}
+    password: ${SPRING_RABBITMQ_PASSWORD:guest}
+
+# Identity-service signs tokens; in dev/test the test-keys private key is used.
+# The test-keys/ path is on the classpath for the dev run because start.sh launches
+# bootRun which includes src/test/resources on the test classpath — but for bootRun
+# src/test/resources is NOT on the runtime classpath. Instead we use the classpath
+# key committed to src/main/resources/keys/ for the public key, and point the
+# private-key-location to the test-keys relative path via a file: reference so no
+# private key is committed to src/main/resources.
+app:
+  jwt:
+    private-key-location: file:services/identity-service/src/test/resources/test-keys/jwt-private.pem
+    public-key-location: classpath:keys/jwt-public.pem
+
+logging:
+  level:
+    root: INFO
+    io.smsreseller: DEBUG
