@@ -14,13 +14,14 @@ import java.util.Map;
  * Fetches and caches an Azampay bearer token from the GenerateToken endpoint.
  *
  * <p>Token is refreshed when expired (sub-1-minute before expiry to account for clock skew).
- * Only active under {@code @Profile("prod")} — stub tests do not need real tokens.
+ * Active under {@code @Profile("prod")} and {@code @Profile("sandbox")} — stub tests do not
+ * need real tokens. Under {@code sandbox} the credentials/base-url target the Azampay sandbox.
  *
  * <p>Azampay token endpoint: POST /azampay/token/GenerateToken
  * Request: { appName, clientId, clientSecret }
  * Response: { accessToken, expire }
  */
-@Profile("prod")
+@Profile({"prod", "sandbox"})
 @Component
 @Slf4j
 public class AzampayTokenProvider {

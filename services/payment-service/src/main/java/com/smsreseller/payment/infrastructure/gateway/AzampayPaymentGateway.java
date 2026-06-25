@@ -18,7 +18,10 @@ import java.util.Map;
 /**
  * Production Azampay payment gateway (D-10).
  *
- * <p>Active only under {@code @Profile("prod")} — never used in dev/test (StubPaymentGateway handles those).
+ * <p>Active under {@code @Profile("prod")} and {@code @Profile("sandbox")} — never used in
+ * dev/test/staging (StubPaymentGateway handles those). The {@code sandbox} profile points this
+ * same real gateway at the Azampay sandbox base-url so the live flow can be exercised before
+ * production merchant onboarding.
  * Mirrors RealNidaVerificationService pattern: RestClient + @CircuitBreaker("azampay") + @Retry("azampay").
  *
  * <p>Connect timeout: 5s; Read timeout: 30s (CLAUDE.md external call timeouts).
@@ -29,7 +32,7 @@ import java.util.Map;
  *
  * @see StubPaymentGateway stub implementation for dev/test
  */
-@Profile("prod")
+@Profile({"prod", "sandbox"})
 @Service
 @Slf4j
 public class AzampayPaymentGateway implements PaymentGateway {

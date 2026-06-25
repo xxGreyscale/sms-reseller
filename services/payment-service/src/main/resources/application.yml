@@ -41,7 +41,11 @@ app:
   reconciliation:
     fixed-delay-ms: 120000     # ReconciliationJob interval — 2 minutes
     max-per-run: 50            # Max stale payments checked per reconciliation run
-  # Azampay prod credentials — injected via K8s Secrets in prod (D-10, CLAUDE.md)
+  # Azampay credentials — injected via K8s Secrets in prod (D-10, CLAUDE.md).
+  # Used by the real gateway under both the `prod` and `sandbox` profiles. The base-url
+  # defaults to the Azampay sandbox, so `SPRING_PROFILES_ACTIVE=sandbox` + real sandbox
+  # AZAMPAY_* creds exercises the live sandbox flow (stub signature validator stands in
+  # until the prod HMAC validator exists).
   azampay:
     base-url: ${AZAMPAY_BASE_URL:https://sandbox.azampay.co.tz}
     app-name: ${AZAMPAY_APP_NAME:sms-reseller}
