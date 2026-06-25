@@ -127,6 +127,7 @@ None yet.
 | # | Description | Date | Commit | Directory |
 |---|-------------|------|--------|-----------|
 | 260625-nzn | Finish + commit local-dev gateway CORS; run DEVX-01 full-stack smoke test (PASS) | 2026-06-25 | ffd464b | [260625-nzn-finish-localdev-gateway](./quick/260625-nzn-finish-localdev-gateway/) |
+| 260625-p5c | Add `sandbox` Azampay profile (real gateway + stub validator) to payment-service; boots UP under sandbox (PASS) | 2026-06-25 | 12b6313 | [260625-p5c-sandbox-azampay-profile](./quick/260625-p5c-sandbox-azampay-profile/) |
 
 ## Deferred Items
 
@@ -139,4 +140,5 @@ None yet.
 Last session: 2026-06-25 (resumed)
 Stopped at: Quick task 260625-nzn DONE — gateway CORS committed (ffd464b) + DEVX-01 full-stack smoke test PASSED (all 8 services UP, gateway routing + CORS verified live, admin-web serving, stack torn down). Phase 7's only human_needed item is now satisfied. Two non-blocking follow-ups logged in the quick SUMMARY (stop.sh orphans next-server on :3000; start.sh has no port pre-flight check). Phase 6 store submission remains the single external open item.
 Resume file: None
-Next: Milestone close-out — /gsd-audit-milestone → /gsd-complete-milestone (store submission flagged external). Optionally address the two stop.sh/start.sh follow-ups first.
+Next: Milestone close-out — /gsd-audit-milestone → /gsd-complete-milestone (store submission flagged external). Open dev follow-ups: write HmacSignatureValidator(@Profile("prod")) once Azampay documents the scheme (then prod can boot); fix start.sh/stop.sh gradle-orphan teardown; add a start.sh port pre-flight check.
+Phase 0 note: criterion #2 (Azampay) now exercisable end-to-end in sandbox via the new `sandbox` profile (quick 260625-p5c) — drop real sandbox creds in .env + SPRING_PROFILES_ACTIVE=sandbox. Criteria #1 (NIDA), #3 (SMS provider), #4 (prod infra), #5 (Terraform) remain external/not-started.
