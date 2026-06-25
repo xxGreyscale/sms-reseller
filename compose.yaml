@@ -50,6 +50,17 @@ services:
       timeout: 5s
       retries: 10
 
+  # Local-dev API gateway — path-based fan-out to the 8 host-run Spring Boot services.
+  # Mirrors production Traefik routing. admin-web targets this via BACKEND_URL=http://localhost:8080.
+  gateway:
+    image: nginx:1.27-alpine
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./scripts/gateway/nginx.conf:/etc/nginx/nginx.conf:ro
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
 volumes:
   pgdata:
   redisdata:

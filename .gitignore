@@ -12,6 +12,9 @@ build/
 # Node.js
 node_modules/
 
+# Local dev runtime logs (scripts/start.sh)
+.logs/
+
 # Environment
 .env
 .env.local
