@@ -1,0 +1,26 @@
+# Dev-profile overrides for messaging-service.
+# Values without defaults MUST be supplied via environment (sourced from .env by start.sh).
+# No secrets are hardcoded here.
+
+server:
+  port: ${SERVER_PORT:8086}
+
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/messaging}
+    username: ${SPRING_DATASOURCE_USERNAME:smsreseller}
+    password: ${SPRING_DATASOURCE_PASSWORD:smsreseller}
+  data:
+    redis:
+      host: ${SPRING_DATA_REDIS_HOST:localhost}
+      port: ${SPRING_DATA_REDIS_PORT:6379}
+  rabbitmq:
+    host: ${SPRING_RABBITMQ_HOST:localhost}
+    port: ${SPRING_RABBITMQ_PORT:5672}
+    username: ${SPRING_RABBITMQ_USERNAME:guest}
+    password: ${SPRING_RABBITMQ_PASSWORD:guest}
+
+logging:
+  level:
+    root: INFO
+    io.smsreseller: DEBUG
