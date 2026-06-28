@@ -4,7 +4,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
 /**
- * Request body for POST /auth/forgot.
+ * Request body for POST /api/v1/auth/forgot.
  *
  * <p>Validation: email must be non-blank and a syntactically valid email address.
  * The controller returns the same 200 response regardless of whether the email

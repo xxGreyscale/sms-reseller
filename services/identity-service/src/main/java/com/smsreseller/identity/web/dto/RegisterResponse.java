@@ -3,7 +3,7 @@ package com.smsreseller.identity.web.dto;
 import java.util.UUID;
 
 /**
- * Response DTO for POST /auth/register.
+ * Response DTO for POST /api/v1/auth/register.
  *
  * <p>Contains only the information safe to expose to the client:
  * <ul>

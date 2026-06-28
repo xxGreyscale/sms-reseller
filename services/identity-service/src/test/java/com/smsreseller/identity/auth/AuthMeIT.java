@@ -98,9 +98,9 @@ class AuthMeIT extends AbstractIntegrationTest {
         headers.setBearerAuth(accessToken);
 
         ResponseEntity<String> resp1 = restTemplate.exchange(
-                "/auth/me", HttpMethod.GET, new HttpEntity<>(headers), String.class);
+                "/api/v1/auth/me", HttpMethod.GET, new HttpEntity<>(headers), String.class);
         ResponseEntity<String> resp2 = restTemplate.exchange(
-                "/auth/me", HttpMethod.GET, new HttpEntity<>(headers), String.class);
+                "/api/v1/auth/me", HttpMethod.GET, new HttpEntity<>(headers), String.class);
 
         // THEN — both calls return 200
         assertThat(resp1.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -125,7 +125,7 @@ class AuthMeIT extends AbstractIntegrationTest {
 
     @Test
     void unauthenticatedGetMe_returns401() {
-        ResponseEntity<String> response = restTemplate.getForEntity("/auth/me", String.class);
+        ResponseEntity<String> response = restTemplate.getForEntity("/api/v1/auth/me", String.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNAUTHORIZED);
     }
 
@@ -151,7 +151,7 @@ class AuthMeIT extends AbstractIntegrationTest {
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(accessToken);
         ResponseEntity<String> resp = restTemplate.exchange(
-                "/auth/me", HttpMethod.GET, new HttpEntity<>(headers), String.class);
+                "/api/v1/auth/me", HttpMethod.GET, new HttpEntity<>(headers), String.class);
 
         // THEN
         assertThat(resp.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -166,7 +166,7 @@ class AuthMeIT extends AbstractIntegrationTest {
 
     private String login(String email, String password, String deviceId) throws Exception {
         var loginReq = Map.of("email", email, "password", password, "deviceId", deviceId);
-        ResponseEntity<String> resp = restTemplate.postForEntity("/auth/login", loginReq, String.class);
+        ResponseEntity<String> resp = restTemplate.postForEntity("/api/v1/auth/login", loginReq, String.class);
         assertThat(resp.getStatusCode()).isEqualTo(HttpStatus.OK);
         return objectMapper.readTree(resp.getBody()).get("accessToken").asText();
     }

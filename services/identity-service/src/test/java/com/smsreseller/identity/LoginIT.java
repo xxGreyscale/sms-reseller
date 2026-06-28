@@ -56,7 +56,7 @@ class LoginIT extends AbstractIntegrationTest {
     @Test
     void returnsAccessAndRefreshTokens() throws Exception {
         var request = Map.of("email", EMAIL, "password", PASSWORD, "deviceId", "device-1");
-        ResponseEntity<String> response = restTemplate.postForEntity("/auth/login", request, String.class);
+        ResponseEntity<String> response = restTemplate.postForEntity("/api/v1/auth/login", request, String.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         JsonNode body = objectMapper.readTree(response.getBody());
@@ -67,7 +67,7 @@ class LoginIT extends AbstractIntegrationTest {
     @Test
     void verificationStatusClaimMatchesDbStatus() throws Exception {
         var request = Map.of("email", EMAIL, "password", PASSWORD, "deviceId", "device-2");
-        ResponseEntity<String> response = restTemplate.postForEntity("/auth/login", request, String.class);
+        ResponseEntity<String> response = restTemplate.postForEntity("/api/v1/auth/login", request, String.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         JsonNode body = objectMapper.readTree(response.getBody());
@@ -83,7 +83,7 @@ class LoginIT extends AbstractIntegrationTest {
     @Test
     void invalidPasswordReturns401WithGenericMessage() {
         var request = Map.of("email", EMAIL, "password", "wrong-password", "deviceId", "device-3");
-        ResponseEntity<String> response = restTemplate.postForEntity("/auth/login", request, String.class);
+        ResponseEntity<String> response = restTemplate.postForEntity("/api/v1/auth/login", request, String.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNAUTHORIZED);
     }
@@ -93,8 +93,8 @@ class LoginIT extends AbstractIntegrationTest {
         var wrongPassword = Map.of("email", EMAIL, "password", "wrong!", "deviceId", "d1");
         var unknownEmail = Map.of("email", "nobody@example.com", "password", "any", "deviceId", "d2");
 
-        ResponseEntity<String> r1 = restTemplate.postForEntity("/auth/login", wrongPassword, String.class);
-        ResponseEntity<String> r2 = restTemplate.postForEntity("/auth/login", unknownEmail, String.class);
+        ResponseEntity<String> r1 = restTemplate.postForEntity("/api/v1/auth/login", wrongPassword, String.class);
+        ResponseEntity<String> r2 = restTemplate.postForEntity("/api/v1/auth/login", unknownEmail, String.class);
 
         assertThat(r1.getStatusCode()).isEqualTo(HttpStatus.UNAUTHORIZED);
         assertThat(r2.getStatusCode()).isEqualTo(HttpStatus.UNAUTHORIZED);

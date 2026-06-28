@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * REST controller for user registration.
  *
- * <p>POST /auth/register is permit-all in {@code SecurityConfig} — no JWT required to register.
+ * <p>POST /api/v1/auth/register is permit-all in {@code SecurityConfig} — no JWT required to register.
  */
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 public class RegistrationController {
 

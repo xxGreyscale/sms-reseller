@@ -35,7 +35,7 @@ class RegistrationIT extends AbstractIntegrationTest {
 
         // Act
         ResponseEntity<Map> response = restTemplate.postForEntity(
-                "/auth/register", request, Map.class);
+                "/api/v1/auth/register", request, Map.class);
 
         // Assert — must return 200 with PENDING_VERIFICATION status (IDEN-01/02)
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -56,7 +56,7 @@ class RegistrationIT extends AbstractIntegrationTest {
                 "nin", "19870101-00001-00002-01",
                 "password", "SecurePass1!"
         );
-        restTemplate.postForEntity("/auth/register", request, Map.class);
+        restTemplate.postForEntity("/api/v1/auth/register", request, Map.class);
 
         var duplicate = Map.of(
                 "email", "bob@example.com",
@@ -64,7 +64,7 @@ class RegistrationIT extends AbstractIntegrationTest {
                 "nin", "19870101-00001-00099-01",
                 "password", "SecurePass1!"
         );
-        ResponseEntity<Map> response = restTemplate.postForEntity("/auth/register", duplicate, Map.class);
+        ResponseEntity<Map> response = restTemplate.postForEntity("/api/v1/auth/register", duplicate, Map.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CONFLICT);
     }
 
@@ -76,7 +76,7 @@ class RegistrationIT extends AbstractIntegrationTest {
                 "nin", "19870101-00001-00003-01",
                 "password", "SecurePass1!"
         );
-        restTemplate.postForEntity("/auth/register", request, Map.class);
+        restTemplate.postForEntity("/api/v1/auth/register", request, Map.class);
 
         var duplicate = Map.of(
                 "email", "charlie2@example.com",
@@ -84,7 +84,7 @@ class RegistrationIT extends AbstractIntegrationTest {
                 "nin", "19870101-00001-00004-01",
                 "password", "SecurePass1!"
         );
-        ResponseEntity<Map> response = restTemplate.postForEntity("/auth/register", duplicate, Map.class);
+        ResponseEntity<Map> response = restTemplate.postForEntity("/api/v1/auth/register", duplicate, Map.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CONFLICT);
     }
 
@@ -96,7 +96,7 @@ class RegistrationIT extends AbstractIntegrationTest {
                 "nin", "19870101-00001-00005-01",
                 "password", "SecurePass1!"
         );
-        ResponseEntity<Map> response = restTemplate.postForEntity("/auth/register", request, Map.class);
+        ResponseEntity<Map> response = restTemplate.postForEntity("/api/v1/auth/register", request, Map.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     }
 
@@ -108,7 +108,7 @@ class RegistrationIT extends AbstractIntegrationTest {
                 "nin", "19870101-00001-00006-01",
                 "password", "short"
         );
-        ResponseEntity<Map> response = restTemplate.postForEntity("/auth/register", request, Map.class);
+        ResponseEntity<Map> response = restTemplate.postForEntity("/api/v1/auth/register", request, Map.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     }
 }

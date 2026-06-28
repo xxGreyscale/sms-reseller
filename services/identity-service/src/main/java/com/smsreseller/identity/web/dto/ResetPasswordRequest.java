@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 /**
- * Request body for POST /auth/reset.
+ * Request body for POST /api/v1/auth/reset.
  *
  * <p>Validation:
  * <ul>

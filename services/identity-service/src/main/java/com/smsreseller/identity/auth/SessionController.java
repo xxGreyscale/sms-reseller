@@ -32,20 +32,20 @@ import java.util.UUID;
  *
  * <p>Endpoints:
  * <ul>
- *   <li>{@code POST /auth/login} — email+password → access+refresh (IDEN-04, permitted to all)</li>
- *   <li>{@code POST /auth/refresh} — rotate refresh token → new access+refresh (IDEN-05, permitted to all)</li>
- *   <li>{@code POST /auth/logout} — revoke current device refresh token (IDEN-06, authenticated)</li>
+ *   <li>{@code POST /api/v1/auth/login} — email+password → access+refresh (IDEN-04, permitted to all)</li>
+ *   <li>{@code POST /api/v1/auth/refresh} — rotate refresh token → new access+refresh (IDEN-05, permitted to all)</li>
+ *   <li>{@code POST /api/v1/auth/logout} — revoke current device refresh token (IDEN-06, authenticated)</li>
  * </ul>
  *
  * <p>Security:
  * <ul>
- *   <li>/auth/login and /auth/refresh are in the {@code permitAll} list in SecurityConfig</li>
- *   <li>/auth/logout requires a valid JWT (anyRequest().authenticated())</li>
+ *   <li>/api/v1/auth/login and /api/v1/auth/refresh are in the {@code permitAll} list in SecurityConfig</li>
+ *   <li>/api/v1/auth/logout requires a valid JWT (anyRequest().authenticated())</li>
  * </ul>
  */
 @Slf4j
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 public class SessionController {
 
@@ -59,7 +59,7 @@ public class SessionController {
      *
      * <p>Returns the caller's userId and current verification_status re-read from the database
      * WITHOUT issuing or rotating any tokens. Used by the Flutter PENDING screen to poll
-     * verification state cheaply on a 10-second timer, replacing the costly /auth/refresh call
+     * verification state cheaply on a 10-second timer, replacing the costly /api/v1/auth/refresh call
      * which rotates the 7-day refresh token on every invocation.
      *
      * <p>Security: falls under {@code anyRequest().authenticated()} — no SecurityConfig change needed.

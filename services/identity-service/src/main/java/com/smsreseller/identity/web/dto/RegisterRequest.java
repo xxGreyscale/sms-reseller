@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 /**
- * Request DTO for POST /auth/register.
+ * Request DTO for POST /api/v1/auth/register.
  *
  * <p>Security notes:
  * <ul>

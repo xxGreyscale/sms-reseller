@@ -19,14 +19,14 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * <p>Security notes:
  * <ul>
- *   <li>POST /auth/forgot always returns 200 — never reveals whether the email is registered
+ *   <li>POST /api/v1/auth/forgot always returns 200 — never reveals whether the email is registered
  *       (no enumeration, T-02-ENUM).</li>
- *   <li>POST /auth/reset returns 400 for invalid/expired/already-used tokens.</li>
+ *   <li>POST /api/v1/auth/reset returns 400 for invalid/expired/already-used tokens.</li>
  *   <li>The reset token is NEVER logged (T-02-LOG / V7).</li>
  * </ul>
  */
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 public class PasswordResetController {
 

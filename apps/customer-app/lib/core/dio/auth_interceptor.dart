@@ -74,7 +74,7 @@ class AuthInterceptor extends QueuedInterceptor {
 
     try {
       final resp = await _tokenDio.post(
-        '/auth/refresh',
+        '/api/v1/auth/refresh',
         data: {'refreshToken': refreshToken},
       );
       final newAccess = resp.data['accessToken'] as String;

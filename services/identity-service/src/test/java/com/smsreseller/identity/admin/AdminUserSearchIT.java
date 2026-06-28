@@ -97,7 +97,7 @@ class AdminUserSearchIT extends AbstractIntegrationTest {
         // Since LoginIT tests cover /auth/login separately, here we just need a ROLE_USER JWT.
         // Simplest approach: call /auth/login for alice.
         ResponseEntity<Map> login = restTemplate.postForEntity(
-                "/auth/login",
+                "/api/v1/auth/login",
                 Map.of("email", "alice@example.com", "password", "Pass1234!", "deviceId", "test-device"),
                 Map.class);
         assertThat(login.getStatusCode()).isEqualTo(HttpStatus.OK);

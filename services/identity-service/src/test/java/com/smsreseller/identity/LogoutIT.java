@@ -74,14 +74,14 @@ class LogoutIT extends AbstractIntegrationTest {
         headers.set("Authorization", "Bearer " + accessToken1);
         var logoutBody = Map.of("deviceId", "device-1");
         ResponseEntity<Void> logoutResp = restTemplate.postForEntity(
-                "/auth/logout",
+                "/api/v1/auth/logout",
                 new HttpEntity<>(logoutBody, headers),
                 Void.class);
         assertThat(logoutResp.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
 
         // device2's refresh token should still work
         var refreshReq2 = Map.of("refreshToken", refreshToken2);
-        ResponseEntity<String> goodRefresh = restTemplate.postForEntity("/auth/refresh", refreshReq2, String.class);
+        ResponseEntity<String> goodRefresh = restTemplate.postForEntity("/api/v1/auth/refresh", refreshReq2, String.class);
         assertThat(goodRefresh.getStatusCode()).isEqualTo(HttpStatus.OK);
 
         // device1's token was revoked via revokeCurrent (not via revokeAll).
@@ -101,7 +101,7 @@ class LogoutIT extends AbstractIntegrationTest {
 
         // refresh
         var refreshReq = Map.of("refreshToken", refreshToken);
-        ResponseEntity<String> resp = restTemplate.postForEntity("/auth/refresh", refreshReq, String.class);
+        ResponseEntity<String> resp = restTemplate.postForEntity("/api/v1/auth/refresh", refreshReq, String.class);
         assertThat(resp.getStatusCode()).isEqualTo(HttpStatus.OK);
 
         JsonNode newBody = objectMapper.readTree(resp.getBody());
@@ -109,12 +109,12 @@ class LogoutIT extends AbstractIntegrationTest {
         assertThat(newRefreshToken).isNotEqualTo(refreshToken);
 
         // old token should be invalid
-        ResponseEntity<String> oldRefreshResp = restTemplate.postForEntity("/auth/refresh", refreshReq, String.class);
+        ResponseEntity<String> oldRefreshResp = restTemplate.postForEntity("/api/v1/auth/refresh", refreshReq, String.class);
         assertThat(oldRefreshResp.getStatusCode()).isEqualTo(HttpStatus.UNAUTHORIZED);
     }
 
     private JsonNode login(Map<String, String> req) throws Exception {
-        ResponseEntity<String> resp = restTemplate.postForEntity("/auth/login", req, String.class);
+        ResponseEntity<String> resp = restTemplate.postForEntity("/api/v1/auth/login", req, String.class);
         assertThat(resp.getStatusCode()).isEqualTo(HttpStatus.OK);
         return objectMapper.readTree(resp.getBody());
     }

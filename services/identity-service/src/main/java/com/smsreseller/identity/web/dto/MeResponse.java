@@ -3,7 +3,7 @@ package com.smsreseller.identity.web.dto;
 import java.util.UUID;
 
 /**
- * Response DTO for {@code GET /auth/me} (D-13, MOBL-02).
+ * Response DTO for {@code GET /api/v1/auth/me} (D-13, MOBL-02).
  *
  * <p>Returns the caller's userId and current verification_status re-read from the database —
  * without issuing or rotating any tokens. Used by the Flutter PENDING screen to poll

@@ -77,7 +77,7 @@ class AuthNotifier extends AsyncNotifier<AuthState> {
   Future<void> refreshAndCheckStatus() async {
     try {
       final dio = ref.read(dioProvider);
-      final resp = await dio.get('/auth/me');
+      final resp = await dio.get('/api/v1/auth/me');
       final status = resp.data['status'] as String?;
 
       if (status == 'VERIFIED') {

@@ -53,7 +53,7 @@ class NidaDegradedIT extends AbstractIntegrationTest {
                 "nin", "19870101-00001-00010-01",  // does not end in 0001/0002/0003
                 "password", "SecurePass1!"
         );
-        ResponseEntity<Map> response = restTemplate.postForEntity("/auth/register", request, Map.class);
+        ResponseEntity<Map> response = restTemplate.postForEntity("/api/v1/auth/register", request, Map.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 
         UUID userId = UUID.fromString((String) response.getBody().get("userId"));
@@ -74,7 +74,7 @@ class NidaDegradedIT extends AbstractIntegrationTest {
                 "nin", "19870101-00001-00020-0003",  // magic suffix: UNAVAILABLE
                 "password", "SecurePass1!"
         );
-        ResponseEntity<Map> response = restTemplate.postForEntity("/auth/register", request, Map.class);
+        ResponseEntity<Map> response = restTemplate.postForEntity("/api/v1/auth/register", request, Map.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         // Response must still be PENDING (returned before async call)
         assertThat(response.getBody().get("status")).isEqualTo("PENDING_VERIFICATION");
@@ -99,7 +99,7 @@ class NidaDegradedIT extends AbstractIntegrationTest {
                 "nin", "19870101-00001-00030-0001",  // magic suffix: REJECT
                 "password", "SecurePass1!"
         );
-        ResponseEntity<Map> response = restTemplate.postForEntity("/auth/register", request, Map.class);
+        ResponseEntity<Map> response = restTemplate.postForEntity("/api/v1/auth/register", request, Map.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody().get("status")).isEqualTo("PENDING_VERIFICATION");
 

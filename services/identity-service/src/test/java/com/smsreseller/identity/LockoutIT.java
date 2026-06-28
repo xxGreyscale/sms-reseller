@@ -60,12 +60,12 @@ class LockoutIT extends AbstractIntegrationTest {
 
         // 5 failures
         for (int i = 0; i < 5; i++) {
-            ResponseEntity<String> r = restTemplate.postForEntity("/auth/login", badRequest, String.class);
+            ResponseEntity<String> r = restTemplate.postForEntity("/api/v1/auth/login", badRequest, String.class);
             assertThat(r.getStatusCode()).isEqualTo(HttpStatus.UNAUTHORIZED);
         }
 
         // 6th attempt → locked (423)
-        ResponseEntity<String> locked = restTemplate.postForEntity("/auth/login", badRequest, String.class);
+        ResponseEntity<String> locked = restTemplate.postForEntity("/api/v1/auth/login", badRequest, String.class);
         assertThat(locked.getStatusCode()).isEqualTo(HttpStatus.valueOf(423));
     }
 
@@ -76,18 +76,18 @@ class LockoutIT extends AbstractIntegrationTest {
 
         // 4 failures
         for (int i = 0; i < 4; i++) {
-            restTemplate.postForEntity("/auth/login", badRequest, String.class);
+            restTemplate.postForEntity("/api/v1/auth/login", badRequest, String.class);
         }
 
         // success — resets counter
-        ResponseEntity<String> ok = restTemplate.postForEntity("/auth/login", goodRequest, String.class);
+        ResponseEntity<String> ok = restTemplate.postForEntity("/api/v1/auth/login", goodRequest, String.class);
         assertThat(ok.getStatusCode()).isEqualTo(HttpStatus.OK);
 
         // 5 more failures should lock again (counter was reset)
         for (int i = 0; i < 5; i++) {
-            restTemplate.postForEntity("/auth/login", badRequest, String.class);
+            restTemplate.postForEntity("/api/v1/auth/login", badRequest, String.class);
         }
-        ResponseEntity<String> locked = restTemplate.postForEntity("/auth/login", badRequest, String.class);
+        ResponseEntity<String> locked = restTemplate.postForEntity("/api/v1/auth/login", badRequest, String.class);
         assertThat(locked.getStatusCode()).isEqualTo(HttpStatus.valueOf(423));
     }
 
@@ -101,7 +101,7 @@ class LockoutIT extends AbstractIntegrationTest {
 
         // Even with correct credentials, should get 423
         var goodRequest = Map.of("email", EMAIL, "password", PASSWORD, "deviceId", "dev-lock");
-        ResponseEntity<String> r = restTemplate.postForEntity("/auth/login", goodRequest, String.class);
+        ResponseEntity<String> r = restTemplate.postForEntity("/api/v1/auth/login", goodRequest, String.class);
         assertThat(r.getStatusCode()).isEqualTo(HttpStatus.valueOf(423));
     }
 }
