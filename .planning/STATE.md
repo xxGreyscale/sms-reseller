@@ -113,7 +113,7 @@ Recent decisions affecting current work:
 
 ### Pending Todos
 
-None yet.
+- [Standardize identity customer-auth on /api/v1/auth prefix](./todos/pending/2026-06-28-standardize-identity-auth-api-v1-prefix.md) — auth endpoints live at bare `/auth/*` while everything else is `/api/v1/*`; latent prod-routing bug (Traefik), masked locally by the 08b2f5f gateway stop-gap.
 
 ### Blockers/Concerns
 
