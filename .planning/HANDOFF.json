@@ -1,0 +1,50 @@
+{
+  "version": "1.0",
+  "timestamp": "2026-06-28T22:25:41.247Z",
+  "phase": "0",
+  "phase_name": "Pre-Implementation Procurement",
+  "phase_dir": ".planning/phases/00-pre-implementation-procurement",
+  "plan": null,
+  "task": null,
+  "total_tasks": null,
+  "status": "paused",
+  "context": "Mid /gsd-autonomous run. Phase 0 is the ONLY incomplete phase (1-7 done). User chose 'Full autonomous on Phase 0'. Paused during smart-discuss, awaiting accept/override on 3 grey-area tables.",
+  "completed_tasks": [
+    {"id": 1, "name": "Autonomous init + phase discovery — only Phase 0 incomplete", "status": "done"},
+    {"id": 2, "name": "Flagged Phase 0 as external-procurement; user chose full autonomous", "status": "done"},
+    {"id": 3, "name": "Created phase dir .planning/phases/00-pre-implementation-procurement (empty)", "status": "done"},
+    {"id": 4, "name": "Smart-discuss: presented 3 grey-area tables; AskUserQuestion accept/override was interrupted", "status": "in_progress"}
+  ],
+  "remaining_tasks": [
+    {"id": 5, "name": "Re-present grey-area accept/override (proposals below), then write 00-CONTEXT.md", "status": "not_started"},
+    {"id": 6, "name": "gsd-plan-phase 0 (Terraform #5 + PROCUREMENT.md tracker)", "status": "not_started"},
+    {"id": 7, "name": "gsd-execute-phase 0 --no-transition; code-review+fix", "status": "not_started"},
+    {"id": 8, "name": "Verification routing (expect human_needed/partial for external #1-4)", "status": "not_started"},
+    {"id": 9, "name": "Lifecycle: audit -> complete -> cleanup (only Phase 0 left)", "status": "not_started"}
+  ],
+  "decisions": [
+    {"decision": "Only buildable Phase 0 deliverable is criterion #5 (Terraform); #1-4 are external/human (NIDA access, Azampay merchant onboarding, SMS wholesale contract, paid infra provisioning)", "rationale": "ROADMAP: 'Requirements: None (all external procurement actions)'", "phase": "0"},
+    {"decision": "User chose 'Full autonomous on Phase 0' (not the scoped Terraform-only or close-out-now options)", "rationale": "User selection at the Phase 0 handling prompt", "phase": "0"}
+  ],
+  "proposed_grey_areas": {
+    "area_1_terraform_scope": {
+      "recommended": ["DO provider: DOKS + Managed PostgreSQL16 + Managed Redis7 + DNS + CloudAMQP", "region fra1 (lowest latency to TZ; DO has no African region)", "MVP-small sizing: 1 autoscaling node pool s-2vcpu-4gb, smallest managed DB/Redis"]
+    },
+    "area_2_state_secrets_structure": {
+      "recommended": ["DO Spaces (S3-compatible) state backend per CLAUDE.md", "gitignored *.tfvars + committed terraform.tfvars.example; TF_VAR_ env", "infra/terraform/ with modules + per-env dev/staging/prod", "validate via terraform fmt -check + terraform validate (no apply)"]
+    },
+    "area_3_external_and_completion": {
+      "recommended": ["Write PROCUREMENT.md tracker + checklist for #1-4 with live status", "Do NOT apply Terraform (no DO account/billing here)", "Mark #5 (Terraform) done; keep #1-4 tracked external/pending -> Phase 0 stays PARTIAL"]
+    }
+  },
+  "blockers": [
+    {"description": "Phase 0 criteria #1-4 require human/external action (accounts, signed contracts, paid provisioning) — cannot be autonomously completed", "type": "external", "workaround": "Deliver Terraform (#5) + PROCUREMENT.md tracker; leave #1-4 as tracked external items"}
+  ],
+  "human_actions_pending": [
+    {"action": "Decide accept/override on the 3 grey-area tables to resume smart-discuss", "context": "Re-present the proposals above", "blocking": true},
+    {"action": "Optionally provide DO + CloudAMQP credentials if you want Terraform actually applied (otherwise validate-only)", "context": "Area 3 Q2", "blocking": false}
+  ],
+  "uncommitted_files": ["apps/admin-web/tsconfig.tsbuildinfo (build cache — should be gitignored, do not commit)"],
+  "next_action": "Resume /gsd-autonomous --only 0 (or re-run /gsd-autonomous): re-present the 3 grey-area accept/override tables from proposed_grey_areas, capture answers, write 00-CONTEXT.md, then plan->execute (Terraform + PROCUREMENT.md), then lifecycle.",
+  "context_notes": "All 7 implementation phases complete; tree clean at 4fc4653 (HEAD). Stack may still be running (8 services + gateway + admin-web :3000 + flutter web :8090) unless stopped. Phase 0 dir exists but is empty — no CONTEXT.md/plans/commits yet, so nothing to revert. Recent session work (all committed + pushed earlier today, then more local commits): standardized auth on /api/v1/auth (d5fc2ce), admin Users list-all (18b7e32). Note: HEAD is ahead of origin — last push was at 5ab6756; commits 9666a66..4fc4653 are local-only."
+}
