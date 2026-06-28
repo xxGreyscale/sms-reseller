@@ -32,17 +32,25 @@ test.describe('User search', () => {
     ])
   })
 
-  test('users page shows empty state when no search entered', async ({ page }) => {
+  test('users page lists all users on load (no search entered)', async ({ page }) => {
     await page.route('**/api/v1/admin/users**', async (route) => {
+      // Blank query → backend returns all users; the page should fetch on load.
       await route.fulfill({
         status: 200,
         contentType: 'application/json',
-        body: JSON.stringify({ content: [], totalElements: 0, totalPages: 0, number: 0, size: 20 }),
+        body: JSON.stringify({
+          content: MOCK_USERS,
+          totalElements: 1,
+          totalPages: 1,
+          number: 0,
+          size: 20,
+        }),
       })
     })
 
     await page.goto('/users')
-    await expect(page.getByText('Search for a user')).toBeVisible()
+    await expect(page.getByText('Amina Hassan')).toBeVisible({ timeout: 5000 })
+    await expect(page.getByText('amina@example.co.tz')).toBeVisible()
   })
 
   test('user search finds a user by email', async ({ page }) => {

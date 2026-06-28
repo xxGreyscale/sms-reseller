@@ -3,11 +3,12 @@
  *
  * Async Server Component: reads `q` from searchParams, fetches
  * /api/v1/admin/users via lib/api, renders Table + Pagination + empty states.
+ * Lists all users on load (blank `q` returns all); the search box filters.
  *
  * UI-SPEC §User Search:
- *   - Search Input + "Search Users" Button
+ *   - Search Input + "Search Users" Button (filters the list)
  *   - Table: Full Name, Email, Phone, Status (Badge), Registered, Actions
- *   - Empty state (no search): "Search for a user"
+ *   - Lists all users by default; search filters by email/phone
  *   - Empty state (no results): "No users found"
  *   - Pagination: 20 rows/page
  */
@@ -43,24 +44,8 @@ export default async function UsersPage({
   const q = searchParams.q ?? ''
   const page = parseInt(searchParams.page ?? '0', 10)
 
-  // If no search query, show the empty "Search for a user" state
-  if (!q.trim()) {
-    return (
-      <div>
-        <div className="mb-6">
-          <h1 className="text-[18px] font-semibold text-zinc-900 mb-4">Users</h1>
-          <UserSearch defaultValue="" />
-        </div>
-        <div className="flex flex-col items-center justify-center py-20 text-center">
-          <h2 className="text-[18px] font-semibold text-zinc-900 mb-2">Search for a user</h2>
-          <p className="text-[14px] text-zinc-600">
-            Enter an email address or phone number above.
-          </p>
-        </div>
-      </div>
-    )
-  }
-
+  // Always fetch: a blank query lists all users (backend returns all for blank q);
+  // a non-blank query filters by email/phone.
   let data
   let fetchError = false
 
@@ -98,7 +83,9 @@ export default async function UsersPage({
         <div className="flex flex-col items-center justify-center py-20 text-center">
           <h2 className="text-[18px] font-semibold text-zinc-900 mb-2">No users found</h2>
           <p className="text-[14px] text-zinc-600">
-            No accounts match that query. Check the spelling or try a phone number.
+            {q.trim()
+              ? 'No accounts match that query. Check the spelling or try a phone number.'
+              : 'No users have registered yet.'}
           </p>
         </div>
       ) : (
