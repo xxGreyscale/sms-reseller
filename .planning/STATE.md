@@ -130,6 +130,7 @@ None — the /api/v1/auth standardization todo was resolved by quick task 260629
 | 260625-p5c | Add `sandbox` Azampay profile (real gateway + stub validator) to payment-service; boots UP under sandbox (PASS) | 2026-06-25 | 12b6313 | [260625-p5c-sandbox-azampay-profile](./quick/260625-p5c-sandbox-azampay-profile/) |
 | fast | Gateway: route bare `/auth/*` to identity:8081 (fixed customer register/login 404 through gateway) | 2026-06-28 | 08b2f5f | — |
 | 260629-1fb | Standardize identity customer-auth on `/api/v1/auth`; align all client endpoints; remove gateway stop-gap (PASS — ITs green, live register/admin verified) | 2026-06-29 | d5fc2ce | [260629-1fb-standardize-auth-api-v1-prefix](./quick/260629-1fb-standardize-auth-api-v1-prefix/) |
+| fast | admin-web Users page: list all users by default (was search-first empty state, never called API on load); e2e updated; verified live | 2026-06-29 | 18b7e32 | — |
 
 ## Deferred Items
 
