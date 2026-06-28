@@ -113,7 +113,7 @@ Recent decisions affecting current work:
 
 ### Pending Todos
 
-- [Standardize identity customer-auth on /api/v1/auth prefix](./todos/pending/2026-06-28-standardize-identity-auth-api-v1-prefix.md) — auth endpoints live at bare `/auth/*` while everything else is `/api/v1/*`; latent prod-routing bug (Traefik), masked locally by the 08b2f5f gateway stop-gap.
+None — the /api/v1/auth standardization todo was resolved by quick task 260629-1fb (commit d5fc2ce).
 
 ### Blockers/Concerns
 
@@ -129,6 +129,7 @@ Recent decisions affecting current work:
 | 260625-nzn | Finish + commit local-dev gateway CORS; run DEVX-01 full-stack smoke test (PASS) | 2026-06-25 | ffd464b | [260625-nzn-finish-localdev-gateway](./quick/260625-nzn-finish-localdev-gateway/) |
 | 260625-p5c | Add `sandbox` Azampay profile (real gateway + stub validator) to payment-service; boots UP under sandbox (PASS) | 2026-06-25 | 12b6313 | [260625-p5c-sandbox-azampay-profile](./quick/260625-p5c-sandbox-azampay-profile/) |
 | fast | Gateway: route bare `/auth/*` to identity:8081 (fixed customer register/login 404 through gateway) | 2026-06-28 | 08b2f5f | — |
+| 260629-1fb | Standardize identity customer-auth on `/api/v1/auth`; align all client endpoints; remove gateway stop-gap (PASS — ITs green, live register/admin verified) | 2026-06-29 | d5fc2ce | [260629-1fb-standardize-auth-api-v1-prefix](./quick/260629-1fb-standardize-auth-api-v1-prefix/) |
 
 ## Deferred Items
 
