@@ -128,6 +128,7 @@ None yet.
 |---|-------------|------|--------|-----------|
 | 260625-nzn | Finish + commit local-dev gateway CORS; run DEVX-01 full-stack smoke test (PASS) | 2026-06-25 | ffd464b | [260625-nzn-finish-localdev-gateway](./quick/260625-nzn-finish-localdev-gateway/) |
 | 260625-p5c | Add `sandbox` Azampay profile (real gateway + stub validator) to payment-service; boots UP under sandbox (PASS) | 2026-06-25 | 12b6313 | [260625-p5c-sandbox-azampay-profile](./quick/260625-p5c-sandbox-azampay-profile/) |
+| fast | Gateway: route bare `/auth/*` to identity:8081 (fixed customer register/login 404 through gateway) | 2026-06-28 | 08b2f5f | — |
 
 ## Deferred Items
 
